@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "modules": [
+    "skills/git-conventional"
+  ],
+  "memory": "file-based",
+  "techStack": ["typescript", "node"],
+  "aiGeneration": false
+}

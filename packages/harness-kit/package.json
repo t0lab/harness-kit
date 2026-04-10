@@ -1,0 +1,48 @@
+{
+  "name": "@harness-kit/cli",
+  "version": "0.1.1",
+  "description": "CLI tool that scaffolds AI agent harness environments for projects",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "harness-kit": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "registry",
+    "presets",
+    "templates",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "@harness-kit/core": "workspace:*",
+    "chalk": "^5.0.0",
+    "commander": "^14.0.0",
+    "execa": "^9.0.0",
+    "handlebars": "^4.7.0",
+    "listr2": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0"
+  }
+}
