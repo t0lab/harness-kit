@@ -1,0 +1,8 @@
+{
+  "name": "context7",
+  "type": "mcp",
+  "description": "Version-specific library documentation for any package",
+  "version": "1.0.0",
+  "command": "npx",
+  "args": ["-y", "@upstash/context7-mcp"]
+}

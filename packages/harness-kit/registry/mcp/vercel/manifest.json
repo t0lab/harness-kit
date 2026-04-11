@@ -1,0 +1,11 @@
+{
+  "name": "vercel",
+  "type": "mcp",
+  "description": "Vercel — deployments, domains, environment variables",
+  "version": "1.0.0",
+  "command": "npx",
+  "args": ["-y", "@vercel/mcp-adapter"],
+  "env": {
+    "VERCEL_TOKEN": "${VERCEL_TOKEN}"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "supabase",
+  "type": "mcp",
+  "description": "Supabase — database, auth, storage",
+  "version": "1.0.0",
+  "command": "npx",
+  "args": ["-y", "@supabase/mcp-server-supabase@latest"],
+  "env": {
+    "SUPABASE_ACCESS_TOKEN": "${SUPABASE_ACCESS_TOKEN}"
+  }
+}
