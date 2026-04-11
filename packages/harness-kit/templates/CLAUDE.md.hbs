@@ -1,0 +1,30 @@
+# {{projectName}}
+
+## Project
+
+**Purpose:** {{projectPurpose}}
+{{#if projectUsers}}
+**Users:** {{projectUsers}}
+{{/if}}
+{{#if projectConstraints}}
+**Constraints:** {{projectConstraints}}
+{{/if}}
+
+## Stack
+
+{{#each selectedTech}}- {{this}}
+{{/each}}
+
+## Conventions
+
+{{#if (includes gitWorkflow "conventional-commits")}}- Commits: Conventional Commits — invoke `git-conventional` skill before committing
+{{/if}}
+{{#if (includes workflowPresets "tdd")}}- TDD: write failing test → implement → pass → commit
+{{/if}}
+{{#if (includes workflowPresets "spec-driven")}}- Brainstorm and spec before implementation
+{{/if}}
+
+## Memory
+
+{{#ifEqual memory "file-based"}}- Long-term memory: `.claude/memory/` — run `/memory-compact` at end of substantive sessions
+{{/ifEqual}}

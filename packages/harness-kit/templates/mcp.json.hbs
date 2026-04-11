@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    {{#each mcpConfigs}}
+    "{{name}}": {
+      "command": "{{command}}",
+      "args": [{{#each args}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}}]{{#if env}},
+      "env": {
+        {{#each env}}"{{@key}}": "{{this}}"{{#unless @last}},{{/unless}}
+        {{/each}}
+      }{{/if}}
+    }{{#unless @last}},{{/unless}}
+    {{/each}}
+  }
+}

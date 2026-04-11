@@ -1,5 +1,6 @@
 import { Command } from 'commander'
 import { HARNESS_KIT_VERSION } from '@harness-kit/core'
+import { runWizard } from './wizard/index.js'
 
 export function createCli(): Command {
   const program = new Command()
@@ -7,6 +8,14 @@ export function createCli(): Command {
     .name('harness-kit')
     .description('Scaffold AI agent harness environments')
     .version(HARNESS_KIT_VERSION)
+
+  program
+    .command('init')
+    .description('Initialize harness in current project')
+    .action(async () => {
+      await runWizard()
+    })
+
   return program
 }
 
