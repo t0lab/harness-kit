@@ -1,8 +1,0 @@
-{
-  "name": "crawl4ai",
-  "type": "mcp",
-  "description": "Open-source self-hosted crawler — Docker, 62k stars",
-  "version": "1.0.0",
-  "command": "npx",
-  "args": ["-y", "crawl4ai-mcp"]
-}

@@ -13,14 +13,17 @@ npx @harness-kit/cli init
 ## Usage
 
 ```bash
-harness-kit init                    # interactive wizard — detects existing config
-harness-kit add typescript          # add a preset bundle
-harness-kit add rules/python        # add a single artifact
-harness-kit list                    # browse all available modules
-harness-kit list --tag testing      # filter by tag
-harness-kit info tdd-workflow       # detail + preview
-harness-kit status                  # view installed harness state
+harness-kit init     # interactive wizard — sets up CLAUDE.md, MCP config, rules, and harness.json
 ```
+
+## What gets scaffolded
+
+- `CLAUDE.md` — project instructions for Claude
+- `AGENTS.md` — project map for AI agents
+- `harness.json` — harness state (installed bundles)
+- `llms.txt` — LLM-friendly project summary
+- `.claude/settings.json` — Claude tool permissions
+- `.mcp.json` — MCP server configuration (based on selected tools)
 
 ## License
 

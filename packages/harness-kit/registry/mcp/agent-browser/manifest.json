@@ -1,8 +1,0 @@
-{
-  "name": "agent-browser",
-  "type": "mcp",
-  "description": "Vercel Labs — persistent browser sessions via Chrome DevTools Protocol",
-  "version": "1.0.0",
-  "command": "npx",
-  "args": ["-y", "@vercel-labs/agent-browser-mcp"]
-}

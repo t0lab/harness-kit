@@ -1,136 +1,142 @@
 import * as p from '@clack/prompts'
+import { getBundlesByCategory, getRecommendedByCategory } from '../../registry/index.js'
 import type { WizardContext } from '../types.js'
+
+function bundleOptions(category: Parameters<typeof getBundlesByCategory>[0]) {
+  return getBundlesByCategory(category)
+    .sort((a, b) => {
+      const aRec = a.roles[category]?.recommended ? 1 : 0
+      const bRec = b.roles[category]?.recommended ? 1 : 0
+      if (bRec !== aRec) return bRec - aRec
+      return a.name.localeCompare(b.name)
+    })
+    .map((b) => ({ value: b.name, label: b.name, hint: b.description }))
+}
 
 export async function stepHarnessConfig(ctx: WizardContext): Promise<Partial<WizardContext>> {
   if (ctx.selectedTech.length > 0) {
     p.log.step(`Tech stack: ${ctx.selectedTech.join(', ')}`)
   }
 
+  // ── 1. Git workflow (from registry) ──────────────────────────────────────
   const gitWorkflow = await p.multiselect({
     message: 'Git workflow:',
-    initialValues: ['conventional-commits', 'branch-strategy', 'pre-commit-hooks'],
-    options: [
-      { value: 'conventional-commits', label: 'Conventional Commits', hint: 'commit format + semantic versioning' },
-      { value: 'branch-strategy', label: 'Branch strategy', hint: 'feature/fix/chore naming, PR < 400 lines' },
-      { value: 'pre-commit-hooks', label: 'Pre-commit hooks', hint: 'lint + typecheck + test before commit' },
-      { value: 'commit-signing', label: 'Commit signing', hint: 'GPG / SSH' },
-    ],
+    initialValues: getRecommendedByCategory('git-workflow').map(b => b.name),
+    options: bundleOptions('git-workflow'),
     required: false,
   })
   if (p.isCancel(gitWorkflow)) { p.cancel('Cancelled'); process.exit(0) }
 
+  // ── 2. Long-term memory (from registry) ──────────────────────────────────
   const memory = await p.select({
     message: 'Long-term memory:',
-    options: [
-      { value: 'file-based', label: 'File-based', hint: '.claude/memory/ — local, zero dependency' },
-      { value: 'mem0', label: 'Mem0 MCP', hint: 'cloud, 90% token reduction (needs API key)' },
-      { value: 'obsidian', label: 'Obsidian MCP', hint: 'sync with Obsidian vault' },
-      { value: 'none', label: 'None' },
-    ],
+    options: bundleOptions('memory'),
   })
   if (p.isCancel(memory)) { p.cancel('Cancelled'); process.exit(0) }
 
-  const docsAsCode = await p.confirm({
-    message: 'Docs as code? (AGENTS.md, spec template, ADR structure, llms.txt)',
-    initialValue: true,
-  })
-  if (p.isCancel(docsAsCode)) { p.cancel('Cancelled'); process.exit(0) }
-
+  // ── 3. Workflow presets (from registry) ───────────────────────────────────
   const workflowPresets = await p.multiselect({
     message: 'Workflow presets:',
-    initialValues: ['spec-driven', 'tdd', 'planning-first', 'quality-gates'],
-    options: [
-      { value: 'spec-driven', label: 'Spec-driven', hint: 'brainstorm → spec → plan → implement' },
-      { value: 'tdd', label: 'TDD', hint: 'failing test before implementation' },
-      { value: 'planning-first', label: 'Planning-first', hint: 'draft plan → review → implement' },
-      { value: 'quality-gates', label: 'Quality gates', hint: 'tests pass before done (Stop hook)' },
-      { value: 'parallel-agents', label: 'Parallel agents', hint: 'subagents for independent tasks' },
-      { value: 'systematic-debugging', label: 'Systematic debugging', hint: 'reproduce → isolate → verify → fix' },
-      { value: 'code-review-gates', label: 'Code review gates', hint: 'review before commit/merge' },
-      { value: 'security-review', label: 'Security review', hint: 'validate bash, block dangerous ops' },
-      { value: 'context-discipline', label: 'Context discipline', hint: 'fresh session rules, task decomp guide' },
-    ],
+    initialValues: getRecommendedByCategory('workflow-preset').map(b => b.name),
+    options: bundleOptions('workflow-preset'),
     required: false,
   })
   if (p.isCancel(workflowPresets)) { p.cancel('Cancelled'); process.exit(0) }
 
+  // ── 4. Browser automation (from registry) ────────────────────────────────
   const browserTools = await p.multiselect({
     message: 'Browser automation:',
-    initialValues: ['playwright'],
-    options: [
-      { value: 'playwright', label: 'Playwright MCP', hint: 'accessibility snapshots, E2E test gen' },
-      { value: 'agent-browser', label: 'agent-browser', hint: 'Vercel Labs, Chrome DevTools Protocol' },
-      { value: 'stagehand', label: 'Stagehand', hint: 'AI-native, natural language commands' },
-    ],
+    initialValues: getRecommendedByCategory('browser').map(b => b.name),
+    options: bundleOptions('browser'),
     required: false,
   })
   if (p.isCancel(browserTools)) { p.cancel('Cancelled'); process.exit(0) }
 
+  // ── 5. Web search (from registry) ────────────────────────────────────────
   const webSearch = await p.multiselect({
     message: 'Web search:',
-    initialValues: ['tavily'],
-    options: [
-      { value: 'tavily', label: 'Tavily MCP', hint: 'real-time search + extract, free tier' },
-      { value: 'exa', label: 'Exa MCP', hint: 'semantic search, code/GitHub optimized' },
-      { value: 'brave-search', label: 'Brave Search MCP', hint: 'privacy-focused' },
-    ],
+    initialValues: getRecommendedByCategory('search').map(b => b.name),
+    options: bundleOptions('search'),
     required: false,
   })
   if (p.isCancel(webSearch)) { p.cancel('Cancelled'); process.exit(0) }
 
-  const webCrawl = await p.multiselect({
-    message: 'Web crawl & scrape:',
-    initialValues: ['firecrawl'],
-    options: [
-      { value: 'firecrawl', label: 'Firecrawl MCP', hint: 'HTML→markdown, JS-enabled' },
-      { value: 'crawl4ai', label: 'Crawl4AI MCP', hint: 'open-source, self-hosted Docker' },
-      { value: 'spider', label: 'Spider.cloud MCP', hint: 'Rust, anti-bot, full-site' },
-      { value: 'apify', label: 'Apify MCP', hint: '1000+ pre-built actors' },
-      { value: 'bright-data', label: 'Bright Data MCP', hint: 'residential proxies, anti-bot' },
-    ],
+  // ── 6. Web scrape (from registry) ────────────────────────────────────────
+  const webScrape = await p.multiselect({
+    message: 'Web scrape:',
+    initialValues: getRecommendedByCategory('scrape').map(b => b.name),
+    options: bundleOptions('scrape'),
     required: false,
   })
-  if (p.isCancel(webCrawl)) { p.cancel('Cancelled'); process.exit(0) }
+  if (p.isCancel(webScrape)) { p.cancel('Cancelled'); process.exit(0) }
 
+  // ── 7. Library docs (from registry) ──────────────────────────────────────
   const libraryDocs = await p.multiselect({
-    message: 'Library docs: (Enter to skip)',
-    options: [
-      { value: 'context7', label: 'Context7 MCP', hint: 'version-specific docs for any package' },
-    ],
+    message: 'Library docs:',
+    initialValues: getRecommendedByCategory('library-docs').map(b => b.name),
+    options: bundleOptions('library-docs'),
     required: false,
   })
   if (p.isCancel(libraryDocs)) { p.cancel('Cancelled'); process.exit(0) }
 
+  // ── 8. Document conversion (from registry) ───────────────────────────────
   const docConversion = await p.multiselect({
-    message: 'Document conversion: (Enter to skip)',
-    options: [
-      { value: 'markitdown', label: 'MarkItDown', hint: 'PDF/Word/HTML/audio → markdown (Python, local)' },
-    ],
+    message: 'Document conversion:',
+    options: bundleOptions('doc-conversion'),
     required: false,
   })
   if (p.isCancel(docConversion)) { p.cancel('Cancelled'); process.exit(0) }
 
-  const otherMcp = await p.multiselect({
-    message: 'Other MCP integrations: (Enter to skip)',
-    options: [
-      { value: 'github', label: 'GitHub MCP' },
-      { value: 'supabase', label: 'Supabase MCP' },
-      { value: 'vercel', label: 'Vercel MCP' },
-    ],
+  // ── 9. Code execution sandbox (from registry) ────────────────────────────
+  const codeExecution = await p.multiselect({
+    message: 'Code execution sandbox:',
+    options: bundleOptions('code-execution'),
     required: false,
   })
-  if (p.isCancel(otherMcp)) { p.cancel('Cancelled'); process.exit(0) }
+  if (p.isCancel(codeExecution)) { p.cancel('Cancelled'); process.exit(0) }
+
+  // ── 10. Dev integrations (from registry) ─────────────────────────────────
+  const devIntegrations = await p.multiselect({
+    message: 'Dev integrations:',
+    initialValues: getRecommendedByCategory('dev-integration').map(b => b.name),
+    options: bundleOptions('dev-integration'),
+    required: false,
+  })
+  if (p.isCancel(devIntegrations)) { p.cancel('Cancelled'); process.exit(0) }
+
+  // ── 11. Cloud & infra (from registry) ────────────────────────────────────
+  const cloudInfra = await p.multiselect({
+    message: 'Cloud & infra:',
+    options: bundleOptions('cloud-infra'),
+    required: false,
+  })
+  if (p.isCancel(cloudInfra)) { p.cancel('Cancelled'); process.exit(0) }
+
+  // ── 12. Observability (from registry — skip if no bundles registered) ─────
+  let observability: string[] = []
+  const observabilityOptions = bundleOptions('observability')
+  if (observabilityOptions.length > 0) {
+    const result = await p.multiselect({
+      message: 'Observability:',
+      options: observabilityOptions,
+      required: false,
+    })
+    if (p.isCancel(result)) { p.cancel('Cancelled'); process.exit(0) }
+    observability = result as string[]
+  }
 
   return {
     gitWorkflow: gitWorkflow as string[],
-    memory: memory as WizardContext['memory'],
-    docsAsCode: Boolean(docsAsCode),
+    memory: memory as string,
     workflowPresets: workflowPresets as string[],
     browserTools: browserTools as string[],
     webSearch: webSearch as string[],
-    webCrawl: webCrawl as string[],
+    webScrape: webScrape as string[],
     libraryDocs: libraryDocs as string[],
     docConversion: docConversion as string[],
-    otherMcp: otherMcp as string[],
+    codeExecution: codeExecution as string[],
+    devIntegrations: devIntegrations as string[],
+    cloudInfra: cloudInfra as string[],
+    observability,
   }
 }

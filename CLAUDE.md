@@ -2,7 +2,7 @@
 
 CLI tool that scaffolds AI agent harness environments. pnpm workspace monorepo:
 - `packages/core` — shared constants and types (`@harness-kit/core`)
-- `packages/harness-kit` — main CLI package (`@harness-kit/cli`): src/, registry/, presets/, templates/
+- `packages/harness-kit` — main CLI package (`@harness-kit/cli`): src/, templates/
 
 ## Stack
 

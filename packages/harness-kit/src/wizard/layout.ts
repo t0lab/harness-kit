@@ -81,12 +81,16 @@ function waitForResize(): Promise<void> {
  * Call this before any wizard step that needs screen space.
  */
 export async function guardMinHeight(): Promise<void> {
-  while ((process.stdout.rows ?? 24) < MIN_HEIGHT) {
+  if ((process.stdout.rows ?? 24) >= MIN_HEIGHT) return
+
+  // Terminal is too small — show warning and wait for resize events.
+  do {
     const rows = process.stdout.rows ?? 24
     const cols = process.stdout.columns ?? 80
     process.stdout.write('\x1b[2J\x1b[H' + renderTooSmall(rows, cols))
     await waitForResize()
-  }
-  // Clear residual warning frame so the next prompt starts clean.
+  } while ((process.stdout.rows ?? 24) < MIN_HEIGHT)
+
+  // Clear the warning frame so the next prompt starts on a clean screen.
   process.stdout.write('\x1b[2J\x1b[H')
 }

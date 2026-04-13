@@ -1,8 +1,0 @@
-{
-  "name": "playwright",
-  "type": "mcp",
-  "description": "Browser automation — accessibility snapshots, E2E test generation",
-  "version": "1.0.0",
-  "command": "npx",
-  "args": ["@playwright/mcp@latest"]
-}

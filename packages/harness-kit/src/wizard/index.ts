@@ -6,7 +6,8 @@ import { stepHarnessConfig } from './steps/harness-config.js'
 import { stepPreviewApply } from './steps/preview-apply.js'
 import { selectTechStack } from './steps/tech-stack-select.js'
 import { TECH_OPTIONS } from './tech-options.js'
-import { guardMinHeight, applySymbolFix } from './layout.js'
+import { applySymbolFix } from './layout.js'
+import { getRecommendedByCategory } from '../registry/index.js'
 
 const initialContext: WizardContext = {
   projectName: '',
@@ -16,16 +17,18 @@ const initialContext: WizardContext = {
   selectedTech: [],
   detectedIssues: [],
   installSelected: false,
-  gitWorkflow: ['conventional-commits', 'branch-strategy', 'pre-commit-hooks'],
-  memory: 'file-based',
-  docsAsCode: true,
-  workflowPresets: ['spec-driven', 'tdd', 'planning-first', 'quality-gates'],
-  browserTools: ['playwright'],
-  webSearch: ['tavily'],
-  webCrawl: ['firecrawl'],
-  libraryDocs: ['context7'],
+  gitWorkflow: getRecommendedByCategory('git-workflow').map(b => b.name),
+  memory: getRecommendedByCategory('memory').map(b => b.name)[0] ?? 'local-memory',
+  workflowPresets: getRecommendedByCategory('workflow-preset').map(b => b.name),
+  browserTools: getRecommendedByCategory('browser').map(b => b.name),
+  webSearch: getRecommendedByCategory('search').map(b => b.name),
+  webScrape: getRecommendedByCategory('scrape').map(b => b.name),
+  libraryDocs: getRecommendedByCategory('library-docs').map(b => b.name),
   docConversion: [],
-  otherMcp: ['github'],
+  codeExecution: [],
+  devIntegrations: getRecommendedByCategory('dev-integration').map(b => b.name),
+  cloudInfra: [],
+  observability: [],
   aiGenerationEnabled: false,
 }
 
@@ -104,11 +107,6 @@ export async function runWizard(): Promise<void> {
   while (actor.getSnapshot().status !== 'done') {
     const state = actor.getSnapshot().value as string
     const ctx = actor.getSnapshot().context
-
-    // Guard: block until terminal has enough rows for the upcoming step.
-    // tech-stack-select handles its own guard inside the render loop;
-    // all other steps show the shared warning here before rendering.
-    if (state !== 'techStackSelect') await guardMinHeight()
 
     try {
       switch (state) {

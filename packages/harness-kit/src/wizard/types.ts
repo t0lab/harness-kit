@@ -21,15 +21,17 @@ export interface WizardContext {
   detectedIssues: DetectedIssue[]
   installSelected: boolean
   gitWorkflow: string[]
-  memory: 'file-based' | 'mem0' | 'obsidian' | 'none'
-  docsAsCode: boolean
-  workflowPresets: string[]
+  memory: string              // 'none' | 'file-based' | bundle name
+  workflowPresets: string[]   // 'docs-as-code' replaces old docsAsCode boolean
   browserTools: string[]
   webSearch: string[]
-  webCrawl: string[]
+  webScrape: string[]
   libraryDocs: string[]
   docConversion: string[]
-  otherMcp: string[]
+  codeExecution: string[]
+  devIntegrations: string[]
+  cloudInfra: string[]
+  observability: string[]
   aiGenerationEnabled: boolean
 }
 
