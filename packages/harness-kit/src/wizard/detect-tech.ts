@@ -7,9 +7,14 @@ interface PackageJson {
   peerDependencies?: Record<string, string>
 }
 
-function readJson<T>(path: string): T | null {
+function isObject(v: unknown): v is Record<string, unknown> {
+  return typeof v === 'object' && v !== null
+}
+
+function readPackageJson(path: string): PackageJson | null {
   try {
-    return JSON.parse(readFileSync(path, 'utf8')) as T
+    const parsed: unknown = JSON.parse(readFileSync(path, 'utf8'))
+    return isObject(parsed) ? (parsed as PackageJson) : null
   } catch {
     return null
   }
@@ -34,7 +39,7 @@ function exists(cwd: string, ...parts: string[]): boolean {
 
 // Detect tech stack from project files in cwd. Returns matched TECH_OPTIONS ids.
 export function detectTechStack(cwd: string): string[] {
-  const pkg = readJson<PackageJson>(join(cwd, 'package.json'))
+  const pkg = readPackageJson(join(cwd, 'package.json'))
   const reqs = readText(join(cwd, 'requirements.txt'))
   const pyproject = readText(join(cwd, 'pyproject.toml'))
   const py = reqs + pyproject

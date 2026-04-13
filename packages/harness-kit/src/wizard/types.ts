@@ -32,7 +32,6 @@ export interface WizardContext {
   devIntegrations: string[]
   cloudInfra: string[]
   observability: string[]
-  aiGenerationEnabled: boolean
 }
 
 export type WizardEvent =

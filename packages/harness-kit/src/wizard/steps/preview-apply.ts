@@ -1,12 +1,19 @@
 import * as p from '@clack/prompts'
 import chalk from 'chalk'
+import { access } from 'node:fs/promises'
+import { join } from 'node:path'
 import { Listr } from 'listr2'
 import { writeScaffoldFile } from '../../engine/scaffolder.js'
 import { renderTemplate } from '../../engine/template-renderer.js'
 import { getBundle } from '../../registry/index.js'
-import type { Artifact, BundleCategory } from '../../registry/types.js'
+import { getRoleData } from '../../utils/bundle-utils.js'
+import type { Artifact } from '../../registry/types.js'
 import type { WizardContext } from '../types.js'
 import type { ScaffoldFile } from '../../engine/scaffolder.js'
+
+async function fileExists(path: string): Promise<boolean> {
+  try { await access(path); return true } catch { return false }
+}
 
 interface McpConfig {
   name: string
@@ -37,7 +44,7 @@ export function collectSelectedBundles(ctx: WizardContext): Array<{ name: string
 
 function resolveArtifacts(name: string, role: string): Artifact[] {
   const bundle = getBundle(name)
-  const roleArtifacts = bundle.roles[role as BundleCategory]?.artifacts ?? []
+  const roleArtifacts = getRoleData(bundle, role)?.artifacts ?? []
   return [...bundle.common.artifacts, ...roleArtifacts]
 }
 
@@ -58,22 +65,12 @@ function buildDependencyWarnings(selected: Array<{ name: string; role: string }>
     const bundle = getBundle(name)
     const requires = [
       ...(bundle.common.requires ?? []),
-      ...(bundle.roles[role as BundleCategory]?.requires ?? []),
+      ...(getRoleData(bundle, role)?.requires ?? []),
     ]
     return requires.length > 0 ? [`${name} — needs ${requires.join(' + ')}`] : []
   })
 }
 
-function buildModules(ctx: WizardContext): string[] {
-  return [
-    ...(ctx.gitWorkflow.includes('conventional-commits') ? ['rules/git-conventional'] : []),
-    ...(ctx.selectedTech.some((t) => ['nextjs', 'react', 'vue', 'sveltekit', 'vanilla-ts'].includes(t)) ? ['rules/typescript'] : []),
-    ...(ctx.workflowPresets.includes('tdd') ? ['skills/tdd-workflow'] : []),
-    ...(ctx.workflowPresets.includes('spec-driven') ? ['skills/brainstorming'] : []),
-    ...(ctx.gitWorkflow.includes('pre-commit-hooks') ? ['hooks/pre-commit'] : []),
-    ...(ctx.workflowPresets.includes('quality-gates') ? ['hooks/quality-gate'] : []),
-  ]
-}
 
 export async function stepPreviewApply(ctx: WizardContext): Promise<void> {
   const cwd = process.cwd()
@@ -107,47 +104,49 @@ export async function stepPreviewApply(ctx: WizardContext): Promise<void> {
   const confirm = await p.confirm({ message: 'Apply?', initialValue: true })
   if (p.isCancel(confirm) || !confirm) { p.cancel('Cancelled'); process.exit(0) }
 
-  const modules = buildModules(ctx)
   const templateCtx = {
     ...ctx,
     mcp: mcpConfigs.map((m) => m.name),
     mcpConfigs,
-    modules,
-    aiGenerationEnabled: false,
+    bundles: selectedBundles.map((b) => b.name),
   }
 
-  const files: ScaffoldFile[] = []
+  const spinner = p.spinner()
+  spinner.start('Rendering templates...')
 
-  const tasks = new Listr([
-    {
-      title: 'Rendering templates...',
-      task: async () => {
-        files.push(
-          { relativePath: 'CLAUDE.md',              content: await renderTemplate('CLAUDE.md.hbs', templateCtx) },
-          { relativePath: 'AGENTS.md',              content: await renderTemplate('AGENTS.md.hbs', templateCtx) },
-          { relativePath: 'harness.json',           content: await renderTemplate('harness.json.hbs', templateCtx) },
-          { relativePath: 'llms.txt',               content: await renderTemplate('llms.txt.hbs', templateCtx) },
-          { relativePath: '.claude/settings.json',  content: await renderTemplate('settings.json.hbs', templateCtx) },
-        )
-        if (mcpConfigs.length > 0) {
-          files.push({ relativePath: '.mcp.json', content: await renderTemplate('mcp.json.hbs', templateCtx) })
-        }
-        if (hasDocs) {
-          files.push({ relativePath: 'docs/DESIGN.md', content: `# ${ctx.projectName} — Design\n\n${ctx.projectPurpose}\n` })
-        }
-      },
-    },
-    {
-      title: 'Writing files...',
-      task: async () => {
-        for (const file of files) {
-          await writeScaffoldFile(cwd, file, 'overwrite')
-        }
-      },
-    },
-  ])
+  const files: ScaffoldFile[] = [
+    { relativePath: 'CLAUDE.md',             content: await renderTemplate('CLAUDE.md.hbs', templateCtx) },
+    { relativePath: 'AGENTS.md',             content: await renderTemplate('AGENTS.md.hbs', templateCtx) },
+    { relativePath: 'harness.json',          content: await renderTemplate('harness.json.hbs', templateCtx) },
+    { relativePath: 'llms.txt',              content: await renderTemplate('llms.txt.hbs', templateCtx) },
+    { relativePath: '.claude/settings.json', content: await renderTemplate('settings.json.hbs', templateCtx) },
+  ]
+  if (mcpConfigs.length > 0) {
+    files.push({ relativePath: '.mcp.json', content: await renderTemplate('mcp.json.hbs', templateCtx) })
+  }
+  if (hasDocs) {
+    files.push({ relativePath: 'docs/DESIGN.md', content: `# ${ctx.projectName} — Design\n\n${ctx.projectPurpose}\n` })
+  }
 
-  await tasks.run()
+  spinner.stop('Templates rendered')
+
+  const conflictMap = new Map<string, 'overwrite' | 'skip'>()
+  for (const file of files) {
+    if (await fileExists(join(cwd, file.relativePath))) {
+      const choice = await p.confirm({ message: `${file.relativePath} already exists. Overwrite?`, initialValue: true })
+      if (p.isCancel(choice)) { p.cancel('Cancelled'); process.exit(0) }
+      conflictMap.set(file.relativePath, choice ? 'overwrite' : 'skip')
+    }
+  }
+
+  await new Listr([{
+    title: 'Writing files...',
+    task: async () => {
+      for (const file of files) {
+        await writeScaffoldFile(cwd, file, conflictMap.get(file.relativePath) ?? 'overwrite')
+      }
+    },
+  }]).run()
 
   p.outro(`harness-kit initialized.\nRun: ${chalk.blue('harness-kit status')} to see your harness.`)
 }

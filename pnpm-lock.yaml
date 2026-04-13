@@ -52,6 +52,9 @@ importers:
       xstate:
         specifier: ^5.30.0
         version: 5.30.0
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
     devDependencies:
       '@types/node':
         specifier: ^25.6.0
@@ -1196,6 +1199,9 @@ packages:
     resolution: {integrity: sha512-CzhO+pFNo8ajLM2d2IW/R93ipy99LWjtwblvC1RsoSUMZgyLbYFr221TnSNT7GjGdYui6P459mw9JH/g/zW2ug==}
     engines: {node: '>=18'}
 
+  zod@4.3.6:
+    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
+
 snapshots:
 
   '@clack/core@1.2.0':
@@ -2096,3 +2102,5 @@ snapshots:
   xstate@5.30.0: {}
 
   yoctocolors@2.1.2: {}
+
+  zod@4.3.6: {}

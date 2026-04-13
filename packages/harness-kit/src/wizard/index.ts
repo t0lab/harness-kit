@@ -29,7 +29,6 @@ const initialContext: WizardContext = {
   devIntegrations: getRecommendedByCategory('dev-integration').map(b => b.name),
   cloudInfra: [],
   observability: [],
-  aiGenerationEnabled: false,
 }
 
 export const wizardMachine = createMachine({

@@ -22,7 +22,7 @@ describe('renderTemplate', () => {
   })
 
   it('renders harness.json.hbs with valid JSON', async () => {
-    const out = await renderTemplate('harness.json.hbs', { ...ctx, modules: [], aiGenerationEnabled: false, mcpConfigs: [] })
+    const out = await renderTemplate('harness.json.hbs', { ...ctx, mcpConfigs: [] })
     expect(() => JSON.parse(out)).not.toThrow()
     const parsed = JSON.parse(out)
     expect(parsed.version).toBe('1.0.0')

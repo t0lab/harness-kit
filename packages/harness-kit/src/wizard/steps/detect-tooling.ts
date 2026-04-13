@@ -1,6 +1,6 @@
 import * as p from '@clack/prompts'
 import { execa } from 'execa'
-import { detectTooling } from '../../engine/detector.js'
+import { detectTooling } from '../detector.js'
 import type { WizardContext } from '../types.js'
 
 export async function stepDetectTooling(ctx: WizardContext): Promise<Partial<WizardContext>> {

@@ -11,4 +11,24 @@ describe('harness-kit CLI entry', () => {
     const cli = createCli()
     expect(cli.name()).toBe('harness-kit')
   })
+
+  it('registers init command', () => {
+    const names = createCli().commands.map((c) => c.name())
+    expect(names).toContain('init')
+  })
+
+  it('registers list command', () => {
+    const names = createCli().commands.map((c) => c.name())
+    expect(names).toContain('list')
+  })
+
+  it('registers add command', () => {
+    const names = createCli().commands.map((c) => c.name())
+    expect(names).toContain('add')
+  })
+
+  it('registers status command', () => {
+    const names = createCli().commands.map((c) => c.name())
+    expect(names).toContain('status')
+  })
 })

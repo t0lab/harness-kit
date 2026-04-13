@@ -3,7 +3,9 @@ import { readFile } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const TEMPLATES_DIR = join(dirname(fileURLToPath(import.meta.url)), '../../templates')
+// In dist/index.js: ../templates. In src/engine/ (vitest): ../../templates.
+const __dir = dirname(fileURLToPath(import.meta.url))
+const TEMPLATES_DIR = __dir.includes('/dist') ? join(__dir, '../templates') : join(__dir, '../../templates')
 
 Handlebars.registerHelper('includes', (arr: string[], val: string) =>
   Array.isArray(arr) && arr.includes(val)

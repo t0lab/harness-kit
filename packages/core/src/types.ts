@@ -58,9 +58,5 @@ export interface HarnessConfig {
   version: string
   registry: string
   techStack: string[]
-  presets: string[]
-  modules: string[]
-  memory: string
-  mcp: string[]
-  aiGeneration: boolean
+  bundles: string[]
 }

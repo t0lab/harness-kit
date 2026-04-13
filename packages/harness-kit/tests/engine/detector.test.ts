@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { mkdir, writeFile, rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
-import { detectTooling } from '../../src/engine/detector.js'
+import { detectTooling } from '../../src/wizard/detector.js'
 
 let dir: string
 

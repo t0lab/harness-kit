@@ -22,7 +22,6 @@ const baseCtx: WizardContext = {
   devIntegrations: [],
   cloudInfra: [],
   observability: [],
-  aiGenerationEnabled: false,
 }
 
 describe('collectSelectedBundles', () => {

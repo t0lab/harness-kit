@@ -2,9 +2,5 @@
   "version": "1.0.0",
   "registry": "bundled",
   "techStack": [{{#each selectedTech}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}}],
-  "presets": [{{#each workflowPresets}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}}],
-  "modules": [{{#each modules}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}}],
-  "memory": "{{memory}}",
-  "mcp": [{{#each mcp}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}}],
-  "aiGeneration": {{aiGenerationEnabled}}
+  "bundles": [{{#each bundles}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}}]
 }
