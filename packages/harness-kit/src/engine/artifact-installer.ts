@@ -152,6 +152,20 @@ export async function installBundle(
       } catch (err) {
         result.warnings.push(`Failed to install git-hook: ${artifact.src} (${err instanceof Error ? err.message : String(err)})`)
       }
+    } else if (artifact.type === 'plugin') {
+      const source = artifact.installSource
+      if (source.includes(':')) {
+        result.warnings.push(`plugin '${source}' — install manually (see bundle README)`)
+        continue
+      }
+      try {
+        await runInteractive(`claude plugin marketplace add ${source}`, cwd)
+        await runInteractive(`claude plugin install --scope project ${bundle.name}`, cwd)
+      } catch {
+        result.warnings.push(
+          `plugin install failed — run manually: 'claude plugin marketplace add ${source}' then 'claude plugin install --scope project ${bundle.name}'`
+        )
+      }
     } else if (artifact.type !== 'mcp') {
       result.warnings.push(`artifact type '${artifact.type}' not yet supported — add manually`)
     }
