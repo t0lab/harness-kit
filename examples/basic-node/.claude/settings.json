@@ -13,6 +13,15 @@
             "command": "bash .claude/hooks/quality-gate.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/memory-stop-reminder.sh"
+          }
+        ]
       }
     ]
   }

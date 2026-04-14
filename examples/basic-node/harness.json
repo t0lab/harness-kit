@@ -6,6 +6,7 @@
   ],
   "bundles": [
     "agent-browser",
-    "commit-signing"
+    "commit-signing",
+    "local-memory"
   ]
 }

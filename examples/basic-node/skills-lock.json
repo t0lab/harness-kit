@@ -10,6 +10,16 @@
       "source": "/home/liamlee/t0lab/harness-kit/packages/harness-kit/skills/commit-signing",
       "sourceType": "local",
       "computedHash": "0bd55648a6c3c66b2137881912ba6362cf61b04ab33dc16cae1be814765ad392"
+    },
+    "memory": {
+      "source": "/home/liamlee/t0lab/harness-kit/packages/harness-kit/skills/memory",
+      "sourceType": "local",
+      "computedHash": "bdbfe46b2747a94d770a6976c0dc5db87021350d65064302be9709c52e539398"
+    },
+    "memory-merge": {
+      "source": "/home/liamlee/t0lab/harness-kit/packages/harness-kit/skills/memory-merge",
+      "sourceType": "local",
+      "computedHash": "05f7a284c0350d78c0c80791b77cb3f5f63704c57cb96c7605fe87e02d59f91d"
     }
   }
 }
