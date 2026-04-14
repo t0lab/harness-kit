@@ -1,23 +1,10 @@
 {
   "version": "1.0.0",
   "registry": "bundled",
-  "techStack": ["node-express"],
-  "presets": [
-    "docs-as-code",
-    "spec-driven",
-    "tdd",
-    "planning-first",
-    "quality-gates"
+  "techStack": [
+    "node-express"
   ],
-  "modules": [
-    "rules/git-conventional",
-    "skills/tdd-workflow",
-    "skills/brainstorming",
-    "hooks/pre-commit",
-    "hooks/quality-gate"
-  ],
-  "memory": "local-memory",
-  "mcp": ["tavily", "firecrawl", "github"],
-  "bundles": [],
-  "aiGeneration": false
+  "bundles": [
+    "agent-browser"
+  ]
 }
