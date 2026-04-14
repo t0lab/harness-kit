@@ -1,13 +1,14 @@
 # code-review-gates
 
-Self-review checklist and PR review protocol for Claude Code.
+Self-review checklist, PR review protocol, and review-response protocol for Claude Code. Covers all three sides of the review loop: before sending (self-review), when reviewing others, and when receiving feedback on your own diff.
 
 ## What it installs
 
 | Artifact | Path (in your project) | Purpose |
 |----------|----------------------|---------|
-| Skill | `.agents/skills/code-review/` | Self-review checklist, Ship/Show/Ask, PR template, reviewer protocol |
+| Skill | `.agents/skills/code-review/` | Self-review checklist, Ship/Show/Ask, PR template, reviewer protocol, review-response protocol |
 | Rule | `.claude/rules/git-workflow.md` | Always-loaded pointer — routes Claude to the skill before any commit or PR |
+| Agent | `.claude/agents/code-reviewer.md` | Subagent for isolated review of a diff/PR in a fresh context — use when the main conversation already saw the code being reviewed, or the diff is too large to load in main context |
 
 ## How it works
 
@@ -19,6 +20,7 @@ The **skill** gives Claude a structured protocol:
 2. **Ship / Show / Ask** — decides the right review track for each change
 3. **PR description template** — what + why + how to verify
 4. **Reviewer protocol** — what to block on, what not to block on, comment tone conventions
+5. **Review-response protocol** — READ → UNDERSTAND → VERIFY → EVALUATE → RESPOND → IMPLEMENT when feedback comes back; accept / push back / defer framework; no performative agreement; one fix at a time with per-fix verification
 
 ## Self-review checklist (summary)
 

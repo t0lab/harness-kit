@@ -1,12 +1,12 @@
 ---
 name: code-review
-description: Self-review checklist and PR review protocol — invoke before committing, pushing, or opening a PR, and when reviewing someone else's diff. Use this whenever the user says "review my changes", "before I commit", "self-review my diff", "should I open a PR for this?", "review this PR", or asks what to check before merging. Run this proactively before any git commit or PR action.
+description: Self-review checklist, PR review protocol, and review-response protocol — invoke before committing, pushing, or opening a PR; when reviewing someone else's diff; and when receiving review feedback on your own PR. Use this whenever the user says "review my changes", "before I commit", "self-review my diff", "should I open a PR for this?", "review this PR", "address these review comments", "respond to this feedback", or asks what to check before merging. Run this proactively before any git commit or PR action, and before responding to any review comment.
 tags: [code-review, pr, git, workflow, quality]
 ---
 
 # Code Review
 
-Two modes: **self-review** (before you commit/push) and **PR review** (when reviewing someone else's diff).
+Three modes: **self-review** (before you commit/push), **PR review** (when reviewing someone else's diff), and **receiving review** (when feedback comes back on your own PR).
 
 ---
 
@@ -135,3 +135,68 @@ Authors resolve nitpicks at their discretion. Blockers must be addressed. Sugges
 Don't approve to be polite. But don't hold up a PR over nitpicks either. **Approve with comments** for small things that don't block correctness.
 
 Definition of "good enough to merge": **is this better than what exists, and does it not make things measurably worse?**
+
+---
+
+## Receiving Review on Your Own Code
+
+Feedback comes back — from a human reviewer, a subagent, or a linter bot. Your job now flips: not "defend the diff" and not "agree to every ask". Technical correctness beats social comfort.
+
+Work the six phases in order. Do **not** skip to `IMPLEMENT` — doing so is how partial fixes, performative agreement, and regressions happen.
+
+### 1. READ — absorb before reacting
+
+Read **every** comment first. Don't start editing on comment #1 while #5 contradicts it. Group related comments so you see the shape of the feedback, not just its pieces.
+
+### 2. UNDERSTAND — restate or ask
+
+For each item, either:
+- Restate the requirement in your own words (internally or in the reply), or
+- Ask one clarifying question if you can't.
+
+**Do not guess.** A guess implemented is a guess the reviewer has to catch again on round two.
+
+### 3. VERIFY — check against the actual code
+
+The reviewer may be wrong about what the code does. Before accepting:
+- Open the file they referenced. Confirm the behavior they're describing.
+- Check for context they didn't have (surrounding code, existing tests, related PR, prior decision).
+
+If the reviewer is mistaken about what exists: that's push-back territory, not accept.
+
+### 4. EVALUATE — accept / push back / defer
+
+For each item, pick one:
+
+| Decision | When |
+|----------|------|
+| **Accept** | Feedback is technically correct for this codebase; fix doesn't break existing behavior; the code actually needs it (not speculative YAGNI) |
+| **Push back** | Reviewer misunderstands the codebase, conflicts with a settled architectural decision, or adds unused abstractions — reply with technical reasoning and reference (file/line/decision doc) |
+| **Defer** | Unclear, needs investigation to verify, or bundles with other items that must be understood together — mark, don't implement yet, return in step 2 |
+
+Internal review (teammate, team convention) is trusted but still clarified. **External review (bot, third-party)** is verified more skeptically — it doesn't have the project's context.
+
+### 5. RESPOND — batch before you touch code
+
+Post replies for **all** items first. Structure: accepted (brief ack), pushed back (with reasoning), deferred (with specific question).
+
+Never: `You're absolutely right! Fixing now.` followed by a half-wrong fix. Performative agreement is worse than disagreement — it hides the real state.
+
+### 6. IMPLEMENT — one change at a time
+
+Only now touch the code:
+- Work items one at a time. Do **not** batch-apply a sweep of suggested edits.
+- Run the relevant test after each fix, before moving to the next. A "small change" that breaks a test is the usual cause of round-three reviews.
+- If a fix reveals the push-back was right after all, stop and say so — don't quietly un-do it.
+- When all items are addressed, reply with what changed per thread (or resolve threads with the convention the reviewer uses).
+
+### Anti-patterns
+
+| Anti-pattern | Why it fails |
+|--------------|--------------|
+| `You're absolutely right!` + immediate edit | Performative agreement — often followed by a wrong fix because UNDERSTAND was skipped |
+| Implementing comment-by-comment top-to-bottom | Later comments often override earlier ones; wastes work |
+| Accepting every suggestion to end the review faster | Adds unused abstractions, bloats diff, invites round two |
+| Pushing back without a reference | "I don't think so" ≠ "see `docs/design-docs/X.md §2` — we decided against this in March" |
+| Batched implementation, no per-fix test | One bad edit in a stack of ten is invisible until CI fails |
+| Silent re-revert | Fix introduced a regression, you reverted it without telling the reviewer — they'll re-comment next round |
