@@ -50,6 +50,8 @@ LEN=${#SUBJECT}
 if [ "$LEN" -gt 100 ]; then
   echo "✗ Commit subject is ${LEN} chars (limit 100). Move detail into the body." >&2
   exit 1
+elif [ "$LEN" -gt 72 ]; then
+  echo "⚠ Commit subject is ${LEN} chars (recommended ≤72). Consider moving detail into the body." >&2
 fi
 
 exit 0
