@@ -1,15 +1,24 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
-import { installBundle } from '../../src/engine/artifact-installer.js'
 import type { BundleManifest } from '@harness-kit/core'
+
+vi.mock('execa', () => ({
+  execaCommand: vi.fn().mockResolvedValue({ stdout: '', stderr: '' }),
+}))
+
+import { installBundle } from '../../src/engine/artifact-installer.js'
+import { execaCommand } from 'execa'
+
+const mockedExeca = vi.mocked(execaCommand)
 
 let dir: string
 
 beforeEach(async () => {
   dir = join(tmpdir(), `hk-installer-${Date.now()}`)
   await mkdir(dir, { recursive: true })
+  mockedExeca.mockClear()
 })
 
 afterEach(async () => {
@@ -54,6 +63,20 @@ const TOOL_BUNDLE: BundleManifest = {
   roles: { 'dev-integration': { artifacts: [] } },
 }
 
+const SKILL_BUNDLE: BundleManifest = {
+  name: 'agent-browser',
+  description: 'Browser automation',
+  version: '1.0.0',
+  experimental: false,
+  defaultRole: 'browser',
+  common: {
+    artifacts: [
+      { type: 'skill', src: 'https://github.com/vercel-labs/agent-browser --skill agent-browser' },
+    ],
+  },
+  roles: { browser: { artifacts: [] } },
+}
+
 describe('installBundle', () => {
   it('creates .mcp.json for mcp artifact', async () => {
     const result = await installBundle(dir, MCP_BUNDLE, 'search')
@@ -88,8 +111,32 @@ describe('installBundle', () => {
     expect(result.warnings).toHaveLength(0)
   })
 
-  it('returns warning with installCmd for tool artifact', async () => {
+  it('runs installCmd for tool artifact', async () => {
     const result = await installBundle(dir, TOOL_BUNDLE, 'dev-integration')
-    expect(result.warnings).toContain('Run: pnpm add -D eslint')
+    expect(mockedExeca).toHaveBeenCalledWith('pnpm add -D eslint', { cwd: dir, stdio: 'inherit', shell: true })
+    expect(result.warnings).toHaveLength(0)
+  })
+
+  it('warns when tool install fails', async () => {
+    mockedExeca.mockRejectedValueOnce(new Error('command not found'))
+    const result = await installBundle(dir, TOOL_BUNDLE, 'dev-integration')
+    expect(result.warnings).toContain('Failed: pnpm add -D eslint')
+  })
+
+  it('runs npx skills add for skill artifact', async () => {
+    const result = await installBundle(dir, SKILL_BUNDLE, 'browser')
+    expect(mockedExeca).toHaveBeenCalledWith(
+      'npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser',
+      { cwd: dir, stdio: 'inherit', shell: true },
+    )
+    expect(result.warnings).toHaveLength(0)
+  })
+
+  it('warns when skill install fails', async () => {
+    mockedExeca.mockRejectedValueOnce(new Error('network error'))
+    const result = await installBundle(dir, SKILL_BUNDLE, 'browser')
+    expect(result.warnings).toContain(
+      'Failed: npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser',
+    )
   })
 })

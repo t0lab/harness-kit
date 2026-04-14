@@ -18,7 +18,7 @@ export type GitHookName = 'pre-commit' | 'commit-msg' | 'pre-push'
 
 export type Artifact =
   | { type: 'mcp';      command: string; args: string[]; env?: Record<string, string> }
-  | { type: 'skill';    src: string; dest: string }
+  | { type: 'skill';    src: string }
   | { type: 'tool';     installCmd: string }
   | { type: 'plugin';   installSource: string }
   | { type: 'hook';     src: string; dest: string; hookType: ClaudeHookType; matcher?: string }
