@@ -171,6 +171,15 @@ export async function installBundle(
       } catch {
         result.warnings.push(`Failed to copy rule: ${artifact.src}`)
       }
+    } else if (artifact.type === 'agent') {
+      try {
+        const srcPath = join(PKG_ROOT, artifact.src)
+        const destPath = join(cwd, '.claude/agents', basename(artifact.src))
+        await mkdir(dirname(destPath), { recursive: true })
+        await copyFile(srcPath, destPath)
+      } catch {
+        result.warnings.push(`Failed to copy agent: ${artifact.src}`)
+      }
     } else if (artifact.type === 'hook') {
       try {
         const srcPath = join(PKG_ROOT, artifact.src)

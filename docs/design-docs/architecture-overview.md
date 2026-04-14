@@ -82,7 +82,9 @@ Tài liệu này là bản đồ API surface của toàn bộ codebase. Mục đ
 | `InstallResult` | `interface` | `{ mcpUpdated: boolean; warnings: string[] }` |
 | `installBundle` | `(cwd: string, bundle: BundleManifest, role: string): Promise<InstallResult>` | Kết hợp `common.artifacts` + role artifacts, xử lý từng loại; ghi `.mcp.json` nếu có MCP artifact |
 
-**Lưu ý:** Artifact types `skill`, `hook`, `git-hook`, `rule`, `agent`, `command`, `file` chưa được cài đặt tự động — trả về warning "not yet supported".
+**Lưu ý về artifact support:**
+- Đã hỗ trợ đầy đủ: `mcp`, `skill` (qua `npx skills add`), `tool` (interactive install), `rule` (copy to `.claude/rules/`), `agent` (copy to `.claude/agents/`), `hook` (copy to `.claude/hooks/` + upsert `.claude/settings.json`), `git-hook` (copy to `.githooks/<hook>.d/<bundle>.sh` qua dispatcher), `plugin` (qua `claude plugin`).
+- Chưa hỗ trợ: `command`, `file` — trả về warning "not yet supported".
 
 ---
 

@@ -43,7 +43,7 @@ describe('executeAdd', () => {
 
   it('adds MCP bundle: updates .mcp.json and harness.json', async () => {
     await writeHarness(BASE_CONFIG)
-    await executeAdd(dir, 'tavily', {})
+    await executeAdd(dir, 'tavily', { yes: true })
 
     const harness = JSON.parse(await readFile(join(dir, 'harness.json'), 'utf-8'))
     expect(harness.bundles).toContain('tavily')
@@ -54,8 +54,8 @@ describe('executeAdd', () => {
 
   it('re-adding same bundle keeps bundles[] length unchanged (no duplicates)', async () => {
     await writeHarness(BASE_CONFIG)
-    await executeAdd(dir, 'tavily', {})
-    await executeAdd(dir, 'tavily', {})
+    await executeAdd(dir, 'tavily', { yes: true })
+    await executeAdd(dir, 'tavily', { yes: true })
 
     const harness = JSON.parse(await readFile(join(dir, 'harness.json'), 'utf-8'))
     expect(harness.bundles.filter((n: string) => n === 'tavily')).toHaveLength(1)
@@ -63,7 +63,7 @@ describe('executeAdd', () => {
 
   it('adds non-MCP bundle: updates harness.json bundles[], does not touch .mcp.json', async () => {
     await writeHarness(BASE_CONFIG)
-    await executeAdd(dir, 'tdd', {})
+    await executeAdd(dir, 'tdd', { yes: true })
 
     const harness = JSON.parse(await readFile(join(dir, 'harness.json'), 'utf-8'))
     expect(harness.bundles).toContain('tdd')
@@ -75,14 +75,14 @@ describe('executeAdd', () => {
 
   it('uses default role when no --role given', async () => {
     await writeHarness(BASE_CONFIG)
-    const result = await executeAdd(dir, 'tavily', {})
+    const result = await executeAdd(dir, 'tavily', { yes: true })
     expect(result.role).toBe('search') // tavily's defaultRole
   })
 
   it('uses specified --role when valid', async () => {
     await writeHarness(BASE_CONFIG)
     // tavily has only one role: 'search', so we test that it accepts the default/only role
-    const result = await executeAdd(dir, 'tavily', { role: 'search' })
+    const result = await executeAdd(dir, 'tavily', { role: 'search', yes: true })
     expect(result.role).toBe('search')
   })
 })
