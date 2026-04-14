@@ -1,0 +1,38 @@
+# tavily
+
+Agent-oriented web access via Tavily MCP. The agent can search for current information, extract clean content from URLs, and escalate into site mapping or crawling when a single page is not enough.
+
+## What it installs
+
+| Artifact | Path (in your project) | Purpose |
+|----------|------------------------|---------|
+| MCP server | `.mcp.json` -> `tavily` entry | Connects the agent to Tavily MCP through a local `npx` server with your API key |
+| Skill | `.agents/skills/tavily/` | Tool-selection protocol for `search -> extract -> map -> crawl`, query patterns, and noise-control guardrails |
+
+## How it works
+
+Tavily is more than a plain search endpoint. It is designed for agent workflows where the model needs to move from discovery to reading real pages without flooding context or burning time on broad crawls too early.
+
+The MCP server gives the agent Tavily web access. The skill teaches when to use each capability:
+
+- `tavily-search` for current or domain-scoped discovery
+- `tavily-extract` when the exact URL is already known
+- `tavily-map` to inspect a site's structure before committing to deeper retrieval
+- `tavily-crawl` only when multiple related pages are clearly needed
+
+This bundle currently installs Tavily as a local stdio MCP (`npx tavily-mcp@latest`) because that fits `harness-kit`'s `.mcp.json` workflow. Tavily also offers a remote OAuth-capable MCP, but that would require a different artifact shape than the current installer supports.
+
+## Setup
+
+1. Get a Tavily API key from [app.tavily.com](https://app.tavily.com)
+2. Set `TAVILY_API_KEY` in your shell or project env
+3. Add the bundle: `harness-kit add tavily`
+
+Optional: if you want default search behavior, set `DEFAULT_PARAMETERS` in your MCP env with a JSON object such as `{"max_results":10,"search_depth":"advanced"}`.
+
+## Pairs well with
+
+- `crawl4ai` - Tavily is strong for discovery and targeted extraction; crawl4ai is useful when you want raw site harvesting and larger scrape workflows
+- `firecrawl` - Tavily can find and narrow the right URLs first, then Firecrawl can handle heavier scrape or interaction flows
+- `brave-search` - alternate search provider if you want to compare result quality or use Brave's news/image/local features
+- `quality-gates` - when research drives code or docs changes, quality-gates ensures final claims are backed by fresh verification rather than search output alone

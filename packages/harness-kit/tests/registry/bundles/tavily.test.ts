@@ -1,28 +1,50 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { existsSync } from 'node:fs'
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { join, resolve } from 'node:path'
+import { tmpdir } from 'node:os'
+import { executeAdd } from '../../../src/commands/add.js'
 import { manifest } from '../../../src/registry/bundles/tavily/manifest.js'
 
-describe('tavily manifest', () => {
-  it('has correct name and defaultRole', () => {
-    expect(manifest.name).toBe('tavily')
-    expect(manifest.defaultRole).toBe('search')
+const PACKAGE_ROOT = resolve(import.meta.dirname, '../../..')
+
+describe('tavily bundle artifacts', () => {
+  it('skill source file exists', () => {
+    const skill = manifest.common.artifacts.find(a => a.type === 'skill')
+    expect(skill).toBeDefined()
+    if (!skill || skill.type !== 'skill') return
+    expect(existsSync(resolve(PACKAGE_ROOT, skill.src, 'SKILL.md'))).toBe(true)
+  })
+})
+
+describe('tavily bundle install', () => {
+  let dir: string
+
+  beforeEach(async () => {
+    dir = join(tmpdir(), `hk-tavily-${Date.now()}-${Math.random().toString(36).slice(2)}`)
+    await mkdir(dir, { recursive: true })
+    await writeFile(join(dir, 'harness.json'), JSON.stringify({
+      version: '1.0.0', registry: 'bundled', techStack: [], bundles: [],
+    }))
   })
 
-  it('has MCP artifact in common', () => {
-    const mcp = manifest.common.artifacts.find(a => a.type === 'mcp')
-    expect(mcp).toBeDefined()
-    if (mcp?.type === 'mcp') {
-      expect(mcp.command).toBe('npx')
-      expect(mcp.args).toContain('tavily-mcp@0.1.4')
-    }
-  })
+  afterEach(async () => { await rm(dir, { recursive: true, force: true }) })
 
-  it('has search role', () => {
-    expect(manifest.roles['search']).toBeDefined()
-  })
+  it('writes MCP entry with API key env and installs the skill', async () => {
+    await executeAdd(dir, 'tavily', { yes: true })
 
-  it('has TAVILY_API_KEY env var', () => {
-    const envKey = manifest.common.env?.find(e => e.key === 'TAVILY_API_KEY')
-    expect(envKey).toBeDefined()
-    expect(envKey?.required).toBe(true)
-  })
+    const mcp = JSON.parse(await readFile(join(dir, '.mcp.json'), 'utf-8'))
+    expect(mcp.mcpServers.tavily).toBeDefined()
+    expect(mcp.mcpServers.tavily.command).toBe('npx')
+    expect(mcp.mcpServers.tavily.args).toEqual(['-y', 'tavily-mcp@latest'])
+    expect(mcp.mcpServers.tavily.env).toEqual({ TAVILY_API_KEY: '${TAVILY_API_KEY}' })
+    expect(existsSync(join(dir, '.agents/skills/tavily/SKILL.md'))).toBe(true)
+  }, 15000)
+
+  it('records bundle in harness.json', async () => {
+    await executeAdd(dir, 'tavily', { yes: true })
+
+    const config = JSON.parse(await readFile(join(dir, 'harness.json'), 'utf-8'))
+    expect(config.bundles).toContain('tavily')
+  }, 15000)
 })
