@@ -1,11 +1,11 @@
 ---
 name: crawl4ai
-description: crawl4ai web scraping — invoke when scraping websites, extracting structured data from pages, crawling documentation, processing YouTube transcripts or PDFs, or doing any multi-page deep crawl. Use this to pick the right tool from the 19 available and avoid context overflow on large results.
+description: crawl4ai web scraping — invoke when scraping a known URL, extracting structured data from pages, crawling docs/sites deeply, or processing YouTube transcripts / PDFs / Office files. Use AFTER you already have URLs (e.g. from a search tool); crawl4ai fetches and extracts content, it does not search the web. Picks the right tool from the full set and avoids context overflow on large results.
 ---
 
 # crawl4ai
 
-Open-source web scraping with JS rendering and LLM extraction. 19 MCP tools across 6 categories — pick the right one rather than defaulting to `crawl_url` every time.
+Open-source web scraping with JS rendering and LLM extraction. Several categories of MCP tools — pick the right one rather than defaulting to `crawl_url` every time.
 
 ---
 
@@ -85,31 +85,10 @@ Start narrow (`max_depth: 2`, `max_pages: 20`) and expand only if needed.
 
 ## JS rendering and anti-bot
 
-crawl4ai renders JavaScript by default — works on SPAs and React sites without extra config.
-
-For sites with bot detection, escalation happens automatically:
-1. Direct request
-2. Datacenter proxy
-3. Residential proxy (if configured)
-4. Fallback function
-
-No manual config needed for most cases.
+JS rendering + proxy/anti-bot escalation are handled automatically — no manual config needed for most cases.
 
 ---
 
 ## Self-hosted Docker (production)
 
-For high-volume or privacy-sensitive use:
-
-```bash
-docker run -d \
-  -p 11235:11235 \
-  --name crawl4ai \
-  --shm-size=1g \
-  unclecode/crawl4ai:latest
-```
-
-Connect via MCP SSE: `http://localhost:11235/mcp/sse`  
-Playground UI: `http://localhost:11235/playground`
-
-Pass LLM keys via `--env-file .llm.env`.
+For high-volume or privacy-sensitive use, run `unclecode/crawl4ai` (port 11235) and connect via MCP SSE at `http://localhost:11235/mcp/sse`. See the crawl4ai docs for Docker args and `.llm.env` setup.
