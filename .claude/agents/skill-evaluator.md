@@ -1,7 +1,6 @@
 ---
 name: skill-evaluator
 description: Use this agent to get an isolated, fresh-context evaluation of a skill (SKILL.md) — its description quality, triggering accuracy, content density, structure, and likelihood of being invoked correctly in real use. Delegate here when the main conversation authored or recently edited the skill (the author is compromised as an evaluator), or when the user asks for "review this skill", "is this skill good", "will this skill trigger", "audit this skill". Brief with the absolute path to the skill directory and what the skill is supposed to do — the agent starts with zero prior context.
-tags: [skill, review, evaluation, quality, subagent]
 ---
 
 # Skill Evaluator Agent

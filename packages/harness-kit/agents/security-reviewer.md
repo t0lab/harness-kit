@@ -1,7 +1,6 @@
 ---
 name: security-reviewer
 description: Use this agent for a dedicated security review of a diff, branch, or specific file set. Delegate here for changes touching authentication, authorization, secrets, user input handling, file/path operations, shell execution, SQL / NoSQL queries, deserialization, cryptography, payment flows, PII, session tokens, CORS, CSP, or any new external-input boundary. Also use for a pre-release security audit of a feature branch. The agent starts with zero prior context — brief it with the exact diff range or file paths plus what the change is trying to do.
-tags: [security, review, audit, subagent, vulnerability]
 ---
 
 # Security Reviewer Agent

@@ -1,7 +1,6 @@
 ---
 name: code-reviewer
 description: Use this agent to get an isolated, fresh-context code review of a diff, PR, or branch. Delegate here when the main conversation has already seen the code being reviewed (a reviewer who helped write the code is compromised), when the diff is large enough that loading it in main context would crowd out other work, or when the user asks for a "second pair of eyes" / "independent review". Brief with the exact diff range or PR number, plus what the change is trying to do — the agent starts with zero prior context.
-tags: [code-review, review, pr, quality, subagent]
 ---
 
 # Code Reviewer Agent
