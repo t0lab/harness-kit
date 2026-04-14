@@ -1,10 +1,10 @@
 # Git Workflow
 
-Before creating branches, commits, or PRs — check and read any installed skills:
+Before branches, commits, or PRs — read any installed git skills:
 - `.agents/skills/branch-strategy/` — branch naming, PR size
-- `.agents/skills/git-conventional/` — commit message format
-- `.agents/skills/code-review/` — self-review checklist, Ship/Show/Ask, PR template, responding to review feedback (READ → UNDERSTAND → VERIFY → EVALUATE → RESPOND → IMPLEMENT; no performative agreement)
+- `.agents/skills/git-conventional/` — commit format
+- `.agents/skills/code-review/` — self-review, Ship/Show/Ask, PR template
 
-If a path doesn't exist, the project hasn't adopted that convention — skip it.
+Skip any path that doesn't exist.
 
-Regardless of skills: one logical change per commit, rebase before push, never force push `main`, never `--no-verify`.
+Regardless of skills: one logical change per commit, rebase before push, never force-push `main`, never `--no-verify`.

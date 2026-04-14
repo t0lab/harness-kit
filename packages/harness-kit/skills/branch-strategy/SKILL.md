@@ -1,6 +1,6 @@
 ---
 name: branch-strategy
-description: Branch naming and PR sizing conventions — invoke before creating branches, opening PRs, or when a diff grows large. Use this whenever the user mentions branches, PRs, or pull requests.
+description: Branch naming and PR sizing conventions — invoke before creating a branch, opening a PR, or when a diff exceeds 400 lines. Do NOT trigger on read-only questions about current branch/PR state (e.g. "what branch am I on", "link to the PR").
 ---
 
 # Branch Strategy
@@ -52,4 +52,4 @@ Exceptions that don't need splitting: generated files, migrations, large atomic 
 ## Protected Branches
 
 - `main` / `master` — never commit directly, always use a PR
-- Delete feature branches after merge — they served their purpose
+- Delete feature branches after merge
