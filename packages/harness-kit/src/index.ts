@@ -4,6 +4,7 @@ import { registerInitCommand } from './commands/init.js'
 import { registerListCommand } from './commands/list.js'
 import { registerAddCommand } from './commands/add.js'
 import { registerStatusCommand } from './commands/status.js'
+import { registerActivateCommand } from './commands/activate.js'
 
 export function createCli(): Command {
   const program = new Command()
@@ -16,6 +17,7 @@ export function createCli(): Command {
   registerListCommand(program)
   registerAddCommand(program)
   registerStatusCommand(program)
+  registerActivateCommand(program)
 
   return program
 }

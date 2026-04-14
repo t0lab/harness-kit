@@ -22,7 +22,7 @@ export interface AddResult {
 export async function executeAdd(
   cwd: string,
   bundleName: string,
-  opts: { role?: string }
+  opts: { role?: string; yes?: boolean }
 ): Promise<AddResult> {
   if (!(await harnessExists(cwd))) {
     throw new Error('NOT_INITIALIZED: harness.json not found. Run harness-kit init first.')
@@ -42,7 +42,7 @@ export async function executeAdd(
   const config = await readHarnessConfig(cwd)
   const alreadyInstalled = config.bundles.includes(bundleName)
 
-  const result = await installBundle(cwd, bundle, role)
+  const result = await installBundle(cwd, bundle, role, opts.yes ? { yes: true } : {})
 
   const newBundles = alreadyInstalled ? config.bundles : [...config.bundles, bundleName]
 
@@ -78,7 +78,7 @@ function printAddResult(result: AddResult): void {
 async function runAdd(
   cwd: string,
   bundleName: string,
-  opts: { role?: string }
+  opts: { role?: string; yes?: boolean }
 ): Promise<AddResult> {
   try {
     return await executeAdd(cwd, bundleName, opts)
@@ -94,7 +94,8 @@ export function registerAddCommand(program: Command): void {
     .command('add <bundle>')
     .description('Add a bundle to the current harness')
     .option('--role <role>', 'override default role')
-    .action(async (bundleName: string, opts: { role?: string }) => {
+    .option('-y, --yes', 'skip interactive prompts — auto-confirm sub-commands', false)
+    .action(async (bundleName: string, opts: { role?: string; yes?: boolean }) => {
       const cwd = process.cwd()
 
       // Check if already installed before calling executeAdd, to handle re-install confirm
@@ -102,7 +103,7 @@ export function registerAddCommand(program: Command): void {
         (await harnessExists(cwd)) &&
         ((await readHarnessConfig(cwd)).bundles?.includes(bundleName) ?? false)
 
-      if (alreadyInstalled) {
+      if (alreadyInstalled && !opts.yes) {
         const confirm = await p.confirm({
           message: `${bundleName} already added. Re-install? (y/N)`,
           initialValue: false,
