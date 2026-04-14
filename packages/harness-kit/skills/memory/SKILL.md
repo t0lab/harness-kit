@@ -36,8 +36,6 @@ Append to `CLAUDE.md` (idempotent — check first):
 @.claude/memory/reference.md
 ```
 
-Local memory directory exists automatically via Claude Code's auto-memory system.
-
 ---
 
 ## Write flow
@@ -124,19 +122,14 @@ If the user says "remember X" and X is one of the above, say so and suggest the 
 
 ## End-of-session batch
 
-At the end of a substantive session, run this skill in batch mode: scan what happened, write each worth-remembering fact as a separate memory. Do NOT skip even if the user didn't ask — future sessions depend on it.
+On Stop hook or session end, if `memory-compact` skill is installed, defer to it — it owns batch compaction. Otherwise, scan for:
 
-Trigger: Stop hook fires, or user is ending the session, or conversation has run long with decisions made.
+1. What was built/started/unblocked → `project`
+2. Decisions + *why* → `project`
+3. Failures, friction → `project` (gotcha) or `feedback` (if user corrected)
+4. User preferences/expertise learned → `user` or `feedback`
 
-Scan for four things:
-1. **What was built, started, or unblocked?** → likely `project` memory (in-flight work state)
-2. **What decisions were made, and why?** → `project` memory (with reasoning — WHY is what gets forgotten)
-3. **What failed or caused friction?** → `project` memory (gotchas prevent future repetition) or `feedback` (if user corrected an approach)
-4. **What did you learn about the user or their preferences?** → `user` or `feedback` memory
-
-For each finding, apply the write flow above. Don't batch into one giant file — atomic memories merge cleaner than monoliths.
-
-Skip the batch if: session was trivial, or everything was already covered by existing memories, or the work is already captured in commit messages + docs.
+Apply the write flow per finding. Atomic files over monoliths. Skip if session was trivial or already covered.
 
 ---
 
