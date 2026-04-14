@@ -70,15 +70,6 @@ export async function stepHarnessConfig(ctx: WizardContext): Promise<Partial<Wiz
   })
   if (p.isCancel(webScrape)) { p.cancel('Cancelled'); process.exit(0) }
 
-  // ── 7. Dev integrations (from registry) ──────────────────────────────────
-  const devIntegrations = await p.multiselect({
-    message: 'Dev integrations:',
-    initialValues: getRecommendedByCategory('dev-integration').map(b => b.name),
-    options: bundleOptions('dev-integration'),
-    required: false,
-  })
-  if (p.isCancel(devIntegrations)) { p.cancel('Cancelled'); process.exit(0) }
-
   return {
     gitWorkflow: gitWorkflow as string[],
     memory: memory as string,
@@ -86,6 +77,5 @@ export async function stepHarnessConfig(ctx: WizardContext): Promise<Partial<Wiz
     browserTools: browserTools as string[],
     webSearch: webSearch as string[],
     webScrape: webScrape as string[],
-    devIntegrations: devIntegrations as string[],
   }
 }

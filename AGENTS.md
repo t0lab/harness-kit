@@ -37,7 +37,7 @@ Bundles are TypeScript files in `src/registry/bundles/<name>/manifest.ts`. Each 
 - `roles` — keyed by `BundleCategory`; each role entry can mark `recommended: true`
 - `defaultRole` — the role used when this bundle is selected
 
-**Bundle categories (13):** `git-workflow`, `workflow-preset`, `memory`, `browser`, `search`, `scrape`, `library-docs`, `doc-conversion`, `code-execution`, `dev-integration`, `cloud-infra`, `observability`, `mcp-tool`
+**Bundle categories (7):** `git-workflow`, `workflow-preset`, `memory`, `browser`, `search`, `scrape`, `mcp-tool`
 
 Adding a new option = add a bundle manifest, no wizard code change.
 

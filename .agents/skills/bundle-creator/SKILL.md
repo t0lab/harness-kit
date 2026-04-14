@@ -73,7 +73,7 @@ Only proceed with a new bundle if it provides distinct value not covered by exis
 
 ### Choose the right category and defaultRole
 
-The `defaultRole` must be one of the 8 `BundleCategory` values. A bundle can appear in multiple roles via `roles`:
+The `defaultRole` must be one of the 7 `BundleCategory` values. A bundle can appear in multiple roles via `roles`:
 
 | Category | When to use |
 |----------|-------------|
@@ -83,7 +83,6 @@ The `defaultRole` must be one of the 8 `BundleCategory` values. A bundle can app
 | `browser` | Browser automation or web interaction |
 | `search` | Web search or information retrieval |
 | `scrape` | Web scraping or content extraction |
-| `dev-integration` | Development tool integrations (GitHub, CI, etc.) |
 | `mcp-tool` | General-purpose MCP server that doesn't fit other categories |
 
 ### Decide which artifact types are needed

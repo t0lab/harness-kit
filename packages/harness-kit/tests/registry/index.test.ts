@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { getAllBundles, getBundlesByCategory, getBundle } from '../../src/registry/index.js'
 
 describe('getAllBundles', () => {
-  it('returns at least 28 bundles', () => {
-    expect(getAllBundles().length).toBeGreaterThanOrEqual(27)
+  it('returns at least 26 bundles', () => {
+    expect(getAllBundles().length).toBeGreaterThanOrEqual(26)
   })
 
   it('every bundle has required fields', () => {

@@ -27,7 +27,6 @@ export function collectSelectedBundles(ctx: WizardContext): Array<{ name: string
     ...ctx.browserTools,
     ...ctx.webSearch,
     ...ctx.webScrape,
-    ...ctx.devIntegrations,
     ...(ctx.memory !== 'no-memory' ? [ctx.memory] : []),
   ]
   return names

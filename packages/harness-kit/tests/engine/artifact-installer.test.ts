@@ -58,9 +58,9 @@ const TOOL_BUNDLE: BundleManifest = {
   description: 'ESLint',
   version: '1.0.0',
   experimental: false,
-  defaultRole: 'dev-integration',
+  defaultRole: 'mcp-tool',
   common: { artifacts: [{ type: 'tool', installCmd: 'pnpm add -D eslint' }] },
-  roles: { 'dev-integration': { artifacts: [] } },
+  roles: { 'mcp-tool': { artifacts: [] } },
 }
 
 const SKILL_BUNDLE: BundleManifest = {
@@ -112,14 +112,14 @@ describe('installBundle', () => {
   })
 
   it('runs installCmd for tool artifact', async () => {
-    const result = await installBundle(dir, TOOL_BUNDLE, 'dev-integration')
+    const result = await installBundle(dir, TOOL_BUNDLE, 'mcp-tool')
     expect(mockedExeca).toHaveBeenCalledWith('pnpm add -D eslint', { cwd: dir, stdio: 'inherit', shell: true })
     expect(result.warnings).toHaveLength(0)
   })
 
   it('warns when tool install fails', async () => {
     mockedExeca.mockRejectedValueOnce(new Error('command not found'))
-    const result = await installBundle(dir, TOOL_BUNDLE, 'dev-integration')
+    const result = await installBundle(dir, TOOL_BUNDLE, 'mcp-tool')
     expect(result.warnings).toContain('Failed: pnpm add -D eslint')
   })
 

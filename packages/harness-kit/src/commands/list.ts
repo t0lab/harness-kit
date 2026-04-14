@@ -6,7 +6,7 @@ import type { Command } from 'commander'
 
 const BUNDLE_CATEGORIES: BundleCategory[] = [
   'git-workflow', 'workflow-preset', 'memory', 'browser', 'search', 'scrape',
-  'dev-integration', 'mcp-tool',
+  'mcp-tool',
 ]
 
 function isBundleCategory(v: string): v is BundleCategory {

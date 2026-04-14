@@ -8,7 +8,6 @@ import { manifest as agentBrowserM } from './bundles/agent-browser/manifest.js'
 import { manifest as braveSearchM }  from './bundles/brave-search/manifest.js'
 import { manifest as firecrawlM }    from './bundles/firecrawl/manifest.js'
 import { manifest as crawl4aiM }     from './bundles/crawl4ai/manifest.js'
-import { manifest as githubM }       from './bundles/github/manifest.js'
 import { manifest as mempalaceM }    from './bundles/mempalace/manifest.js'
 import { manifest as claudeMemM }    from './bundles/claude-mem/manifest.js'
 import { manifest as docsAsCodeM }   from './bundles/docs-as-code/manifest.js'
@@ -30,7 +29,7 @@ import { manifest as noMemoryM }              from './bundles/no-memory/manifest
 
 const ALL_BUNDLES: BundleManifest[] = [
   tavilyM, mem0M, playwrightM, browserUseM, agentBrowserM,
-  braveSearchM, firecrawlM, crawl4aiM, githubM,
+  braveSearchM, firecrawlM, crawl4aiM,
   mempalaceM, claudeMemM, docsAsCodeM,
   conventionalCommitsM, branchStrategyM, preCommitHooksM, commitSigningM,
   specDrivenM, tddM, planningFirstM, qualityGatesM, parallelAgentsM,

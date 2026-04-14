@@ -5,7 +5,6 @@ export type BundleCategory =
   | 'browser'
   | 'search'
   | 'scrape'
-  | 'dev-integration'
   | 'mcp-tool'
 
 export type ClaudeHookType = 'PreToolUse' | 'PostToolUse' | 'Stop' | 'Notification'

@@ -16,7 +16,6 @@ const baseCtx: WizardContext = {
   browserTools: [],
   webSearch: [],
   webScrape: [],
-  devIntegrations: [],
 }
 
 describe('collectSelectedBundles', () => {
@@ -26,13 +25,11 @@ describe('collectSelectedBundles', () => {
       browserTools: ['playwright'],
       webSearch: ['tavily'],
       webScrape: ['firecrawl'],
-      devIntegrations: ['github'],
     }
     const bundles = collectSelectedBundles(ctx)
     expect(bundles).toContainEqual({ name: 'playwright', role: 'browser' })
     expect(bundles).toContainEqual({ name: 'tavily', role: 'search' })
     expect(bundles).toContainEqual({ name: 'firecrawl', role: 'scrape' })
-    expect(bundles).toContainEqual({ name: 'github', role: 'dev-integration' })
   })
 
   it('includes memory bundle when not no-memory', () => {
@@ -48,16 +45,14 @@ describe('collectSelectedBundles', () => {
   })
 
   it('excludes no-memory', () => {
-    const ctx: WizardContext = { ...baseCtx, memory: 'no-memory', devIntegrations: ['github'] }
+    const ctx: WizardContext = { ...baseCtx, memory: 'no-memory' }
     const bundles = collectSelectedBundles(ctx)
     expect(bundles.map(b => b.name)).not.toContain('no-memory')
-    expect(bundles).toContainEqual({ name: 'github', role: 'dev-integration' })
   })
 
   it('silently skips unknown bundle names (not in registry)', () => {
-    const ctx: WizardContext = { ...baseCtx, devIntegrations: ['github', 'linear'] }
+    const ctx: WizardContext = { ...baseCtx, webSearch: ['does-not-exist'] }
     const bundles = collectSelectedBundles(ctx)
-    expect(bundles).toContainEqual({ name: 'github', role: 'dev-integration' })
-    expect(bundles.map(b => b.name)).not.toContain('linear')
+    expect(bundles.map(b => b.name)).not.toContain('does-not-exist')
   })
 })

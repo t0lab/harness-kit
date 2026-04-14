@@ -26,7 +26,6 @@ export interface WizardContext {
   browserTools: string[]
   webSearch: string[]
   webScrape: string[]
-  devIntegrations: string[]
 }
 
 export type WizardEvent =
