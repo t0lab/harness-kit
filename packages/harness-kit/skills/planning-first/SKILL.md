@@ -1,7 +1,7 @@
 ---
 name: planning-first
-description: Brainstorm → spec → approval → plan → implement. Invoke before any multi-step, multi-file, or architecturally-novel task, and whenever the user says "implement X", "build Y", "add a feature", "refactor Z". Do NOT skip to code — every non-trivial task passes through this gate first.
-tags: [planning, brainstorming, spec, design, workflow]
+description: Brainstorm → spec → approval → plan → execute. Invoke before any multi-step, multi-file, or architecturally-novel task, and whenever the user says "implement X", "build Y", "add a feature", "refactor Z". Also invoke when executing an already-approved plan — the execution phase has its own discipline (critique before exec, verify after each task, stop on failure).
+tags: [planning, brainstorming, spec, design, execution, workflow]
 ---
 
 # Planning First
@@ -86,17 +86,41 @@ For larger work, save the plan to `docs/exec-plans/active/<name>.md` so it survi
 
 ---
 
-## Phase 5 — Gate, then implement
+## Phase 5 — Gate, then execute
 
 **Hard gate: do not write implementation code, scaffold files, run installers, or touch the filesystem outside the plan doc until the user approves the plan.** This applies to "simple" projects too — simple projects hide the unexamined assumption.
 
 When presenting the plan, ask for explicit approval. Don't treat silence or "sure" as a green light if the plan is non-trivial; confirm.
 
-After approval:
+### 5a — Critique the plan before executing
 
-- Work phase by phase
-- At each phase boundary, re-open the plan — check off what's done, flag what changed
-- If reality diverges from the plan, **pause and update the plan** before continuing. Don't let code and plan drift.
+Before the first line of implementation code — **even for plans you just wrote yourself** — re-read the plan with fresh eyes and flag:
+
+- Gaps, contradictions, or ambiguous instructions
+- Tasks whose success criteria are not independently verifiable
+- Forward references to symbols no earlier task defines
+- Commands whose expected output isn't specified
+
+Escalate every concern before starting. Do **not** self-resolve ambiguity by guessing the user's intent — ask. A plan that survived approval but fails this critique means approval was premature; surface it.
+
+### 5b — Execute phase by phase
+
+- **Never start implementation on `main` / `master` without explicit user consent.** If you're on the wrong branch, stop and ask.
+- Work through tasks in the order the plan specifies. Don't reorder "because it's faster"; the plan chose the order for a reason.
+- **After every task, run the verification the plan names** (test, typecheck, lint, manual command — whatever the plan wrote). No verification listed is a plan bug; stop and fix the plan.
+- **Stop-on-failure.** A failing test, broken typecheck, or unexpected output is a blocker, not a speed bump. Do not force through. Do not silently patch around it. Report and escalate.
+- At each phase boundary, re-open the plan — check off what's done, note what changed.
+
+### 5c — When reality diverges from the plan
+
+If implementation reveals the plan is wrong (missing case, wrong API shape, unforeseen dependency):
+
+1. **Stop coding.**
+2. **Update the plan first** — amend the affected tasks, flag the divergence explicitly.
+3. Re-confirm with the user if the divergence changes scope, success criteria, or any settled decision.
+4. Only then resume.
+
+Don't let code and plan drift. A plan that stops matching the code is worse than no plan — it actively misleads the next reader (including future you).
 
 ---
 
@@ -110,5 +134,8 @@ After approval:
 | Single-approach plan | First idea locked in without seeing alternatives |
 | Placeholder tasks | "add error handling" — no test, no diff, no way to verify |
 | Self-approval | Exiting the gate without explicit user signoff |
-| Plan-code drift | Phase 3 diverged from the plan; subsequent phases compound the mismatch |
+| Skipping 5a critique | "I just wrote the plan, it's fine" — approval ≠ correctness; fresh-eye review catches gaps |
+| Forcing through a failing verification | Turns a 1-task blocker into a 3-task debugging mess; escalate instead |
+| Silent divergence | Code veers from plan, plan isn't updated — subsequent tasks compound on a wrong premise |
+| Implementing on main | Skipping branch setup to "save time" — blocks rollback, pollutes history |
 | Over-planning | 200-line plan for a 5-line fix — wastes a session's attention budget |
