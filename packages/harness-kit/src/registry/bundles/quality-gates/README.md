@@ -8,6 +8,7 @@ Fresh verification before completion claims. The agent stops treating "looks cor
 |----------|------------------------|---------|
 | Skill | `.agents/skills/quality-gates/` | Verification protocol: map claims to proof, choose the right commands, run them fresh, report evidence honestly |
 | Rule | `.claude/rules/quality-gates.md` | Always-loaded gate - Claude must verify before saying work is done, fixed, ready, or safe to merge |
+| Hook | `.claude/hooks/quality-gates-stop.sh` (Stop event) | Fires at end-of-turn — reminds the agent to run fresh test/lint/typecheck/build before declaring done, or to say explicitly that verification was not run |
 
 ## How it works
 

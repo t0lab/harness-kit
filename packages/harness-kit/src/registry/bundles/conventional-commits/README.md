@@ -8,6 +8,7 @@ Conventional Commits format for AI-assisted git workflows — structured commit 
 |----------|----------------------|---------|
 | Skill | `.agents/skills/git-conventional/` | Commit format, type table, semver mapping, examples |
 | Rule | `.claude/rules/git-workflow.md` | Always-loaded pointer — Claude checks the skill before every commit |
+| Git hook | `.githooks/commit-msg.d/conventional-commits.sh` | Mechanical enforcement at commit time — rejects non-conformant subjects with an actionable error; exempts merge/revert/fixup/squash |
 
 ## How it works
 
