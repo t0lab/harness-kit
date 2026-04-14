@@ -1,6 +1,6 @@
 ---
 name: brave-search
-description: Guide for using Brave Search MCP tools — invoke when searching the web, news, images, videos, or local results via Brave. Use this whenever you need to search online or look something up.
+description: Guide for using Brave Search MCP tools (`brave_web_search`, `brave_news_search`, `brave_image_search`, `brave_video_search`, `brave_local_search`, `brave_summarizer`). Invoke when the user asks to search the web, news, images, videos, or local results AND Brave Search MCP is available. Do NOT trigger for generic lookups when other search tools (Tavily, built-in WebSearch) are more appropriate. Requires `BRAVE_API_KEY`.
 ---
 
 # Brave Search MCP
@@ -41,7 +41,7 @@ Operators combine: `site:docs.anthropic.com "tool use" ext:md`
 
 **count** — results per request:
 - Web/news: 1-20 (default 20)
-- Video/news: 1-50
+- Video: 1-50
 - Image: 1-200
 
 **safesearch** — `off`, `moderate` (default), `strict`
