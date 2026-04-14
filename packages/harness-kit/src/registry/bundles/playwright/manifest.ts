@@ -1,8 +1,19 @@
 import type { BundleManifest } from '../../types.js'
+
 export const manifest: BundleManifest = {
   name: 'playwright',
-  description: 'Playwright — accessibility snapshots, E2E test generation',
-  version: '1.0.0', experimental: false, defaultRole: 'browser',
-  common: { artifacts: [{ type: 'mcp', command: 'npx', args: ['@playwright/mcp@latest'] }] },
-  roles: { browser: { artifacts: [] } },
+  description: 'Playwright CLI — drive a real browser by accessibility-tree refs (snapshot → click eN → re-snapshot), plus skill distilled from OpenAI + Microsoft playwright skills',
+  version: '1.0.0',
+  experimental: false,
+  defaultRole: 'browser',
+  common: {
+    artifacts: [
+      { type: 'tool', installCmd: 'npx -y playwright install chromium' },
+      { type: 'skill', src: 'skills/playwright' },
+    ],
+    requires: ['node'],
+  },
+  roles: {
+    browser: { artifacts: [], recommended: true },
+  },
 }
