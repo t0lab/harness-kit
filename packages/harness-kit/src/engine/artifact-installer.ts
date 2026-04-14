@@ -66,6 +66,61 @@ async function fileExists(path: string): Promise<boolean> {
   }
 }
 
+const DISPATCHER_TEMPLATE = `#!/usr/bin/env bash
+# harness-kit canonical git-hook dispatcher. Runs every *.sh in <hook>.d/ in sorted order.
+# Any non-zero exit blocks the git operation. Do not edit — add checks via *.sh files in the .d/ directory.
+set -e
+HOOK_NAME="$(basename "$0")"
+HOOK_DIR="$(dirname "$0")/$HOOK_NAME.d"
+[ -d "$HOOK_DIR" ] || exit 0
+shopt -s nullglob
+for script in "$HOOK_DIR"/*.sh; do
+  [ -x "$script" ] || chmod +x "$script" 2>/dev/null || true
+  if ! bash "$script" "$@"; then
+    echo "" >&2
+    echo "✗ $HOOK_NAME check failed: $script" >&2
+    exit 1
+  fi
+done
+exit 0
+`
+
+async function installGitHook(
+  cwd: string,
+  bundleName: string,
+  hookName: string,
+  srcPath: string,
+  result: InstallResult
+): Promise<void> {
+  const hookDir = join(cwd, '.githooks')
+  const dispatcherPath = join(hookDir, hookName)
+  const dSubdir = join(hookDir, `${hookName}.d`)
+  const dTarget = join(dSubdir, `${bundleName}.sh`)
+
+  await mkdir(dSubdir, { recursive: true })
+
+  if (await fileExists(dispatcherPath)) {
+    const current = await readFile(dispatcherPath, 'utf-8')
+    if (current !== DISPATCHER_TEMPLATE) {
+      const legacyPath = join(dSubdir, '00-legacy.sh')
+      if (!(await fileExists(legacyPath))) {
+        await writeFile(legacyPath, current)
+        await chmod(legacyPath, 0o755)
+        result.warnings.push(`Migrated existing .githooks/${hookName} → .githooks/${hookName}.d/00-legacy.sh`)
+      }
+      await writeFile(dispatcherPath, DISPATCHER_TEMPLATE)
+      await chmod(dispatcherPath, 0o755)
+    }
+  } else {
+    await writeFile(dispatcherPath, DISPATCHER_TEMPLATE)
+    await chmod(dispatcherPath, 0o755)
+    result.warnings.push(`git-hook dispatcher installed at .githooks/${hookName} — run 'npx harness-kit activate' to enable`)
+  }
+
+  await copyFile(srcPath, dTarget)
+  await chmod(dTarget, 0o755)
+}
+
 export async function installBundle(
   cwd: string,
   bundle: BundleManifest,
@@ -130,25 +185,7 @@ export async function installBundle(
       }
     } else if (artifact.type === 'git-hook') {
       try {
-        const srcPath = join(PKG_ROOT, artifact.src)
-        const hookPath = join(cwd, '.githooks', artifact.hookName)
-        await mkdir(dirname(hookPath), { recursive: true })
-        if (await fileExists(hookPath)) {
-          const [srcBuf, destBuf] = await Promise.all([readFile(srcPath), readFile(hookPath)])
-          if (srcBuf.equals(destBuf)) {
-            // identical — nothing to do
-          } else if (options.yes) {
-            await copyFile(srcPath, hookPath)
-            await chmod(hookPath, 0o755)
-            result.warnings.push(`.githooks/${artifact.hookName} overwritten (--yes) — run 'npx harness-kit activate' to enable`)
-          } else {
-            result.warnings.push(`.githooks/${artifact.hookName} has local edits — not overwritten. Re-run with --yes to overwrite, or merge manually from ${artifact.src}`)
-          }
-        } else {
-          await copyFile(srcPath, hookPath)
-          await chmod(hookPath, 0o755)
-          result.warnings.push(`git-hook copied to .githooks/${artifact.hookName} — run 'npx harness-kit activate' to enable`)
-        }
+        await installGitHook(cwd, bundle.name, artifact.hookName, join(PKG_ROOT, artifact.src), result)
       } catch (err) {
         result.warnings.push(`Failed to install git-hook: ${artifact.src} (${err instanceof Error ? err.message : String(err)})`)
       }
