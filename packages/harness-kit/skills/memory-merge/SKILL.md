@@ -1,7 +1,6 @@
 ---
 name: memory-merge
 description: Resolve conflicts and consolidate duplicate memories in .claude/memory/. Invoke after git pull surfaces conflict markers in memory files, when two memory files cover overlapping topics, when project.md hot cache has grown past ~100 lines, or when the user asks to "clean up memory" / "merge memories". Do not run proactively without a trigger — merging rewrites team-shared files.
-tags: [memory, git, consolidation, merge-conflict]
 ---
 
 # Memory Merge

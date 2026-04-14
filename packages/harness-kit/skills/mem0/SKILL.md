@@ -1,7 +1,6 @@
 ---
 name: mem0
 description: Guide for using mem0 MCP tools — invoke whenever you add, search, or recall long-term memory across sessions. Use this before answering any user turn that references "last time", "we decided", or "my preferences".
-tags: [memory, mem0, mcp]
 ---
 
 # mem0 MCP

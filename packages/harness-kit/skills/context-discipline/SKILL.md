@@ -1,7 +1,6 @@
 ---
 name: context-discipline
 description: Context hygiene and task decomposition for long AI sessions — invoke when planning a large feature, when context feels bloated or stale, before starting a multi-session task, or when the user asks how to break down a complex task. Use this proactively when a task looks too large to finish in one shot.
-tags: [context, workflow, planning, decomposition]
 ---
 
 # Context Discipline

@@ -1,7 +1,6 @@
 ---
 name: spec-driven
 description: Spec before plan for non-trivial work. Invoke when the user asks for a feature, refactor, workflow change, API change, or any multi-step task where the why, scope, or acceptance criteria could drift. Do not let implementation become the de facto spec.
-tags: [spec, planning, product, design, workflow, docs]
 ---
 
 # Spec Driven

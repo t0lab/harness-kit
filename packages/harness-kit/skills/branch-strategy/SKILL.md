@@ -1,7 +1,6 @@
 ---
 name: branch-strategy
 description: Branch naming and PR sizing conventions — invoke before creating branches, opening PRs, or when a diff grows large. Use this whenever the user mentions branches, PRs, or pull requests.
-tags: [git, branch, pr, workflow]
 ---
 
 # Branch Strategy

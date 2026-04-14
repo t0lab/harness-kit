@@ -1,7 +1,6 @@
 ---
 name: brave-search
 description: Guide for using Brave Search MCP tools — invoke when searching the web, news, images, videos, or local results via Brave. Use this whenever you need to search online or look something up.
-tags: [search, brave, mcp, web]
 ---
 
 # Brave Search MCP

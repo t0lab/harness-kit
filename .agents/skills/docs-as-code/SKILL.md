@@ -6,7 +6,6 @@ description: >
   entry, or update architecture-overview; when starting a new feature implementation; when code
   has changed but docs haven't caught up; when asked "where should I document this?". This skill
   ensures every technical decision lives in the repo — not in people's heads, not in Slack.
-tags: [docs, documentation, spec, planning]
 ---
 
 # Docs-as-Code

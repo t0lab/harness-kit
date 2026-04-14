@@ -1,7 +1,6 @@
 ---
 name: memory
 description: Write, recall, and maintain long-term memory across sessions. Invoke when the user shares a preference or correction worth remembering, when they reference something they told you before, when you make a decision future sessions will need, or when MEMORY.md or .claude/memory/ files need to be updated. Use proactively — don't wait for "remember this."
-tags: [memory, persistence, context-engineering]
 ---
 
 # Memory

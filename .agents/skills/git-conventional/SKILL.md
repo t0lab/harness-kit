@@ -1,7 +1,6 @@
 ---
 name: git-conventional
 description: Guide writing Conventional Commits — invoke before committing
-tags: [git, commit, workflow]
 ---
 
 # Git Conventional Commits

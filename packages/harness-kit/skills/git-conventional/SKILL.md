@@ -1,7 +1,6 @@
 ---
 name: git-conventional
 description: Conventional Commits format guide — invoke before any git commit, when writing a commit message, or when the user asks how to format a commit. Use this proactively whenever you're about to run git commit, suggest a commit message, or help with git history. Also covers semantic versioning implications (feat = minor bump, fix = patch bump, feat! = major bump).
-tags: [git, commit, workflow, semver]
 ---
 
 # Conventional Commits

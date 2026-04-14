@@ -1,7 +1,6 @@
 ---
 name: security-review
 description: Dedicated security review for risky changes. Invoke before merging or approving changes that touch auth, permissions, secrets, shell commands, file or network boundaries, MCP/hooks/agent config, payments, or PII. Also invoke when the user asks for a security audit, threat review, or OWASP-style review.
-tags: [security, review, owasp, auth, secrets, injection, permissions, shell]
 ---
 
 # Security Review

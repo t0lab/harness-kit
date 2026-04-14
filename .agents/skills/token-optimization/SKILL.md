@@ -1,7 +1,6 @@
 ---
 name: token-optimization
 description: Provider-agnostic audit to reduce LLM token usage — prompts, system prompts, agent history, RAG, tool schemas. Trigger on "reduce tokens", "cut LLM cost", "prompt too long", "context too big", "context rot", "optimize prompt", or when the user shares a verbose prompt / costly agent trace asking how to make it cheaper or faster. DO NOT trigger on Anthropic SDK implementation work (`cache_control` placement, cache-hit debugging, batch/files/memory APIs) — defer to `claude-api`.
-tags: [llm, prompt-engineering, cost-optimization, context-management]
 ---
 
 # Token Optimization

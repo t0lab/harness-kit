@@ -1,7 +1,6 @@
 ---
 name: planning-first
 description: Brainstorm → spec → approval → plan → execute. Invoke before any multi-step, multi-file, or architecturally-novel task, and whenever the user says "implement X", "build Y", "add a feature", "refactor Z". Also invoke when executing an already-approved plan — the execution phase has its own discipline (critique before exec, verify after each task, stop on failure).
-tags: [planning, brainstorming, spec, design, execution, workflow]
 ---
 
 # Planning First

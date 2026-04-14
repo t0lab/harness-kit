@@ -1,7 +1,6 @@
 ---
 name: quality-gates
 description: Fresh verification before any completion claim. Invoke after implementation, after bug fixes, before saying "done", "fixed", "ready", or "safe to merge", and before commit/PR handoff. Do not infer success from code inspection or an old test run.
-tags: [verification, testing, linting, typecheck, build, workflow, quality]
 ---
 
 # Quality Gates

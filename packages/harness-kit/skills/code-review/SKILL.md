@@ -1,7 +1,6 @@
 ---
 name: code-review
 description: Self-review, PR review, and review-response protocols. Invoke proactively before any commit, push, or PR action; when reviewing someone else's diff; and when responding to review feedback.
-tags: [code-review, pr, git, workflow, quality]
 ---
 
 # Code Review

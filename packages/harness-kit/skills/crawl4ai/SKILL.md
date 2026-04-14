@@ -1,7 +1,6 @@
 ---
 name: crawl4ai
 description: crawl4ai web scraping — invoke when scraping websites, extracting structured data from pages, crawling documentation, processing YouTube transcripts or PDFs, or doing any multi-page deep crawl. Use this to pick the right tool from the 19 available and avoid context overflow on large results.
-tags: [scrape, crawl, extraction, llm, web]
 ---
 
 # crawl4ai

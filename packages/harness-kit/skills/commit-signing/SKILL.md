@@ -1,7 +1,6 @@
 ---
 name: commit-signing
 description: GPG and SSH commit signing setup, verification, and troubleshooting — invoke when the user asks about commit signing, signed commits, GPG keys, SSH signing, "verified" badges on GitHub, or when a git commit fails with a signing error. Run this proactively when setting up a new machine or new repo that requires signed commits.
-tags: [git, signing, gpg, ssh, security]
 ---
 
 # Commit Signing

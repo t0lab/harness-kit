@@ -1,7 +1,6 @@
 ---
 name: tdd
 description: Test-driven development for new behavior and bug fixes. Invoke before implementing user-visible logic, API changes, business rules, and regressions. Do not write production code for non-trivial behavior before a failing test or repro exists.
-tags: [tdd, testing, red-green-refactor, workflow, quality]
 ---
 
 # TDD

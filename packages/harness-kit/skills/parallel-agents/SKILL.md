@@ -1,7 +1,6 @@
 ---
 name: parallel-agents
 description: Protocol for dispatching parallel subagents — invoke when a task splits into 2+ independent domains, when research would flood main context with noise, or when the user says "in parallel", "fan out", "spawn agents", "delegate", "split this up". Run this before firing Task/Agent tool calls so the brief, scope, and output contract are right the first time.
-tags: [subagents, parallel, delegation, task-tool, context]
 ---
 
 # Parallel Subagents

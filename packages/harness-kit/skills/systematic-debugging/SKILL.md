@@ -1,7 +1,6 @@
 ---
 name: systematic-debugging
 description: Root-cause-first debugging for bugs, failing tests, flaky behavior, broken builds, and integrations. Invoke whenever something is failing or behaving unexpectedly. Do not patch symptoms, stack fixes, or guess under time pressure.
-tags: [debugging, root-cause, hypothesis, testing, workflow]
 ---
 
 # Systematic Debugging

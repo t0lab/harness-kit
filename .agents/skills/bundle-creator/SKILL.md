@@ -1,7 +1,6 @@
 ---
 name: bundle-creator
 description: Create a complete harness-kit bundle from scratch — manifest, artifacts, README, and test. Invoke when adding a new bundle to the registry, extending an existing bundle with new artifact types, or when the user says "add a bundle for X", "create a bundle", "I want to package X as a bundle". Always use this skill for any bundle contribution to harness-kit — it ensures nothing gets missed (manifest, registry registration, artifacts, test).
-tags: [bundle, registry, harness-kit, contributor]
 ---
 
 # Bundle Creator
@@ -130,7 +129,6 @@ The SKILL.md for bundle artifacts follows the same format as all skills:
 ---
 name: <bundle-name>
 description: <when to invoke — be specific and slightly pushy>
-tags: [...]
 ---
 ```
 

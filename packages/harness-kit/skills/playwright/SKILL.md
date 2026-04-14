@@ -1,7 +1,6 @@
 ---
 name: playwright
 description: Terminal-driven browser automation via the Playwright CLI — invoke when the agent needs to open a page, interact with a form, click through a flow, or verify UI state. Use this (not the test framework, not screenshot-only scraping) for live browser work. Triggers on "open the browser", "click through", "fill the form", "reproduce the UI bug", "check what the page shows".
-tags: [browser, playwright, cli, automation, e2e]
 ---
 
 # Playwright CLI

@@ -8,7 +8,6 @@ description: >
   plans, ADRs, design docs, spec engineering, or agent-readable documentation — even if they
   don't name this skill. If any decision, plan, or constraint lives only in chat or someone's
   head, this skill applies: an agent cannot see what is not in the repo.
-tags: [docs, documentation, planning, spec, adr, architecture, refactor, agents-md, workflow]
 ---
 
 # Docs-as-Code

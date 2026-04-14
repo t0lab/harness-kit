@@ -6,7 +6,6 @@ description: >
   changed, implementation progressed, or a Stop hook reminds you. The goal is that the next session
   starts with full project awareness instead of re-discovering context. Even if the user doesn't ask,
   invoke this proactively when the session has been substantive.
-tags: [memory, context, session, project]
 ---
 
 # Memory Compact
