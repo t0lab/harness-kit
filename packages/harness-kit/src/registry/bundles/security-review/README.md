@@ -8,6 +8,7 @@ Dedicated security review for risky diffs. The agent stops treating security as 
 |----------|------------------------|---------|
 | Skill | `.agents/skills/security-review/` | Focused security review protocol for auth, access control, secrets, injection, risky shell/file/network flows, and agent config |
 | Rule | `.claude/rules/security-review.md` | Always-loaded pointer - routes Claude to the skill before approving or calling risky changes safe |
+| Agent | `.claude/agents/security-reviewer.md` | Subagent for a dedicated security audit of a diff in a fresh context — trust-boundary mapping, vulnerability class pass, severity-ranked findings with fix directions |
 
 ## How it works
 
