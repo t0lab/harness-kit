@@ -1,8 +1,18 @@
 import type { BundleManifest } from '../../types.js'
+
 export const manifest: BundleManifest = {
   name: 'spec-driven',
-  description: 'Brainstorm → spec → plan → implement',
-  version: '1.0.0', experimental: false, defaultRole: 'workflow-preset',
-  common: { artifacts: [] },
-  roles: { 'workflow-preset': { artifacts: [], recommended: true } },
+  description: 'Spec as source of truth - write or update product/design specs before planning and implementing non-trivial work',
+  version: '1.0.0',
+  experimental: false,
+  defaultRole: 'workflow-preset',
+  common: {
+    artifacts: [
+      { type: 'skill', src: 'skills/spec-driven' },
+      { type: 'rule', src: 'rules/spec-driven.md' },
+    ],
+  },
+  roles: {
+    'workflow-preset': { artifacts: [], recommended: true },
+  },
 }
