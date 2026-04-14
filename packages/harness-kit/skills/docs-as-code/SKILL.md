@@ -1,18 +1,11 @@
 ---
 name: docs-as-code
-description: >
-  Repository-as-system-of-record protocol for agent-first projects. Invoke whenever the user
-  starts a feature or sprint, makes an architectural decision, captures tech debt, refactors
-  code that might leave docs stale, asks "where should I document this?", writes or audits
-  AGENTS.md/CLAUDE.md, or sets up a docs/ directory. Also invoke when the user mentions exec
-  plans, ADRs, design docs, spec engineering, or agent-readable documentation — even if they
-  don't name this skill. If any decision, plan, or constraint lives only in chat or someone's
-  head, this skill applies: an agent cannot see what is not in the repo.
+description: Repository-as-system-of-record protocol. Invoke when starting a feature/sprint with ≥3 tasks, making an architectural decision, capturing tech debt, refactoring code that may leave docs stale, auditing AGENTS.md/CLAUDE.md, setting up docs/, or asking where to document something. Covers exec plans, ADRs, design docs, and agent-readable doc structure.
 ---
 
 # Docs-as-Code
 
-**The repository is the system of record.** If a decision, plan, or constraint lives only in chat or someone's head, it doesn't exist for the agent. This skill is the router — load one or two references on demand, not everything at once.
+**The repository is the system of record.** If a decision, plan, or constraint lives only in chat or someone's head, it doesn't exist for the agent.
 
 ---
 
