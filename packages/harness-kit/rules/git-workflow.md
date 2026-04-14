@@ -3,6 +3,7 @@
 Before creating branches, commits, or PRs — check and read any installed skills:
 - `.agents/skills/branch-strategy/` — branch naming, PR size
 - `.agents/skills/git-conventional/` — commit message format
+- `.agents/skills/code-review/` — self-review checklist, Ship/Show/Ask, PR template
 
 If a path doesn't exist, the project hasn't adopted that convention — skip it.
 
