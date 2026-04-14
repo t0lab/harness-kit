@@ -10,7 +10,7 @@ File-based long-term memory for your agent — personal learnings stay on your m
 | Skill | `.claude/skills/memory/` | Protocol the agent follows when writing or recalling a memory |
 | Skill | `.claude/skills/memory-merge/` | Protocol for resolving git conflicts and consolidating duplicate memories |
 | Stop hook | `hooks/memory-stop-reminder.sh` | Reminds the agent to run the `memory` skill at end of session |
-| Pre-commit hook | `.githooks/pre-commit` | Blocks commits with unresolved conflict markers in `.claude/memory/` (tracked in git, shareable) |
+| Pre-commit check | `.githooks/pre-commit.d/local-memory.sh` | Blocks commits with unresolved conflict markers in `.claude/memory/`. Runs under the canonical dispatcher installed at `.githooks/pre-commit`, composing cleanly with other bundles' pre-commit checks |
 
 ## How it works
 
@@ -44,7 +44,7 @@ If you prefer not to share memory via git, add `.claude/memory/` to `.gitignore`
 **Hooks install automatically** when you `harness-kit add local-memory`:
 
 - Stop hook writes to `.claude/hooks/memory-stop-reminder.sh` and merges an entry into `.claude/settings.json`.
-- Pre-commit hook writes to `.githooks/pre-commit` (tracked in the repo, shared across the team).
+- Pre-commit check writes to `.githooks/pre-commit.d/local-memory.sh`; the engine installs/maintains a canonical dispatcher at `.githooks/pre-commit` that runs every `*.sh` in `.d/` in sorted order — so installing other bundles' pre-commit checks (e.g. `pre-commit-hooks`) composes without collision.
 - Activation is centralized in **`npx harness-kit activate`** — one command that runs all post-install wiring for any bundle (sets `core.hooksPath=.githooks`, plus any future activation steps).
 - **Teammates who clone the repo** run `npx harness-kit activate` once. Git does not persist `core.hooksPath` in-tree, so this is required per-clone. Add it to `package.json` `"postinstall"` or `Makefile` if you want it zero-friction.
 - The activate command is idempotent and skips safely if `cwd` is not the git top-level — no surprise side-effects in monorepo sub-dirs.
