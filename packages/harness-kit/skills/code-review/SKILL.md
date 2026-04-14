@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Self-review checklist, PR review protocol, and review-response protocol — invoke before committing, pushing, or opening a PR; when reviewing someone else's diff; and when receiving review feedback on your own PR. Use this whenever the user says "review my changes", "before I commit", "self-review my diff", "should I open a PR for this?", "review this PR", "address these review comments", "respond to this feedback", or asks what to check before merging. Run this proactively before any git commit or PR action, and before responding to any review comment.
+description: Self-review, PR review, and review-response protocols. Invoke proactively before any commit, push, or PR action; when reviewing someone else's diff; and when responding to review feedback.
 tags: [code-review, pr, git, workflow, quality]
 ---
 

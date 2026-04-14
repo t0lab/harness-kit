@@ -5,7 +5,7 @@ The repository is the system of record. If a decision, plan, or constraint isn't
 - Before starting any feature with ≥3 tasks: create or update a plan in `docs/exec-plans/active/`
 - Exec plan tasks must be committable units with observable done conditions — not week/phase buckets
 - Any architectural decision worth disagreeing about: write an ADR in `docs/design-docs/` with Context, Decision, Alternatives, and Consequences (Better / Worse / Must now be true)
-- After a refactor, stale docs are actively harmful. Grep for old names across `docs/`, `AGENTS.md`, `ARCHITECTURE.md`, JSDoc in source, test descriptions, tsconfig paths, `package.json` exports, and barrel files until only intentional hits remain
+- After a refactor, stale docs are actively harmful — grep for old names across docs and code references until only intentional hits remain (see skill for the full surface list)
 - Completed exec plans are historical record: annotate with a dated note, never rewrite the body
 - `AGENTS.md` is a table of contents, not an encyclopedia — target ~100 lines, hard ceiling 150
 
