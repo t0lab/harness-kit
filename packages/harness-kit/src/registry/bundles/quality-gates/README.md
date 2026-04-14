@@ -1,0 +1,31 @@
+# quality-gates
+
+Fresh verification before completion claims. The agent stops treating "looks correct" as evidence and proves "done" with repo-appropriate commands.
+
+## What it installs
+
+| Artifact | Path (in your project) | Purpose |
+|----------|------------------------|---------|
+| Skill | `.agents/skills/quality-gates/` | Verification protocol: map claims to proof, choose the right commands, run them fresh, report evidence honestly |
+| Rule | `.claude/rules/quality-gates.md` | Always-loaded gate - Claude must verify before saying work is done, fixed, ready, or safe to merge |
+
+## How it works
+
+The rule is always active, so the agent gets nudged at the exact moment quality usually slips: after implementation, after a bug fix, and right before it says "done". Instead of inferring success from a diff or a stale test run, it has to identify the claim it is making and run the command that proves it.
+
+The skill teaches a repo-aware verification loop:
+
+- match the claim to the required proof
+- inspect the changed surface before choosing commands
+- prefer the project's canonical scripts over ad-hoc commands
+- escalate from targeted tests to lint, typecheck, or build when the change touches wider surfaces
+- report blockers and residual risk explicitly when full verification is not possible
+
+This is a workflow gate, not a git hook. It changes what the agent says and does before completion. If you also want commits blocked on failures, pair it with `pre-commit-hooks`.
+
+## Pairs well with
+
+- `tdd` - TDD proves the behavior first; quality-gates makes sure the final completion claim is backed by fresh evidence
+- `pre-commit-hooks` - quality-gates works at the agent workflow layer, while pre-commit-hooks blocks bad commits in the developer's terminal
+- `code-review-gates` - one bundle verifies the code actually works; the other verifies the diff is review-ready and clearly explained
+- `systematic-debugging` - after root-cause work, quality-gates requires a real repro or regression check before calling the bug fixed
