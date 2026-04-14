@@ -6,22 +6,9 @@ import { manifest as playwrightM }   from './bundles/playwright/manifest.js'
 import { manifest as browserUseM }   from './bundles/browser-use/manifest.js'
 import { manifest as agentBrowserM } from './bundles/agent-browser/manifest.js'
 import { manifest as braveSearchM }  from './bundles/brave-search/manifest.js'
-import { manifest as exaM }          from './bundles/exa/manifest.js'
-import { manifest as perplexityM }   from './bundles/perplexity/manifest.js'
 import { manifest as firecrawlM }    from './bundles/firecrawl/manifest.js'
 import { manifest as crawl4aiM }     from './bundles/crawl4ai/manifest.js'
-import { manifest as jinaM }         from './bundles/jina/manifest.js'
-import { manifest as context7M }     from './bundles/context7/manifest.js'
-import { manifest as markitdownM }   from './bundles/markitdown/manifest.js'
-import { manifest as e2bM }          from './bundles/e2b/manifest.js'
 import { manifest as githubM }       from './bundles/github/manifest.js'
-import { manifest as notionM }       from './bundles/notion/manifest.js'
-import { manifest as slackM }        from './bundles/slack/manifest.js'
-import { manifest as vercelM }       from './bundles/vercel/manifest.js'
-import { manifest as cloudflareM }   from './bundles/cloudflare/manifest.js'
-import { manifest as supabaseM }     from './bundles/supabase/manifest.js'
-import { manifest as postgresqlM }   from './bundles/postgresql/manifest.js'
-import { manifest as obsidianM }     from './bundles/obsidian/manifest.js'
 import { manifest as mempalaceM }    from './bundles/mempalace/manifest.js'
 import { manifest as claudeMemM }    from './bundles/claude-mem/manifest.js'
 import { manifest as docsAsCodeM }   from './bundles/docs-as-code/manifest.js'
@@ -43,10 +30,8 @@ import { manifest as noMemoryM }              from './bundles/no-memory/manifest
 
 const ALL_BUNDLES: BundleManifest[] = [
   tavilyM, mem0M, playwrightM, browserUseM, agentBrowserM,
-  braveSearchM, exaM, perplexityM, firecrawlM, crawl4aiM,
-  jinaM, context7M, markitdownM, e2bM, githubM,
-  notionM, slackM, vercelM, cloudflareM, supabaseM,
-  postgresqlM, obsidianM, mempalaceM, claudeMemM, docsAsCodeM,
+  braveSearchM, firecrawlM, crawl4aiM, githubM,
+  mempalaceM, claudeMemM, docsAsCodeM,
   conventionalCommitsM, branchStrategyM, preCommitHooksM, commitSigningM,
   specDrivenM, tddM, planningFirstM, qualityGatesM, parallelAgentsM,
   systematicDebuggingM, codeReviewGatesM, securityReviewM, contextDisciplineM,

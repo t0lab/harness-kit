@@ -5,12 +5,7 @@ export type BundleCategory =
   | 'browser'
   | 'search'
   | 'scrape'
-  | 'library-docs'
-  | 'doc-conversion'
-  | 'code-execution'
   | 'dev-integration'
-  | 'cloud-infra'
-  | 'observability'
   | 'mcp-tool'
 
 export type ClaudeHookType = 'PreToolUse' | 'PostToolUse' | 'Stop' | 'Notification'
@@ -21,12 +16,12 @@ export type Artifact =
   | { type: 'skill';    src: string }
   | { type: 'tool';     installCmd: string }
   | { type: 'plugin';   installSource: string }
-  | { type: 'hook';     src: string; dest: string; hookType: ClaudeHookType; matcher?: string }
+  | { type: 'hook';     src: string; hookType: ClaudeHookType; matcher?: string }
   | { type: 'git-hook'; src: string; hookName: GitHookName }
-  | { type: 'rule';     src: string; dest: string }
-  | { type: 'agent';    src: string; dest: string }
-  | { type: 'command';  src: string; dest: string }
-  | { type: 'file';     src: string; dest: string }
+  | { type: 'rule';     src: string }
+  | { type: 'agent';    src: string }
+  | { type: 'command';  src: string }
+  | { type: 'file';     src: string }
 
 export interface EnvVar {
   key: string

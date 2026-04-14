@@ -26,12 +26,7 @@ export interface WizardContext {
   browserTools: string[]
   webSearch: string[]
   webScrape: string[]
-  libraryDocs: string[]
-  docConversion: string[]
-  codeExecution: string[]
   devIntegrations: string[]
-  cloudInfra: string[]
-  observability: string[]
 }
 
 export type WizardEvent =

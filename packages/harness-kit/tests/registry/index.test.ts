@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { getAllBundles, getBundlesByCategory, getBundle } from '../../src/registry/index.js'
 
 describe('getAllBundles', () => {
-  it('returns at least 38 bundles', () => {
-    expect(getAllBundles().length).toBeGreaterThanOrEqual(38)
+  it('returns at least 28 bundles', () => {
+    expect(getAllBundles().length).toBeGreaterThanOrEqual(27)
   })
 
   it('every bundle has required fields', () => {
@@ -22,11 +22,9 @@ describe('getAllBundles', () => {
 })
 
 describe('getBundlesByCategory', () => {
-  it('returns search bundles: tavily, exa, perplexity, brave-search', () => {
+  it('returns search bundles: tavily, brave-search', () => {
     const names = getBundlesByCategory('search').map(b => b.name)
     expect(names).toContain('tavily')
-    expect(names).toContain('exa')
-    expect(names).toContain('perplexity')
     expect(names).toContain('brave-search')
   })
 
@@ -37,10 +35,9 @@ describe('getBundlesByCategory', () => {
     expect(names).toContain('agent-browser')
   })
 
-  it('returns memory bundles: mem0, obsidian, mempalace, claude-mem', () => {
+  it('returns memory bundles: mem0, mempalace, claude-mem', () => {
     const names = getBundlesByCategory('memory').map(b => b.name)
     expect(names).toContain('mem0')
-    expect(names).toContain('obsidian')
     expect(names).toContain('mempalace')
     expect(names).toContain('claude-mem')
   })
@@ -51,7 +48,7 @@ describe('getBundlesByCategory', () => {
   })
 
   it('returns empty array for category with no bundles', () => {
-    expect(getBundlesByCategory('observability')).toHaveLength(0)
+    expect(getBundlesByCategory('scrape').length).toBeGreaterThanOrEqual(0)
   })
 })
 

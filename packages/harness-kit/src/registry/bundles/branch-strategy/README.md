@@ -1,0 +1,33 @@
+# branch-strategy
+
+Branch naming conventions and PR size limits.
+
+## Artifacts
+
+| Type | Detail |
+|------|--------|
+| `skill` | `skills/branch-strategy` (local) — branch naming, PR sizing |
+| `rule` | `rules/git-workflow.md` — git workflow router, points to installed skills |
+
+## What it does
+
+Teaches Claude your team's branching conventions:
+- Branch pattern: `feature/`, `fix/`, `chore/`, `docs/`, `refactor/`, `test/` + kebab-case
+- PR target: < 400 lines, with strategies for splitting larger changes
+- Protected branches: no direct commits to `main`
+
+The rule file acts as a router — before git operations, Claude checks which git skills are installed and reads them.
+
+## Setup
+
+Run `harness-kit add branch-strategy`
+- Copies branch-strategy skill to `.agents/skills/`
+- Copies git-workflow rule to `.claude/rules/`
+
+## Related bundles
+
+| Bundle | What it adds |
+|--------|-------------|
+| `conventional-commits` | Commit message format (pairs well) |
+| `pre-commit-hooks` | Lint + typecheck + test before commit |
+| `commit-signing` | GPG/SSH signing |

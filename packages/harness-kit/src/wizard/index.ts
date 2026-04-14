@@ -23,12 +23,7 @@ const initialContext: WizardContext = {
   browserTools: getRecommendedByCategory('browser').map(b => b.name),
   webSearch: getRecommendedByCategory('search').map(b => b.name),
   webScrape: getRecommendedByCategory('scrape').map(b => b.name),
-  libraryDocs: getRecommendedByCategory('library-docs').map(b => b.name),
-  docConversion: [],
-  codeExecution: [],
   devIntegrations: getRecommendedByCategory('dev-integration').map(b => b.name),
-  cloudInfra: [],
-  observability: [],
 }
 
 export const wizardMachine = createMachine({

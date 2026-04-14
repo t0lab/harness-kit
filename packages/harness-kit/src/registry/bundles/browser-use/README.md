@@ -1,0 +1,53 @@
+# browser-use
+
+Playwright browser automation via persistent CLI daemon. Fine-grained control with ~50ms latency per command.
+
+## Artifacts
+
+| Type | Detail |
+|------|--------|
+| `tool` | `pip install browser-use && browser-use setup` |
+| `skill` | [browser-use/browser-use](https://github.com/browser-use/browser-use) — CLI commands, workflow patterns |
+
+## Requirements
+
+- Python 3.11+
+- Chrome/Chromium installed
+
+## What it does
+
+CLI tool with a background daemon that keeps the browser alive between commands. Claude controls the browser directly via shell commands — navigate, click, type, extract data, take screenshots.
+
+Key commands:
+- `browser-use open <url>` — navigate
+- `browser-use state` — discover clickable elements with indices
+- `browser-use click <index>` / `browser-use input <index> "text"` — interact by index
+- `browser-use screenshot` — capture page
+- `browser-use eval "js code"` — run JavaScript
+- `browser-use get html --selector "css"` — extract content
+
+Browser modes: headless (default), `--headed` (visible), `--profile` (real Chrome with logins), cloud.
+
+## Setup
+
+1. Ensure Python 3.11+ and Chrome are installed
+2. Run `harness-kit add browser-use`
+3. Run `browser-use doctor` to verify installation
+
+## vs agent-browser
+
+| | browser-use | agent-browser |
+|---|---|---|
+| Runtime | Python, Playwright | Node.js, Playwright |
+| Approach | CLI daemon, element indices | Accessibility tree snapshots |
+| Page representation | `state` command (clickable elements) | A11y tree (~200-400 tokens) |
+| Screenshot | Built-in `screenshot` command | Not needed (text-based) |
+| Session | Persistent daemon across commands | Per-command |
+| Cloud option | `browser-use cloud connect` | No |
+
+## Notes
+
+- Daemon keeps browser alive — no startup cost after first `open`
+- `browser-use state` is the key command — always run it first to get element indices
+- Aliases: `bu`, `browser`, `browseruse`
+- Skill source: [skills.sh/browser-use/browser-use](https://skills.sh/browser-use/browser-use/browser-use)

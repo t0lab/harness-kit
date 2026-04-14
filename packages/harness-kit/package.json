@@ -19,6 +19,8 @@
     "dist",
     "registry",
     "presets",
+    "rules",
+    "skills",
     "templates",
     "README.md"
   ],

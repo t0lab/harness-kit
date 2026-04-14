@@ -19,7 +19,7 @@ function makeBundle(name: string, defaultRole: string, experimental = false): Bu
 
 const BUNDLES = [
   makeBundle('tavily', 'search'),
-  makeBundle('exa', 'search'),
+  makeBundle('brave-search', 'search'),
   makeBundle('tdd', 'workflow-preset'),
 ]
 
@@ -27,7 +27,7 @@ describe('groupBundlesByDefaultRole', () => {
   it('groups bundles by defaultRole', () => {
     const groups = groupBundlesByDefaultRole(BUNDLES)
     expect(groups.get('search')?.map((b) => b.name)).toEqual(
-      expect.arrayContaining(['tavily', 'exa'])
+      expect.arrayContaining(['tavily', 'brave-search'])
     )
     expect(groups.get('workflow-preset')?.map((b) => b.name)).toContain('tdd')
   })

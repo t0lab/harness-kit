@@ -70,32 +70,7 @@ export async function stepHarnessConfig(ctx: WizardContext): Promise<Partial<Wiz
   })
   if (p.isCancel(webScrape)) { p.cancel('Cancelled'); process.exit(0) }
 
-  // ── 7. Library docs (from registry) ──────────────────────────────────────
-  const libraryDocs = await p.multiselect({
-    message: 'Library docs:',
-    initialValues: getRecommendedByCategory('library-docs').map(b => b.name),
-    options: bundleOptions('library-docs'),
-    required: false,
-  })
-  if (p.isCancel(libraryDocs)) { p.cancel('Cancelled'); process.exit(0) }
-
-  // ── 8. Document conversion (from registry) ───────────────────────────────
-  const docConversion = await p.multiselect({
-    message: 'Document conversion:',
-    options: bundleOptions('doc-conversion'),
-    required: false,
-  })
-  if (p.isCancel(docConversion)) { p.cancel('Cancelled'); process.exit(0) }
-
-  // ── 9. Code execution sandbox (from registry) ────────────────────────────
-  const codeExecution = await p.multiselect({
-    message: 'Code execution sandbox:',
-    options: bundleOptions('code-execution'),
-    required: false,
-  })
-  if (p.isCancel(codeExecution)) { p.cancel('Cancelled'); process.exit(0) }
-
-  // ── 10. Dev integrations (from registry) ─────────────────────────────────
+  // ── 7. Dev integrations (from registry) ──────────────────────────────────
   const devIntegrations = await p.multiselect({
     message: 'Dev integrations:',
     initialValues: getRecommendedByCategory('dev-integration').map(b => b.name),
@@ -104,27 +79,6 @@ export async function stepHarnessConfig(ctx: WizardContext): Promise<Partial<Wiz
   })
   if (p.isCancel(devIntegrations)) { p.cancel('Cancelled'); process.exit(0) }
 
-  // ── 11. Cloud & infra (from registry) ────────────────────────────────────
-  const cloudInfra = await p.multiselect({
-    message: 'Cloud & infra:',
-    options: bundleOptions('cloud-infra'),
-    required: false,
-  })
-  if (p.isCancel(cloudInfra)) { p.cancel('Cancelled'); process.exit(0) }
-
-  // ── 12. Observability (from registry — skip if no bundles registered) ─────
-  let observability: string[] = []
-  const observabilityOptions = bundleOptions('observability')
-  if (observabilityOptions.length > 0) {
-    const result = await p.multiselect({
-      message: 'Observability:',
-      options: observabilityOptions,
-      required: false,
-    })
-    if (p.isCancel(result)) { p.cancel('Cancelled'); process.exit(0) }
-    observability = result as string[]
-  }
-
   return {
     gitWorkflow: gitWorkflow as string[],
     memory: memory as string,
@@ -132,11 +86,6 @@ export async function stepHarnessConfig(ctx: WizardContext): Promise<Partial<Wiz
     browserTools: browserTools as string[],
     webSearch: webSearch as string[],
     webScrape: webScrape as string[],
-    libraryDocs: libraryDocs as string[],
-    docConversion: docConversion as string[],
-    codeExecution: codeExecution as string[],
     devIntegrations: devIntegrations as string[],
-    cloudInfra: cloudInfra as string[],
-    observability,
   }
 }

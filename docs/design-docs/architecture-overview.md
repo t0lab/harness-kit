@@ -12,7 +12,7 @@ Tài liệu này là bản đồ API surface của toàn bộ codebase. Mục đ
 
 | Export | Loại | Mô tả |
 |--------|------|-------|
-| `BundleCategory` | `type` | Union của 13 category string: `'git-workflow' \| 'workflow-preset' \| 'memory' \| 'browser' \| 'search' \| 'scrape' \| 'library-docs' \| 'doc-conversion' \| 'code-execution' \| 'dev-integration' \| 'cloud-infra' \| 'observability' \| 'mcp-tool'` |
+| `BundleCategory` | `type` | Union của 8 category string: `'git-workflow' \| 'workflow-preset' \| 'memory' \| 'browser' \| 'search' \| 'scrape' \| 'dev-integration' \| 'mcp-tool'` |
 | `ClaudeHookType` | `type` | Union: `'PreToolUse' \| 'PostToolUse' \| 'Stop' \| 'Notification'` |
 | `GitHookName` | `type` | Union: `'pre-commit' \| 'commit-msg' \| 'pre-push'` |
 | `Artifact` | `type` | Discriminated union (10 variants) cho từng loại artifact: `mcp`, `skill`, `tool`, `plugin`, `hook`, `git-hook`, `rule`, `agent`, `command`, `file` |

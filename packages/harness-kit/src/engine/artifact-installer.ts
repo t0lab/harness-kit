@@ -1,7 +1,13 @@
 import type { BundleManifest } from '@harness-kit/core'
 import { execaCommand } from 'execa'
+import { copyFile, mkdir } from 'node:fs/promises'
+import { basename, dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { readMcpJson, writeMcpJson } from '../config/mcp-reader.js'
 import { getRoleData } from '../utils/bundle-utils.js'
+
+const __dir = dirname(fileURLToPath(import.meta.url))
+const PKG_ROOT = __dir.includes('/dist') ? join(__dir, '..') : join(__dir, '../..')
 
 export interface InstallResult {
   mcpUpdated: boolean
@@ -44,9 +50,21 @@ export async function installBundle(
       }
     } else if (artifact.type === 'skill') {
       try {
-        await runInteractive(`npx skills add ${artifact.src}`, cwd)
+        const src = artifact.src.startsWith('skills/')
+          ? join(PKG_ROOT, artifact.src)
+          : artifact.src
+        await runInteractive(`npx skills add ${src}`, cwd)
       } catch {
         result.warnings.push(`Failed: npx skills add ${artifact.src}`)
+      }
+    } else if (artifact.type === 'rule') {
+      try {
+        const srcPath = join(PKG_ROOT, artifact.src)
+        const destPath = join(cwd, '.claude/rules', basename(artifact.src))
+        await mkdir(dirname(destPath), { recursive: true })
+        await copyFile(srcPath, destPath)
+      } catch {
+        result.warnings.push(`Failed to copy rule: ${artifact.src}`)
       }
     } else if (artifact.type !== 'mcp') {
       result.warnings.push(`artifact type '${artifact.type}' not yet supported — add manually`)

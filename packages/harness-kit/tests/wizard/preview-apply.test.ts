@@ -16,12 +16,7 @@ const baseCtx: WizardContext = {
   browserTools: [],
   webSearch: [],
   webScrape: [],
-  libraryDocs: [],
-  docConversion: [],
-  codeExecution: [],
   devIntegrations: [],
-  cloudInfra: [],
-  observability: [],
 }
 
 describe('collectSelectedBundles', () => {
@@ -31,16 +26,12 @@ describe('collectSelectedBundles', () => {
       browserTools: ['playwright'],
       webSearch: ['tavily'],
       webScrape: ['firecrawl'],
-      libraryDocs: ['context7'],
-      codeExecution: ['e2b'],
       devIntegrations: ['github'],
     }
     const bundles = collectSelectedBundles(ctx)
     expect(bundles).toContainEqual({ name: 'playwright', role: 'browser' })
     expect(bundles).toContainEqual({ name: 'tavily', role: 'search' })
     expect(bundles).toContainEqual({ name: 'firecrawl', role: 'scrape' })
-    expect(bundles).toContainEqual({ name: 'context7', role: 'library-docs' })
-    expect(bundles).toContainEqual({ name: 'e2b', role: 'code-execution' })
     expect(bundles).toContainEqual({ name: 'github', role: 'dev-integration' })
   })
 

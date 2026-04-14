@@ -4,7 +4,10 @@ export const manifest: BundleManifest = {
   description: 'Brave Search — independent index, privacy-focused',
   version: '1.0.0', experimental: false, defaultRole: 'search',
   common: {
-    artifacts: [{ type: 'mcp', command: 'npx', args: ['-y', '@modelcontextprotocol/server-brave-search'], env: { BRAVE_API_KEY: '${BRAVE_API_KEY}' } }],
+    artifacts: [
+      { type: 'mcp', command: 'npx', args: ['-y', '@brave/brave-search-mcp-server'], env: { BRAVE_API_KEY: '${BRAVE_API_KEY}' } },
+      { type: 'skill', src: 'skills/brave-search' },
+    ],
     env: [{ key: 'BRAVE_API_KEY', description: 'API key from brave.com/search/api', required: true }],
   },
   roles: { search: { artifacts: [] } },
