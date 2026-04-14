@@ -12,7 +12,7 @@ Cloud-hosted long-term memory. mem0's LLM extracts + dedupes facts automatically
 1. **Search before you answer.** Call `search_memories` on every user turn that could benefit from prior context. Memories mutate between sessions; stale in-context recall is the #1 bug.
 2. **Always scope by `user_id`.** Omitting it pollutes the default bucket and makes retrieval useless across users. Add `agent_id` / `run_id` when the workflow has multiple agents or sessions.
 3. **Pass messages, not summaries.** `add_memory` expects the raw `messages[]` array. mem0's extractor picks salient facts. Do NOT pre-summarize (`"User said X"`) — that bloats storage and degrades search.
-4. **Add at end-of-turn, not mid-turn.** One `add_memory` call per resolved task, after the answer. Extraction costs an LLM call (~gpt-4.1-nano) — budget for it.
+4. **Add at end-of-turn, not mid-turn.** One `add_memory` call per resolved task, after the answer. Extraction costs an LLM call — budget for it.
 
 ## Tools
 
