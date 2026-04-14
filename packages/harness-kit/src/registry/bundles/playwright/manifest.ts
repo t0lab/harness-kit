@@ -8,7 +8,7 @@ export const manifest: BundleManifest = {
   defaultRole: 'browser',
   common: {
     artifacts: [
-      { type: 'tool', installCmd: 'npx -y playwright install chromium' },
+      { type: 'tool', installCmd: 'npm install -g @playwright/cli@latest && playwright-cli install-browser chromium' },
       { type: 'skill', src: 'skills/playwright' },
     ],
     requires: ['node'],

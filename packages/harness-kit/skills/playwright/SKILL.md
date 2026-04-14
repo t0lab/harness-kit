@@ -11,13 +11,14 @@ Drive a real browser from the terminal. Snapshot the accessibility tree, interac
 
 ## Prerequisites
 
-First time on a machine, ensure Playwright and browser binaries are installed:
+`@playwright/cli` is a separate Microsoft package built for coding agents — distinct from `@playwright/test` (E2E framework) and `@playwright/mcp` (MCP server). Install once per machine:
 
 ```bash
-npx playwright install chromium
+npm install -g @playwright/cli@latest
+playwright-cli install-browser chromium
 ```
 
-The `npx @playwright/mcp` or `npx playwright-cli` entry points run the CLI without a global install. If a command fails with "browser not installed," run the install step above and retry.
+If a command fails with "browser not installed," re-run the second line. Use `npx @playwright/cli@latest <cmd>` to run without a global install.
 
 ---
 
