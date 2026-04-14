@@ -21,7 +21,7 @@ export interface WizardContext {
   detectedIssues: DetectedIssue[]
   installSelected: boolean
   gitWorkflow: string[]
-  memory: string              // 'none' | 'file-based' | bundle name
+  memory: string              // bundle name (e.g. 'local-memory'); '' = none selected
   workflowPresets: string[]   // 'docs-as-code' replaces old docsAsCode boolean
   browserTools: string[]
   webSearch: string[]

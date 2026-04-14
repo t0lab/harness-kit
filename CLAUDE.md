@@ -10,7 +10,7 @@ TypeScript 5, Node 22, pnpm workspaces, tsup (build), vitest (tests), commander 
 
 ## Key Principles
 
-- **Shadcn model**: copy artifacts into target project; user owns them, no runtime dep
+- **Copy-own distribution**: copy artifacts into target project; user owns them, no runtime dep
 - **Just enough**: every module must justify its context window cost
 - **TDD**: write failing test → implement → pass → commit
 
@@ -21,6 +21,20 @@ TypeScript 5, Node 22, pnpm workspaces, tsup (build), vitest (tests), commander 
 - All new functionality starts with a failing vitest test
 - Build: `pnpm build` from root or `pnpm --filter <pkg> build` per package
 - No `Co-Authored-By` lines in commits
+
+## Docs
+
+> Repository là system of record. Mọi quyết định sống trong repo — không trong Slack, không trong đầu người.
+
+| Khi cần...                              | Đọc                                    |
+|-----------------------------------------|----------------------------------------|
+| Hiểu layer nào code này thuộc về        | `ARCHITECTURE.md`                      |
+| Hiểu tại sao một quyết định được đưa ra | `docs/design-docs/core-beliefs.md`     |
+| Biết product đang đi đâu                | `docs/DESIGN.md`                       |
+| Xem spec của một feature cụ thể         | `docs/design-docs/<feature>.md`        |
+| Xem plan đang active                    | `docs/exec-plans/active/`              |
+| Biết technical debt nào đã biết         | `docs/exec-plans/tech-debt-tracker.md` |
+| Dùng commander / clack / listr2 đúng    | `docs/references/<lib>.md`             |
 
 ## Structure
 

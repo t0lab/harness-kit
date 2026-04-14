@@ -64,8 +64,10 @@ examples/               → manual test projects (not in pnpm workspace)
 
 ## Specs & Plans
 
-- Design specs: `docs/specs/`
-- Implementation plans: `docs/plans/`
+- Design specs: `docs/design-docs/`
+- Kế hoạch đang active: `docs/exec-plans/active/`
+- Kế hoạch hoàn thành: `docs/exec-plans/completed/`
+- Technical debt: `docs/exec-plans/tech-debt-tracker.md`
 
 ## Key Files
 
