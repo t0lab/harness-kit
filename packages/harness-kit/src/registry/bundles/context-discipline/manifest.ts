@@ -1,8 +1,13 @@
 import type { BundleManifest } from '../../types.js'
 export const manifest: BundleManifest = {
   name: 'context-discipline',
-  description: 'Fresh session rules, task decomp guide',
+  description: 'Context hygiene rules and task decomposition guide — targeted reads, /clear and /compact discipline, session-sized chunk planning',
   version: '1.0.0', experimental: false, defaultRole: 'workflow-preset',
-  common: { artifacts: [] },
-  roles: { 'workflow-preset': { artifacts: [] } },
+  common: {
+    artifacts: [
+      { type: 'skill', src: 'skills/context-discipline' },
+      { type: 'rule', src: 'rules/context-discipline.md' },
+    ],
+  },
+  roles: { 'workflow-preset': { artifacts: [], recommended: true } },
 }
