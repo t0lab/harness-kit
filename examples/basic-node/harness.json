@@ -5,6 +5,7 @@
     "node-express"
   ],
   "bundles": [
-    "agent-browser"
+    "agent-browser",
+    "commit-signing"
   ]
 }

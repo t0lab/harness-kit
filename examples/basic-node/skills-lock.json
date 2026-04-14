@@ -5,6 +5,11 @@
       "source": "vercel-labs/agent-browser",
       "sourceType": "github",
       "computedHash": "91782f423f6fad0fe4e2159350f2eb8c3cf66cfa4d2387b2c8d927d443c9a603"
+    },
+    "commit-signing": {
+      "source": "/home/liamlee/t0lab/harness-kit/packages/harness-kit/skills/commit-signing",
+      "sourceType": "local",
+      "computedHash": "0bd55648a6c3c66b2137881912ba6362cf61b04ab33dc16cae1be814765ad392"
     }
   }
 }
