@@ -1,4 +1,4 @@
-import type { BundleManifest } from '../../types.js'
+import type { BundleManifest } from '../../../types.js'
 export const manifest: BundleManifest = {
   name: 'conventional-commits',
   description: 'Conventional Commits format with semantic versioning — type/scope/breaking-change protocol for machine-readable git history, enforced at commit-msg via a git hook',

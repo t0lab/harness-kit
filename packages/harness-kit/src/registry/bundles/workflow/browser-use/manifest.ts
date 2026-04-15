@@ -1,4 +1,4 @@
-import type { BundleManifest } from '../../types.js'
+import type { BundleManifest } from '../../../types.js'
 export const manifest: BundleManifest = {
   name: 'browser-use',
   description: 'browser-use — Playwright browser automation via CLI daemon, natural language + fine-grained control',

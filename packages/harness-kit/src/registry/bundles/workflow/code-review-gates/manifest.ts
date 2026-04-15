@@ -1,4 +1,4 @@
-import type { BundleManifest } from '../../types.js'
+import type { BundleManifest } from '../../../types.js'
 export const manifest: BundleManifest = {
   name: 'code-review-gates',
   description: 'Self-review + PR review + review-response protocol — 7-point self-check, Ship/Show/Ask, and READ→UNDERSTAND→VERIFY→EVALUATE→RESPOND→IMPLEMENT when addressing feedback (no performative agreement)',

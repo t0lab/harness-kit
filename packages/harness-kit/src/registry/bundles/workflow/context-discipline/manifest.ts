@@ -1,4 +1,4 @@
-import type { BundleManifest } from '../../types.js'
+import type { BundleManifest } from '../../../types.js'
 export const manifest: BundleManifest = {
   name: 'context-discipline',
   description: 'Context hygiene rules and task decomposition guide — targeted reads, /clear and /compact discipline, session-sized chunk planning',

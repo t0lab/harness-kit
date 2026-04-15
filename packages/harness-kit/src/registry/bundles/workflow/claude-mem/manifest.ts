@@ -1,4 +1,4 @@
-import type { BundleManifest } from '../../types.js'
+import type { BundleManifest } from '../../../types.js'
 export const manifest: BundleManifest = {
   name: 'claude-mem',
   description: 'Session memory for Claude Code — hybrid semantic + keyword search, auto-compression (AGPL-3.0)',
