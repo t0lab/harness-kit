@@ -2,14 +2,15 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'express',
-  description: 'Express — middleware, routing, error handling, request lifecycle',
+  description: 'Express — production server: middleware, routing, auth, error handling, DB integration',
   version: '1.0.0',
-  experimental: true,
+  experimental: false,
   defaultRole: 'techstack',
   common: {
     artifacts: [
       { type: 'stack', ref: 'typescript' },
-      // TODO: add rule + skill artifacts in follow-up
+      { type: 'skill', src: 'https://github.com/aj-geddes/useful-ai-prompts --skill nodejs-express-server' },
+      { type: 'rule', src: 'rules/express.md' },
     ],
   },
   roles: {
