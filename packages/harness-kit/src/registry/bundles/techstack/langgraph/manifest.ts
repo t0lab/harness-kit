@@ -2,14 +2,14 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'langgraph',
-  description: 'LangGraph — StateGraph, nodes, conditional edges, checkpointers, human-in-the-loop',
+  description: 'LangGraph — StateGraph, state schemas, nodes, edges, Command, Send, streaming',
   version: '1.0.0',
-  experimental: true,
+  experimental: false,
   defaultRole: 'techstack',
   common: {
     artifacts: [
-
-      // TODO: add rule + skill artifacts in follow-up
+      { type: 'skill', src: 'https://github.com/langchain-ai/langchain-skills --skill langgraph-fundamentals' },
+      { type: 'rule', src: 'rules/langgraph.md' },
     ],
   },
   roles: {
