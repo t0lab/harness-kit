@@ -22,7 +22,7 @@ export interface AddResult {
 export async function executeAdd(
   cwd: string,
   bundleName: string,
-  opts: { role?: string; yes?: boolean }
+  opts: { role?: string; yes?: boolean; silent?: boolean }
 ): Promise<AddResult> {
   if (!(await harnessExists(cwd))) {
     throw new Error('NOT_INITIALIZED: harness.json not found. Run harness-kit init first.')
@@ -42,7 +42,10 @@ export async function executeAdd(
   const config = await readHarnessConfig(cwd)
   const alreadyInstalled = config.bundles.includes(bundleName)
 
-  const result = await installBundle(cwd, bundle, role, opts.yes ? { yes: true } : {})
+  const installOpts: { yes?: boolean; silent?: boolean } = {}
+  if (opts.yes) installOpts.yes = true
+  if (opts.silent) installOpts.silent = true
+  const result = await installBundle(cwd, bundle, role, installOpts)
 
   const newBundles = alreadyInstalled ? config.bundles : [...config.bundles, bundleName]
 
@@ -78,7 +81,7 @@ function printAddResult(result: AddResult): void {
 async function runAdd(
   cwd: string,
   bundleName: string,
-  opts: { role?: string; yes?: boolean }
+  opts: { role?: string; yes?: boolean; silent?: boolean }
 ): Promise<AddResult> {
   try {
     return await executeAdd(cwd, bundleName, opts)

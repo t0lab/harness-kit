@@ -1,5 +1,4 @@
 import * as p from '@clack/prompts'
-import { execa } from 'execa'
 import { detectTooling } from '../detector.js'
 import type { WizardContext } from '../types.js'
 
@@ -17,30 +16,16 @@ export async function stepDetectTooling(ctx: WizardContext): Promise<Partial<Wiz
   }
 
   const installable = issues.filter((i) => !i.found && i.installCmd)
-  if (installable.length === 0) return { detectedIssues: issues }
+  if (installable.length === 0) return { detectedIssues: issues, toolsToInstall: [] }
 
   const toInstall = await p.multiselect({
-    message: 'Install missing tools?',
+    message: 'Install missing tools? (will run after wizard completes)',
     options: installable.map((i) => ({ label: i.label, value: i.label, ...(i.installCmd ? { hint: i.installCmd } : {}) })),
     required: false,
   })
   if (p.isCancel(toInstall)) { p.cancel('Cancelled'); process.exit(0) }
 
   const selected = toInstall as string[]
-  if (selected.length > 0) {
-    const spinner2 = p.spinner()
-    spinner2.start('Installing...')
-    for (const label of selected) {
-      const issue = installable.find((i) => i.label === label)
-      if (!issue?.installCmd) continue
-      try {
-        await execa(issue.installCmd, { shell: true, cwd: process.cwd() })
-      } catch (err) {
-        p.log.warn(`Failed to install ${label}: ${(err as Error).message}`)
-      }
-    }
-    spinner2.stop('Done')
-  }
-
-  return { detectedIssues: issues, installSelected: selected.length > 0 }
+  const toolsToInstall = installable.filter((i) => selected.includes(i.label))
+  return { detectedIssues: issues, toolsToInstall }
 }

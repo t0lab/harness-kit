@@ -1,5 +1,6 @@
 import * as p from '@clack/prompts'
 import chalk from 'chalk'
+import { execa } from 'execa'
 import { access } from 'node:fs/promises'
 import { join } from 'node:path'
 import { Listr } from 'listr2'
@@ -7,6 +8,7 @@ import { writeScaffoldFile } from '../../engine/scaffolder.js'
 import { renderTemplate } from '../../engine/template-renderer.js'
 import { getBundle } from '../../registry/index.js'
 import { getRoleData } from '../../utils/bundle-utils.js'
+import { executeAdd } from '../../commands/add.js'
 import type { Artifact } from '../../registry/types.js'
 import type { WizardContext } from '../types.js'
 import type { ScaffoldFile } from '../../engine/scaffolder.js'
@@ -20,6 +22,28 @@ interface McpConfig {
   command: string
   args: string[]
   env?: Record<string, string>
+}
+
+export function allSelectedBundleNames(ctx: WizardContext): string[] {
+  return [
+    ...ctx.selectedTech,
+    ...ctx.gitWorkflow,
+    ...ctx.workflowPresets,
+    ...ctx.browserTools,
+    ...ctx.webSearch,
+    ...ctx.webScrape,
+    ...(ctx.memory !== 'no-memory' ? [ctx.memory] : []),
+  ]
+}
+
+export async function installAllSelectedBundles(cwd: string, ctx: WizardContext): Promise<void> {
+  for (const name of allSelectedBundleNames(ctx)) {
+    try {
+      await executeAdd(cwd, name, { yes: true, silent: true })
+    } catch {
+      // Unknown bundle — skip silently (wizard context, not CLI)
+    }
+  }
 }
 
 export function collectSelectedBundles(ctx: WizardContext): Array<{ name: string; role: string }> {
@@ -73,22 +97,27 @@ export async function stepPreviewApply(ctx: WizardContext): Promise<void> {
   const depWarnings = buildDependencyWarnings(selectedBundles)
   const hasDocs = ctx.workflowPresets.includes('docs-as-code')
 
+  const allBundles = allSelectedBundleNames(ctx)
+  const toolsToInstall = ctx.toolsToInstall ?? []
+
   const noteLines = [
-    '── Core ──────────────────────────────────────────────',
-    '  ✦ CLAUDE.md  (template)',
-    '  ✦ AGENTS.md',
-    '  ✦ harness.json',
-    '  ✦ llms.txt',
-    '── Claude config ─────────────────────────────────────',
+    '── Scaffold files ────────────────────────────────────',
+    '  ✦ CLAUDE.md, AGENTS.md, harness.json, llms.txt',
     '  ✦ .claude/settings.json',
-    `── MCP config (${mcpConfigs.length}) ──────────────────────────────────────`,
-    `  ✦ .mcp.json  (${mcpConfigs.map((m) => m.name).join(', ') || 'none'})`,
-    ...(hasDocs ? [
-      '── Docs ──────────────────────────────────────────────',
-      '  ✦ docs/DESIGN.md',
+    ...(mcpConfigs.length > 0 ? ['  ✦ .mcp.json'] : []),
+    ...(hasDocs ? ['  ✦ docs/DESIGN.md'] : []),
+    `── Bundles (${allBundles.length}) ──────────────────────────────────`,
+    `  ✦ ${allBundles.join(', ') || 'none'}`,
+    ...(mcpConfigs.length > 0 ? [
+      `── MCP servers (${mcpConfigs.length}) ───────────────────────────────`,
+      `  ✦ ${mcpConfigs.map((m) => m.name).join(', ')}`,
+    ] : []),
+    ...(toolsToInstall.length > 0 ? [
+      '── Tools to install ──────────────────────────────────',
+      ...toolsToInstall.map((t) => `  ✦ ${t.label}  (${t.installCmd})`),
     ] : []),
     ...(depWarnings.length > 0 ? [
-      '── Cần cài thêm ──────────────────────────────────────',
+      '── Needs on system ───────────────────────────────────',
       ...depWarnings.map((w) => `  ⚠ ${w}`),
     ] : []),
   ]
@@ -141,6 +170,29 @@ export async function stepPreviewApply(ctx: WizardContext): Promise<void> {
       }
     },
   }]).run()
+
+  if (allBundles.length > 0) {
+    const installSpinner = p.spinner()
+    installSpinner.start('Installing bundles...')
+    await installAllSelectedBundles(cwd, ctx)
+    installSpinner.stop(`Installed bundles: ${allBundles.join(', ')}`)
+  }
+
+  if (toolsToInstall.length > 0) {
+    const toolSpinner = p.spinner()
+    toolSpinner.start('Installing tools...')
+    const installed: string[] = []
+    for (const tool of toolsToInstall) {
+      if (!tool.installCmd) continue
+      try {
+        await execa(tool.installCmd, { shell: true, cwd })
+        installed.push(tool.label)
+      } catch (err) {
+        p.log.warn(`Failed to install ${tool.label}: ${(err as Error).message}`)
+      }
+    }
+    toolSpinner.stop(installed.length > 0 ? `Installed tools: ${installed.join(', ')}` : 'No tools installed')
+  }
 
   p.outro(`harness-kit initialized.\nRun: ${chalk.blue('harness-kit status')} to see your harness.`)
 }

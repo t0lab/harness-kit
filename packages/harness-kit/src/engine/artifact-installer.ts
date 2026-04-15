@@ -1,10 +1,11 @@
-import type { BundleManifest, ClaudeHookType } from '@harness-kit/core'
+import type { BundleManifest, ClaudeHookType, Artifact } from '@harness-kit/core'
 import { execaCommand } from 'execa'
 import { copyFile, mkdir, readFile, writeFile, chmod, access } from 'node:fs/promises'
 import { basename, dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { readMcpJson, writeMcpJson } from '../config/mcp-reader.js'
 import { getRoleData } from '../utils/bundle-utils.js'
+import { getAllBundles } from '../registry/index.js'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 const PKG_ROOT = __dir.includes('/dist') ? join(__dir, '..') : join(__dir, '../..')
@@ -16,6 +17,7 @@ export interface InstallResult {
 
 export interface InstallOptions {
   yes?: boolean
+  silent?: boolean
 }
 
 async function runInteractive(cmd: string, cwd: string): Promise<void> {
@@ -127,10 +129,20 @@ export async function installBundle(
   role: string,
   options: InstallOptions = {}
 ): Promise<InstallResult> {
-  const allArtifacts = [
+  const rawArtifacts: Artifact[] = [
     ...bundle.common.artifacts,
     ...(getRoleData(bundle, role)?.artifacts ?? []),
   ]
+
+  // Expand type:'stack' refs into the referenced stack bundle's artifacts.
+  const stackLookup = new Map(getAllBundles().map((b) => [b.name, b]))
+  const allArtifacts: Artifact[] = []
+  for (const a of rawArtifacts) {
+    if (a.type !== 'stack') { allArtifacts.push(a); continue }
+    const stackBundle = stackLookup.get(a.ref)
+    if (!stackBundle) { continue }
+    allArtifacts.push(...stackBundle.common.artifacts)
+  }
 
   const result: InstallResult = { mcpUpdated: false, warnings: [] }
 
@@ -145,6 +157,8 @@ export async function installBundle(
     result.mcpUpdated = true
   }
 
+  const skillArtifacts: Extract<Artifact, { type: 'skill' }>[] = []
+
   for (const artifact of allArtifacts) {
     if (artifact.type === 'tool') {
       try {
@@ -153,19 +167,11 @@ export async function installBundle(
         result.warnings.push(`Failed: ${artifact.installCmd}`)
       }
     } else if (artifact.type === 'skill') {
-      try {
-        const src = artifact.src.startsWith('skills/')
-          ? join(PKG_ROOT, artifact.src)
-          : artifact.src
-        const yesFlag = options.yes ? ' --yes' : ''
-        await runInteractive(`npx skills add ${src}${yesFlag}`, cwd)
-      } catch {
-        result.warnings.push(`Failed: npx skills add ${artifact.src}`)
-      }
+      skillArtifacts.push(artifact)
     } else if (artifact.type === 'rule') {
       try {
         const srcPath = join(PKG_ROOT, artifact.src)
-        const destPath = join(cwd, '.claude/rules', basename(artifact.src))
+        const destPath = join(cwd, '.claude/rules', artifact.src.replace(/^rules\//, ''))
         await mkdir(dirname(destPath), { recursive: true })
         await copyFile(srcPath, destPath)
       } catch {
@@ -215,6 +221,26 @@ export async function installBundle(
     } else if (artifact.type !== 'mcp') {
       result.warnings.push(`artifact type '${artifact.type}' not yet supported — add manually`)
     }
+  }
+
+  const yesFlag = options.yes ? ' --yes' : ''
+  const installOneSkill = async (artifact: Extract<Artifact, { type: 'skill' }>): Promise<void> => {
+    const src = artifact.src.startsWith('skills/') ? join(PKG_ROOT, artifact.src) : artifact.src
+    try {
+      if (options.silent) {
+        await execaCommand(`npx skills add ${src}${yesFlag}`, { cwd, stdio: 'pipe', shell: true })
+      } else {
+        await runInteractive(`npx skills add ${src}${yesFlag}`, cwd)
+      }
+    } catch {
+      result.warnings.push(`Failed: npx skills add ${artifact.src}`)
+    }
+  }
+
+  if (options.silent) {
+    await Promise.all(skillArtifacts.map(installOneSkill))
+  } else {
+    for (const artifact of skillArtifacts) await installOneSkill(artifact)
   }
 
   return result

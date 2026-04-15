@@ -2,18 +2,5 @@
   "permissions": {
     "allow": [],
     "deny": []
-  }{{#if (includes workflowPresets "quality-gates")}},
-  "hooks": {
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/quality-gate.sh"
-          }
-        ]
-      }
-    ]
-  }{{/if}}
+  }
 }

@@ -16,7 +16,7 @@ const initialContext: WizardContext = {
   projectConstraints: '',
   selectedTech: [],
   detectedIssues: [],
-  installSelected: false,
+  toolsToInstall: [],
   gitWorkflow: getRecommendedByCategory('git-workflow').map(b => b.name),
   memory: getRecommendedByCategory('memory').map(b => b.name)[0] ?? 'local-memory',
   workflowPresets: getRecommendedByCategory('workflow-preset').map(b => b.name),

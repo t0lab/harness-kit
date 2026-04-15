@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { existsSync } from 'node:fs'
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
@@ -138,5 +139,30 @@ describe('installBundle', () => {
     expect(result.warnings).toContain(
       'Failed: npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser',
     )
+  })
+
+  it('expands type:stack ref and installs the referenced stack bundle artifacts', async () => {
+    const TECHSTACK_BUNDLE: BundleManifest = {
+      name: 'nextjs',
+      description: 'Next.js',
+      version: '1.0.0',
+      experimental: false,
+      defaultRole: 'techstack',
+      common: {
+        artifacts: [
+          { type: 'stack', ref: 'typescript' },
+          { type: 'rule', src: 'rules/nextjs.md' },
+        ],
+      },
+      roles: { techstack: { artifacts: [] } },
+    }
+    const result = await installBundle(dir, TECHSTACK_BUNDLE, 'techstack')
+    // Stack ref expanded: typescript rules should be installed
+    expect(existsSync(join(dir, '.claude/rules/stack-typescript/coding-style.md'))).toBe(true)
+    expect(existsSync(join(dir, '.claude/rules/stack-typescript/patterns.md'))).toBe(true)
+    // Own rule still installed
+    expect(existsSync(join(dir, '.claude/rules/nextjs.md'))).toBe(true)
+    // No warning about unsupported type
+    expect(result.warnings.some(w => w.includes('not yet supported'))).toBe(false)
   })
 })
