@@ -13,24 +13,24 @@ const RULES: DetectionRule[] = [
   {
     label: 'tsconfig.json',
     files: ['tsconfig.json'],
-    tech: ['nextjs', 'nuxt', 'sveltekit', 'react', 'vue', 'angular', 'vanilla-ts'],
+    tech: ['nextjs', 'react', 'vue', 'express', 'fastify'],
   },
   {
     label: 'ESLint',
     files: ['.eslintrc', '.eslintrc.json', '.eslintrc.js', '.eslintrc.cjs', 'eslint.config.js', 'eslint.config.mjs'],
-    tech: ['nextjs', 'nuxt', 'sveltekit', 'react', 'vue', 'angular', 'vanilla-ts'],
+    tech: ['nextjs', 'react', 'vue', 'express', 'fastify'],
     installCmd: 'pnpm add -D eslint @typescript-eslint/eslint-plugin',
   },
   {
     label: 'Prettier',
     files: ['.prettierrc', '.prettierrc.json', '.prettierrc.js', 'prettier.config.js'],
-    tech: ['nextjs', 'nuxt', 'sveltekit', 'react', 'vue', 'angular', 'vanilla-ts'],
+    tech: ['nextjs', 'react', 'vue', 'express', 'fastify'],
     installCmd: 'pnpm add -D prettier',
   },
   {
     label: 'pyproject.toml',
     files: ['pyproject.toml'],
-    tech: ['python-fastapi', 'python-django', 'langchain', 'langgraph', 'llamaindex', 'crewai'],
+    tech: ['fastapi', 'django', 'langchain', 'langgraph', 'llamaindex'],
   },
   {
     label: 'go.mod',
