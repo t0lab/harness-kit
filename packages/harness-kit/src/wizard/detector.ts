@@ -36,11 +36,6 @@ const RULES: DetectionRule[] = [
     tech: ['fastapi', 'django', 'langchain', 'langgraph'],
   },
   {
-    label: 'go.mod',
-    files: ['go.mod'],
-    tech: ['go'],
-  },
-  {
     label: 'GitHub Actions',
     files: ['.github/workflows'],
     tech: ['github-actions'],

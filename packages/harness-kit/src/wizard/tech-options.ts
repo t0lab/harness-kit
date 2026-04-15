@@ -11,8 +11,6 @@ export const TECH_OPTIONS: TechOption[] = [
   { id: 'fastify', label: 'Fastify', hint: 'fast Node.js API', category: 'Backend', tags: ['node', 'javascript', 'typescript', 'api', 'backend'] },
   { id: 'fastapi', label: 'FastAPI', hint: 'async Python API', category: 'Backend', tags: ['python', 'api', 'backend', 'async'] },
   { id: 'django', label: 'Django', hint: 'batteries-included Python', category: 'Backend', tags: ['python', 'api', 'backend'] },
-  { id: 'go', label: 'Go', hint: 'compiled, fast', category: 'Backend', tags: ['go', 'golang', 'backend', 'api'] },
-  { id: 'rust', label: 'Rust', hint: 'systems, WASM', category: 'Backend', tags: ['rust', 'backend', 'wasm'] },
   { id: 'spring', label: 'Spring', hint: 'enterprise Java', category: 'Backend', tags: ['java', 'spring', 'backend', 'enterprise'] },
 
   // ── Database ──────────────────────────────────────────────────

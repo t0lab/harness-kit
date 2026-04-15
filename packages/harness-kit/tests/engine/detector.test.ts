@@ -37,13 +37,6 @@ describe('detectTooling', () => {
     expect(eslint?.found).toBe(true)
   })
 
-  it('detects go.mod for Go projects', async () => {
-    await writeFile(join(dir, 'go.mod'), 'module example.com/myapp\n\ngo 1.22')
-    const result = await detectTooling(dir, ['go'])
-    const gomod = result.find((r) => r.label === 'go.mod')
-    expect(gomod?.found).toBe(true)
-  })
-
   it('returns empty array when no tech selected', async () => {
     const result = await detectTooling(dir, [])
     expect(result).toHaveLength(0)

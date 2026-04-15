@@ -56,8 +56,6 @@ export function detectTechStack(cwd: string): string[] {
   if (hasDep(pkg, 'fastify'))             detected.push('fastify')
   if (py.includes('fastapi'))             detected.push('fastapi')
   if (py.includes('django'))              detected.push('django')
-  if (exists(cwd, 'go.mod'))             detected.push('go')
-  if (exists(cwd, 'Cargo.toml'))         detected.push('rust')
   if (exists(cwd, 'pom.xml') || exists(cwd, 'build.gradle')) detected.push('spring')
 
   // ── Database ─────────────────────────────────────────────────────────────────

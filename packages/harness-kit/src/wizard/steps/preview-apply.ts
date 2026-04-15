@@ -39,10 +39,12 @@ export function allSelectedBundleNames(ctx: WizardContext): string[] {
 export async function installAllSelectedBundles(cwd: string, ctx: WizardContext): Promise<void> {
   for (const name of allSelectedBundleNames(ctx)) {
     try {
-      await executeAdd(cwd, name, { yes: true, silent: true })
+      getBundle(name)
     } catch {
-      // Unknown bundle — skip silently (wizard context, not CLI)
+      p.log.warn(`Skipping "${name}" — no bundle registered for this selection.`)
+      continue
     }
+    await executeAdd(cwd, name, { yes: true, silent: true })
   }
 }
 
