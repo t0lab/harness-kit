@@ -6,6 +6,10 @@ export type BundleCategory =
   | 'search'
   | 'scrape'
   | 'mcp-tool'
+  // ── Stack bucket (bucket B) — language bases. Forbids type:'stack' artifacts.
+  | 'stack'
+  // ── Techstack bucket (bucket A) — tool/framework bundles. May inherit via type:'stack' artifact.
+  | 'techstack'
 
 export type ClaudeHookType = 'PreToolUse' | 'PostToolUse' | 'Stop' | 'Notification'
 export type GitHookName = 'pre-commit' | 'commit-msg' | 'pre-push'
@@ -21,6 +25,7 @@ export type Artifact =
   | { type: 'agent';    src: string }
   | { type: 'command';  src: string }
   | { type: 'file';     src: string }
+  | { type: 'stack';    ref: string }
 
 export interface EnvVar {
   key: string

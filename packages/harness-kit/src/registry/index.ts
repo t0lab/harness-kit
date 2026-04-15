@@ -1,4 +1,5 @@
-import type { BundleManifest, BundleCategory } from './types.js'
+import type { Artifact, BundleManifest, BundleCategory } from './types.js'
+import { validateRegistry } from './validate.js'
 
 import { manifest as tavilyM }       from './bundles/workflow/tavily/manifest.js'
 import { manifest as mem0M }         from './bundles/workflow/mem0/manifest.js'
@@ -37,8 +38,43 @@ const ALL_BUNDLES: BundleManifest[] = [
   localMemoryM, noMemoryM,
 ]
 
+validateRegistry(ALL_BUNDLES)
+
 export function getAllBundles(): BundleManifest[] {
   return ALL_BUNDLES
+}
+
+// Expand any type:'stack' artifacts into the referenced stack bundle's artifacts.
+// Dedupes by (type, src/ref). Depth is always 1 because stack bundles cannot
+// contain type:'stack' artifacts (enforced by validateRegistry).
+export function resolveStackArtifacts(bundle: BundleManifest): Artifact[] {
+  const seen = new Set<string>()
+  const out: Artifact[] = []
+  const push = (a: Artifact): void => {
+    const key = a.type === 'stack' ? `stack:${a.ref}` : `${a.type}:${'src' in a ? a.src : JSON.stringify(a)}`
+    if (seen.has(key)) return
+    seen.add(key)
+    out.push(a)
+  }
+
+  const all: Artifact[] = [
+    ...bundle.common.artifacts,
+    ...Object.values(bundle.roles).flatMap((r) => r?.artifacts ?? []),
+  ]
+
+  for (const a of all) {
+    if (a.type !== 'stack') {
+      push(a)
+      continue
+    }
+    const target = ALL_BUNDLES.find((b) => b.name === a.ref)
+    if (!target) continue
+    for (const inner of target.common.artifacts) push(inner)
+    for (const role of Object.values(target.roles)) {
+      for (const inner of role?.artifacts ?? []) push(inner)
+    }
+  }
+  return out
 }
 
 export function getBundlesByCategory(category: BundleCategory): BundleManifest[] {
