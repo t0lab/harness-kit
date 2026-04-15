@@ -2,14 +2,15 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'vue',
-  description: 'Vue — Composition API, reactivity, single-file components',
+  description: 'Vue 3 — Composition API with <script setup>, Pinia, Router, SSR, Vite patterns',
   version: '1.0.0',
-  experimental: true,
+  experimental: false,
   defaultRole: 'techstack',
   common: {
     artifacts: [
       { type: 'stack', ref: 'typescript' },
-      // TODO: add rule + skill artifacts in follow-up
+      { type: 'skill', src: 'https://github.com/hyf0/vue-skills --skill vue-best-practices' },
+      { type: 'rule', src: 'rules/vue.md' },
     ],
   },
   roles: {
