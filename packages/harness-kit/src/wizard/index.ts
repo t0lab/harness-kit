@@ -1,13 +1,10 @@
 import { createMachine, assign, createActor } from 'xstate'
-import type { WizardContext, WizardEvent } from './types.js'
-import { stepProjectInfo } from './steps/project-info.js'
-import { stepDetectTooling } from './steps/detect-tooling.js'
-import { stepHarnessConfig } from './steps/harness-config.js'
-import { stepPreviewApply } from './steps/preview-apply.js'
-import { selectTechStack } from './steps/tech-stack-select.js'
-import { TECH_OPTIONS } from './tech-options.js'
-import { applySymbolFix } from './layout.js'
-import { getRecommendedByCategory } from '../registry/index.js'
+import type { WizardContext, WizardEvent } from '@/wizard/types.js'
+import { stepProjectInfo, stepDetectTooling, stepHarnessConfig, stepPreviewApply, selectTechStack } from '@/wizard/components/steps'
+import { TECH_OPTIONS } from '@/wizard/lib/tech-options'
+import { applySymbolFix } from '@/wizard/lib/layout'
+import { BudgetState } from '@/wizard/store/budget-state'
+import { getRecommendedByCategory } from '@/registry'
 
 const initialContext: WizardContext = {
   projectName: '',
@@ -94,37 +91,47 @@ export const wizardMachine = createMachine({
 export async function runWizard(): Promise<void> {
   applySymbolFix()
 
+  const budget = new BudgetState()
+  await budget.initialize()
+
+  // Wrap the entire wizard in the alternate screen buffer so every step shares
+  // one canvas with a persistent budget footer.
+  process.stdout.write('\x1b[?1049h\x1b[2J\x1b[H')
+  const exitAltScreen = () => process.stdout.write('\x1b[?1049l')
+  process.once('exit', exitAltScreen)
+
   const actor = createActor(wizardMachine)
   actor.start()
 
-  while (actor.getSnapshot().status !== 'done') {
-    const state = actor.getSnapshot().value as string
-    const ctx = actor.getSnapshot().context
+  try {
+    while (actor.getSnapshot().status !== 'done') {
+      const state = actor.getSnapshot().value as string
+      const ctx = actor.getSnapshot().context
 
-    try {
       switch (state) {
         case 'projectInfo': {
-          const data = await stepProjectInfo()
+          const data = await stepProjectInfo(budget)
           actor.send({ type: 'NEXT', data })
           break
         }
         case 'techStackSelect': {
-          const selectedTech = await selectTechStack(TECH_OPTIONS)
+          const selectedTech = await selectTechStack(TECH_OPTIONS, budget)
+          budget.selectedTech = selectedTech
           actor.send({ type: 'NEXT', data: { selectedTech } })
           break
         }
         case 'detectTooling': {
-          const data = await stepDetectTooling(ctx)
+          const data = await stepDetectTooling(ctx, budget)
           actor.send({ type: 'NEXT', data })
           break
         }
         case 'harnessConfig': {
-          const data = await stepHarnessConfig(ctx)
+          const data = await stepHarnessConfig(ctx, budget)
           actor.send({ type: 'NEXT', data })
           break
         }
         case 'preview': {
-          await stepPreviewApply(actor.getSnapshot().context)
+          await stepPreviewApply(actor.getSnapshot().context, budget)
           actor.send({ type: 'CONFIRM' })
           break
         }
@@ -135,9 +142,16 @@ export async function runWizard(): Promise<void> {
         default:
           actor.send({ type: 'DONE' })
       }
-    } catch (err) {
-      actor.send({ type: 'ERROR', error: err as Error })
-      throw err
     }
+  } catch (err) {
+    actor.send({ type: 'ERROR', error: err as Error })
+    if (err instanceof Error && err.message === 'Cancelled') {
+      console.log('\nWizard cancelled.')
+      return
+    }
+    throw err
+  } finally {
+    exitAltScreen()
+    process.removeListener('exit', exitAltScreen)
   }
 }

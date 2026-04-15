@@ -1,4 +1,4 @@
-import type { TechOption } from './types.js'
+import type { TechOption } from '@/wizard/types.js'
 
 export function filterOptions(query: string, options: TechOption[]): TechOption[] {
   const q = query.trim().toLowerCase()
@@ -7,7 +7,7 @@ export function filterOptions(query: string, options: TechOption[]): TechOption[
     return (
       opt.label.toLowerCase().includes(q) ||
       opt.hint.toLowerCase().includes(q) ||
-      opt.tags.some((tag) => tag.toLowerCase().includes(q))
+      opt.tags.some((tag: string) => tag.toLowerCase().includes(q))
     )
   })
 }

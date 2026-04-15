@@ -1,6 +1,6 @@
 import { access, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import type { DetectedIssue } from '../wizard/types.js'
+import type { DetectedIssue } from '@/wizard/types.js'
 
 type DetectionRule = {
   label: string

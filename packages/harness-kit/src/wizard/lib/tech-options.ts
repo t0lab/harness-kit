@@ -1,4 +1,4 @@
-import type { TechOption } from './types.js'
+import type { TechOption } from '@/wizard/types.js'
 
 export const TECH_OPTIONS: TechOption[] = [
   // ── Web Frameworks ──────────────────────────────────────────
