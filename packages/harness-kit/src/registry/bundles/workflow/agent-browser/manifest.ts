@@ -14,6 +14,6 @@ export const manifest: BundleManifest = {
     requires: ['chrome'],
   },
   roles: {
-    browser: { artifacts: [], recommended: true },
+    browser: { artifacts: [] },
   },
 }

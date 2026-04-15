@@ -7,5 +7,5 @@ export const manifest: BundleManifest = {
     artifacts: [{ type: 'plugin', installSource: 'github:thedotmack/claude-mem' }],
     requires: ['bun', 'chrome'],
   },
-  roles: { memory: { artifacts: [], recommended: true } },
+  roles: { memory: { artifacts: [] } },
 }

@@ -14,6 +14,6 @@ export const manifest: BundleManifest = {
     env: [{ key: 'FIRECRAWL_API_KEY', description: 'API key from firecrawl.dev (set automatically by `firecrawl init --browser`)', required: true }],
   },
   roles: {
-    scrape: { artifacts: [], recommended: true },
+    scrape: { artifacts: [] },
   },
 }

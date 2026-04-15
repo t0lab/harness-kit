@@ -8,6 +8,7 @@ const HarnessConfigSchema = z.object({
   registry: z.string(),
   techStack: z.array(z.string()),
   bundles: z.array(z.string()).default([]),
+  contextWindow: z.number().positive().optional(),
 })
 
 export async function harnessExists(cwd: string): Promise<boolean> {
@@ -27,7 +28,8 @@ export async function readHarnessConfig(cwd: string): Promise<HarnessConfig> {
     const issues = result.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ')
     throw new Error(`harness.json is invalid: ${issues}`)
   }
-  return result.data
+  const { contextWindow, ...rest } = result.data
+  return contextWindow !== undefined ? { ...rest, contextWindow } : rest
 }
 
 export async function writeHarnessConfig(cwd: string, config: HarnessConfig): Promise<void> {

@@ -19,6 +19,6 @@ export const manifest: BundleManifest = {
     env: [{ key: 'TAVILY_API_KEY', description: 'API key from app.tavily.com', required: true }],
   },
   roles: {
-    search: { artifacts: [], recommended: true },
+    search: { artifacts: [] },
   },
 }
