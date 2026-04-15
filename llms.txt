@@ -1,0 +1,8 @@
+# harness-kit
+
+> CLI tool that scaffolds AI agent harness environments. pnpm workspace monorepo:
+
+## Docs Index
+
+- CLAUDE.md — AI agent instructions and project context
+- AGENTS.md — project map and key file pointers

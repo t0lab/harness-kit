@@ -1,73 +1,65 @@
 ---
 name: docs-as-code
-description: >
-  Write and maintain technical documentation for harness-kit following the project's docs-as-code
-  conventions. Trigger when: user wants to add a spec, exec plan, library reference, tech debt
-  entry, or update architecture-overview; when starting a new feature implementation; when code
-  has changed but docs haven't caught up; when asked "where should I document this?". This skill
-  ensures every technical decision lives in the repo — not in people's heads, not in Slack.
+description: Repository-as-system-of-record protocol. Invoke when starting a feature/sprint with ≥3 tasks, making an architectural decision, capturing tech debt, refactoring code that may leave docs stale, auditing AGENTS.md/CLAUDE.md, setting up docs/, or asking where to document something. Covers exec plans, ADRs, design docs, and agent-readable doc structure.
 ---
 
 # Docs-as-Code
 
-The repository is the system of record. If it's not in the repo, it doesn't exist for the agent.
-
-This skill guides you to the right doc type, right location, and right structure. Read `CLAUDE.md` → `## Docs` first if you're not sure where to start.
+**The repository is the system of record.** If a decision, plan, or constraint lives only in chat or someone's head, it doesn't exist for the agent.
 
 ---
 
 ## Context tiers
 
-Documentation in this project is designed for three loading patterns:
+Design every doc for one tier. Hot docs crowd out the task, so they must earn every line.
 
-| Tier | What gets loaded | When | Examples |
-|------|-----------------|------|---------|
-| **Hot** | Always in agent context | Every session | `CLAUDE.md`, `AGENTS.md` |
-| **Warm** | Loaded for specific tasks | When working on that feature/layer | `docs/exec-plans/active/`, `ARCHITECTURE.md` |
-| **Cold** | Read on demand | When the agent explicitly needs it | `docs/references/`, `docs/design-docs/` |
-
-Write docs to match their tier. Hot docs must be dense and short. Cold docs can be thorough.
+| Tier | Loads | Budget | Examples |
+|------|-------|--------|----------|
+| **Hot** | Every session | < 200 lines total | `AGENTS.md`, `CLAUDE.md`, always-loaded rules |
+| **Warm** | Task-specific | Thorough | `docs/exec-plans/active/`, `ARCHITECTURE.md` |
+| **Cold** | On demand | Thorough, indexed | `docs/design-docs/`, `docs/references/` |
 
 ---
 
 ## Route to the right doc type
 
-| I need to record... | Type | Read |
-|---|---|---|
-| Implementation plan for a feature (≥ 3 tasks) | Exec plan | `references/exec-plans.md` |
-| Known technical debt or edge-case quirk | Tech debt entry | `references/exec-plans.md` |
-| Why an architectural decision was made | Decision record | `references/design-docs.md` |
-| API surface of a new or changed module | Architecture overview update | `references/design-docs.md` |
-| How to correctly use a library in this project | Library reference | `references/lib-references.md` |
-| Product direction, phases, non-goals | Product design update | `references/product-design.md` |
+| Situation | Doc type | Location | Read |
+|-----------|----------|----------|------|
+| Plan ≥3 tasks, in progress | Exec plan | `docs/exec-plans/active/` | `references/exec-plan.md` |
+| Completed plan | — | `docs/exec-plans/completed/` | `references/exec-plan.md` |
+| Known tech debt / quirk | Tech debt entry | `docs/exec-plans/tech-debt-tracker.md` | `references/exec-plan.md` |
+| Why a decision was made | Design doc / ADR | `docs/design-docs/<topic>.md` | `references/design-doc.md` |
+| Product direction, non-goals | Product spec | `docs/product-specs/<feature>.md` | `references/design-doc.md` |
+| How to use a library correctly | Reference | `docs/references/<lib>-llms.txt` | `references/agent-readable.md` |
+| Module map, dependency direction | Architecture | `ARCHITECTURE.md` | `references/doc-structure.md` |
+| Setting up docs/ from scratch | All | — | `references/doc-structure.md` |
+| Writing or auditing AGENTS.md | Hot doc discipline | `AGENTS.md` | `references/agents-md.md` |
+
+When in doubt: write an ADR. Decisions are the highest-value thing to capture — code shows *what*, only docs show *why*.
 
 ---
 
-## What makes a doc agent-readable
+## Divergence rule
 
-Concrete over abstract — one real code snippet outweighs three paragraphs. Executable commands over tool names (`pnpm test --filter harness-kit` not "run tests"). Symptom → cause → fix tables for known failure modes. Every line earns its place: if you can't point to a past agent mistake that this line prevents, cut it.
+Docs that contradict code are a critical failure — an agent following stale docs confidently implements the wrong thing. **Trust the code, fix the doc.**
 
-See `references/principles.md` for the full research-backed principles.
+Triggers for a doc sweep:
+- Renamed function, class, or type
+- Moved file or changed module boundary
+- Reversed decision
+- Completed exec plan task
 
----
-
-## Language rule (applies to all docs in this project)
-
-Docs in this project are written in Vietnamese with English for code, paths, and library names. This is a project convention, not a skill convention — the skill itself is English, but the docs you write using this skill should follow the project's bilingual pattern.
-
----
-
-## Freshness rule
-
-Before committing any doc:
-
-1. **File paths** — `Glob` to confirm the file exists
-2. **Function names** — `Grep` to confirm the name matches source
-3. **Line numbers** (tech-debt entries) — re-check with `Grep`; they shift as code evolves
-4. **Completed exec plans** — move from `active/` to `completed/`, update status field
+After **any refactor**, read `references/freshness-refactor.md`. It covers the full surface: `docs/`, `AGENTS.md`, `ARCHITECTURE.md`, JSDoc in source, test descriptions, tsconfig paths, `package.json` exports, barrel files. This is where agents most often miss things.
 
 ---
 
-## After writing
+## Reference index
 
-See `references/related-skills.md` — which skills to invoke after docs work (commit message format, session memory).
+Load one or two at a time — don't load everything.
+
+- **`references/doc-structure.md`** — `docs/` layout, initial scaffolding, ARCHITECTURE.md conventions
+- **`references/exec-plan.md`** — exec plan template, committable-unit task rule, tech debt entry format, active → completed lifecycle
+- **`references/design-doc.md`** — ADR template with Better/Worse/Must-now-be-true, rejected alternatives, product spec structure
+- **`references/agent-readable.md`** — concrete-over-abstract, symptom→cause→fix tables, library reference files
+- **`references/agents-md.md`** — what belongs in AGENTS.md, 100-line target, anti-patterns
+- **`references/freshness-refactor.md`** — post-refactor checklist across docs, source JSDoc, configs, barrels, tests; completed-plan annotation rule

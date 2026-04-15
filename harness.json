@@ -1,9 +1,22 @@
 {
   "version": "1.0.0",
-  "modules": [
-    "skills/git-conventional"
-  ],
-  "memory": "file-based",
-  "techStack": ["typescript", "node"],
-  "aiGeneration": false
+  "registry": "bundled",
+  "techStack": [],
+  "bundles": [
+    "agent-browser",
+    "local-memory",
+    "conventional-commits",
+    "branch-strategy",
+    "pre-commit-hooks",
+    "docs-as-code",
+    "spec-driven",
+    "tdd",
+    "planning-first",
+    "quality-gates",
+    "systematic-debugging",
+    "code-review-gates",
+    "context-discipline",
+    "parallel-agents",
+    "security-review"
+  ]
 }

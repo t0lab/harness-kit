@@ -39,3 +39,8 @@ TypeScript 5, Node 22, pnpm workspaces, tsup (build), vitest (tests), commander 
 ## Structure
 
 See AGENTS.md for full project map.
+
+## Memory
+
+@.claude/memory/project.md
+@.claude/memory/reference.md
