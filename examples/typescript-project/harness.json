@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "registry": "bundled",
+  "techStack": [
+    "nextjs"
+  ],
+  "bundles": [
+    "playwright",
+    "local-memory",
+    "nextjs",
+    "conventional-commits",
+    "branch-strategy",
+    "pre-commit-hooks",
+    "docs-as-code",
+    "spec-driven",
+    "tdd",
+    "planning-first",
+    "quality-gates",
+    "systematic-debugging",
+    "code-review-gates",
+    "context-discipline"
+  ]
+}
