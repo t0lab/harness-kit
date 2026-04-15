@@ -49,7 +49,7 @@ await new Listr([
 ## Quy ước của project
 
 - Import: `import { Listr } from 'listr2'` — không import default
-- Dùng Listr cho bước "apply" ghi file (`stepPreviewApply`), không dùng cho prompt hay spinner
-- `p.spinner()` của clack cho tác vụ đơn (scan, render); Listr cho pipeline nhiều bước có tên
+- Dùng Listr cho bước "apply" ghi file (`stepPreviewApply`), không dùng cho prompt
+- Spinner (loading indicator) đã move sang Ink (`<Spinner />` component inside wizard); Listr cho pipeline nhiều bước có tên
 - Task title là cụm danh từ ngắn: `'Writing files...'`, không phải câu hỏi hay mệnh đề phức
-- File liên quan: `src/wizard/steps/preview-apply.ts`
+- File liên quan: `src/wizard/components/steps/preview-apply.tsx`

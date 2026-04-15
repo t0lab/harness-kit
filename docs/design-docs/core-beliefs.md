@@ -17,7 +17,7 @@ trong repo. Nếu agent không đọc được, nó không tồn tại. Không c
 
 ## 4. Boring tech wins
 Lib phổ biến, API stable, well-represented in training data → agent model
-được tốt hơn. Ưu tiên: commander > yargs, clack > inquirer, vitest > jest.
+được tốt hơn. Ưu tiên: commander > yargs, ink > blessed, vitest > jest.
 Tránh lib mới/obscure trừ khi có lý do rất mạnh.
 
 ## 5. Enforce mechanically, not documentally

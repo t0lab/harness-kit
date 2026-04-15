@@ -49,5 +49,6 @@ Logic thực tế tách ra hàm riêng có thể test độc lập (`executeAdd`
 - Tên hàm: `register<Name>Command(program: Command): void`
 - Business logic tách thành `execute<Name>()` — testable, không phụ thuộc Commander
 - Output lỗi dùng `console.error()` + `process.exit(1)` trong thin wrapper (`runAdd`)
-- Output thành công dùng `console.log()` hoặc chalk, KHÔNG dùng `p.log` (clack) bên ngoài wizard
+- Output thành công dùng `console.log()` hoặc chalk
+- Nếu cần interactive prompt ngoài wizard (e.g., confirm re-install), dùng `@clack/prompts`
 - File lệnh nằm tại `src/commands/<name>.ts`
