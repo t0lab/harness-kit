@@ -28,6 +28,12 @@ import { manifest as contextDisciplineM }     from './bundles/workflow/context-d
 import { manifest as localMemoryM }           from './bundles/workflow/local-memory/manifest.js'
 import { manifest as noMemoryM }              from './bundles/workflow/no-memory/manifest.js'
 
+import { manifest as stackTypescriptM } from './bundles/stack/typescript/manifest.js'
+import { manifest as stackPythonM }     from './bundles/stack/python/manifest.js'
+import { manifest as stackGoM }         from './bundles/stack/go/manifest.js'
+import { manifest as stackRustM }       from './bundles/stack/rust/manifest.js'
+import { manifest as stackJavaM }       from './bundles/stack/java/manifest.js'
+
 const ALL_BUNDLES: BundleManifest[] = [
   tavilyM, mem0M, playwrightM, browserUseM, agentBrowserM,
   braveSearchM, firecrawlM, crawl4aiM,
@@ -36,6 +42,7 @@ const ALL_BUNDLES: BundleManifest[] = [
   specDrivenM, tddM, planningFirstM, qualityGatesM, parallelAgentsM,
   systematicDebuggingM, codeReviewGatesM, securityReviewM, contextDisciplineM,
   localMemoryM, noMemoryM,
+  stackTypescriptM, stackPythonM, stackGoM, stackRustM, stackJavaM,
 ]
 
 validateRegistry(ALL_BUNDLES)
