@@ -3,9 +3,9 @@ import { execaCommand } from 'execa'
 import { copyFile, mkdir, readFile, writeFile, chmod, access } from 'node:fs/promises'
 import { basename, dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { readMcpJson, writeMcpJson } from '../config/mcp-reader.js'
-import { getRoleData } from '../utils/bundle-utils.js'
-import { getAllBundles } from '../registry/index.js'
+import { readMcpJson, writeMcpJson } from '@/config/mcp-reader.js'
+import { getRoleData } from '@/utils/bundle-utils.js'
+import { getAllBundles } from '@/registry/index.js'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 const PKG_ROOT = __dir.includes('/dist') ? join(__dir, '..') : join(__dir, '../..')

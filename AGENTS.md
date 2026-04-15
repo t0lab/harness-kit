@@ -18,14 +18,15 @@ CLI that scaffolds AI agent harness environments. `harness-kit init` → wizard 
 ```
 packages/harness-kit/
   src/
-    commands/   → command definitions (init, add, list, status)
-    wizard/     → interactive TUI (Ink + React, xstate v5 machine)
-      index.ts            → runWizard + machine
-      store/              → BudgetState (framework-agnostic)
-      hooks/              → useBudgetSnapshot
-      lib/                → run-ink, detector, detect-tech, filter, tech-options, layout
-      components/ui/      → WizardShell, Summary, Footer, SelectList
-      components/steps/   → project-info, tech-stack-select, detect-tooling, harness-config, preview-apply
+    commands/   → command definitions (init, add, list, status, budget, activate)
+    components/ → reusable TUI components
+      steps/    → wizard step screens
+      ui/       → generic shell/layout components
+      *-display.tsx → CLI command output displays (budget, list, status, etc.)
+    hooks/      → shared React hooks (useBudgetSnapshot)
+    lib/        → shared logic (run-ink, detector, filter, tech-options, layout)
+    store/      → shared state management (BudgetState)
+    wizard/     → orchestrator (index.ts + machine)
     engine/     → template-renderer, scaffolder, detector
     registry/   → bundle registry (TypeScript manifests, query API)
       bundles/

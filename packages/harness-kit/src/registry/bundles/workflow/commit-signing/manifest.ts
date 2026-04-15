@@ -1,4 +1,4 @@
-import type { BundleManifest } from '../../../types.js'
+import type { BundleManifest } from '@/registry/types.js'
 export const manifest: BundleManifest = {
   name: 'commit-signing',
   description: 'GPG/SSH commit signing — setup, verification, troubleshooting',

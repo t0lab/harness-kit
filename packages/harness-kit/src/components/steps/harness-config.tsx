@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from 'react'
-import { WizardShell } from '@/wizard/components/ui/WizardShell.js'
-import { SelectList } from '@/wizard/components/ui/SelectList.js'
-import { runInk } from '@/wizard/lib/run-ink.js'
+import { WizardShell } from '@/components/ui/WizardShell.js'
+import { SelectList } from '@/components/ui/SelectList.js'
+import { runInk } from '@/lib/run-ink.js'
 import { getBundlesByCategory } from '@/registry/index.js'
-import type { BudgetState } from '@/wizard/store/budget-state.js'
+import type { BudgetState } from '@/store/budget-state.js'
 import type { WizardContext } from '@/wizard/types.js'
-import type { SummaryItem } from '@/wizard/components/ui/Summary.js'
-import type { SelectListItem } from '@/wizard/components/ui/SelectList.js'
+import type { SummaryItem } from '@/components/ui/Summary.js'
+import type { SelectListItem } from '@/components/ui/SelectList.js'
 
 type Category = Parameters<typeof getBundlesByCategory>[0]
 

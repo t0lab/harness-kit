@@ -1,11 +1,14 @@
 import * as p from '@clack/prompts'
 import chalk from 'chalk'
-import { getAllBundles } from '../registry/index.js'
-import { harnessExists, readHarnessConfig, writeHarnessConfig } from '../config/harness-reader.js'
-import { installBundle } from '../engine/artifact-installer.js'
-import { getRoleData } from '../utils/bundle-utils.js'
+import React from 'react'
+import { render } from 'ink'
+import { getAllBundles } from '@/registry/index.js'
+import { harnessExists, readHarnessConfig, writeHarnessConfig } from '@/config/harness-reader.js'
+import { installBundle } from '@/engine/artifact-installer.js'
+import { getRoleData } from '@/utils/bundle-utils.js'
 import type { EnvVar } from '@harness-kit/core'
 import type { Command } from 'commander'
+import { AddDisplay } from '@/components/add-display.js'
 
 export interface AddResult {
   bundleName: string
@@ -59,24 +62,6 @@ export async function executeAdd(
   return { bundleName, role, mcpUpdated: result.mcpUpdated, warnings: result.warnings, envVars }
 }
 
-function printAddResult(result: AddResult): void {
-  console.log(`\n${chalk.green('✓')}  Added ${result.bundleName} (${result.role})`)
-  if (result.mcpUpdated) console.log('   .mcp.json updated')
-
-  if (result.envVars.length > 0) {
-    console.log('\n   Env vars needed:')
-    for (const e of result.envVars) {
-      const req = e.required ? chalk.red('[required]') : '[optional]'
-      console.log(`     ${e.key.padEnd(24)} — ${e.description}  ${req}`)
-    }
-    console.log('\n   Set in your shell or .env before running Claude.')
-  }
-
-  for (const w of result.warnings) {
-    console.log(`   ${chalk.yellow('⚠')} ${w}`)
-  }
-}
-
 // process.exit(1) returns `never`, so TypeScript infers Promise<AddResult> correctly
 async function runAdd(
   cwd: string,
@@ -118,6 +103,9 @@ export function registerAddCommand(program: Command): void {
       }
 
       const result = await runAdd(cwd, bundleName, opts)
-      printAddResult(result)
+      
+      const { unmount } = render(React.createElement(AddDisplay, { result }))
+      await new Promise((resolve) => setTimeout(resolve, 50))
+      unmount()
     })
 }

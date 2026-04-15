@@ -11,6 +11,11 @@
       "sourceType": "local",
       "computedHash": "0bd55648a6c3c66b2137881912ba6362cf61b04ab33dc16cae1be814765ad392"
     },
+    "docs-as-code": {
+      "source": "/home/liamlee/t0lab/harness-kit/packages/harness-kit/skills/docs-as-code",
+      "sourceType": "local",
+      "computedHash": "6807b419e230180ca97f78a01f6bfe0105d5f8f3cce644c657c0520a093e4891"
+    },
     "memory": {
       "source": "/home/liamlee/t0lab/harness-kit/packages/harness-kit/skills/memory",
       "sourceType": "local",

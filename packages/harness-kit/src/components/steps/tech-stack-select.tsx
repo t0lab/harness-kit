@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { WizardShell } from '@/wizard/components/ui/WizardShell.js'
-import { SelectList } from '@/wizard/components/ui/SelectList.js'
-import { runInk } from '@/wizard/lib/run-ink.js'
-import { detectTechStack } from '@/wizard/lib/detect-tech.js'
-import type { BudgetState } from '@/wizard/store/budget-state.js'
+import { WizardShell } from '@/components/ui/WizardShell.js'
+import { SelectList } from '@/components/ui/SelectList.js'
+import { runInk } from '@/lib/run-ink.js'
+import { detectTechStack } from '@/lib/detect-tech.js'
+import type { BudgetState } from '@/store/budget-state.js'
 import type { TechOption } from '@/wizard/types.js'
-import type { SummaryItem } from '@/wizard/components/ui/Summary.js'
-import type { SelectListItem } from '@/wizard/components/ui/SelectList.js'
+import type { SummaryItem } from '@/components/ui/Summary.js'
+import type { SelectListItem } from '@/components/ui/SelectList.js'
 
 interface Props {
   options: TechOption[]

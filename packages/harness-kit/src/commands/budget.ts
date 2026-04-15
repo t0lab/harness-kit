@@ -4,16 +4,27 @@ import React from 'react'
 import { render } from 'ink'
 import type { Command } from 'commander'
 import type { Artifact, BundleManifest, HarnessConfig } from '@harness-kit/core'
-import { harnessExists, readHarnessConfig } from '../config/harness-reader.js'
-import { getAllBundles } from '../registry/index.js'
-import { getRoleData } from '../utils/bundle-utils.js'
-import { computeContextCost, type CostFile } from '../engine/context-cost.js'
-import { BudgetDisplay } from './budget-display.js'
+import { harnessExists, readHarnessConfig } from '@/config/harness-reader.js'
+import { getAllBundles } from '@/registry/index.js'
+import { getRoleData } from '@/utils/bundle-utils.js'
+import { computeContextCost, type CostFile } from '@/engine/context-cost.js'
+import { BudgetDisplay } from '@/components/budget-display.js'
 
-export const DEFAULT_CONTEXT_WINDOW = 200_000
-export const WARN_THRESHOLD_PERCENT = 40
+import {
+  DEFAULT_CONTEXT_WINDOW,
+  WARN_THRESHOLD_PERCENT,
+  type ContextWindowSource,
+  type BudgetOptions,
+  resolveContextWindow,
+} from '@/lib/budget-config.js'
 
-export type ContextWindowSource = 'flag' | 'env' | 'harness.json' | 'default'
+export {
+  DEFAULT_CONTEXT_WINDOW,
+  WARN_THRESHOLD_PERCENT,
+  type ContextWindowSource,
+  type BudgetOptions,
+  resolveContextWindow,
+}
 
 export interface BundleBudget {
   name: string
@@ -37,31 +48,8 @@ export interface BudgetReport {
   warnThresholdPercent: number
 }
 
-export interface BudgetOptions {
-  contextWindow?: number
-}
-
 interface HarnessConfigWithWindow {
   contextWindow?: number
-}
-
-export function resolveContextWindow(
-  options: BudgetOptions,
-  harnessJson: HarnessConfigWithWindow = {},
-  env: NodeJS.ProcessEnv = process.env
-): { value: number; source: ContextWindowSource } {
-  if (typeof options.contextWindow === 'number' && options.contextWindow > 0) {
-    return { value: options.contextWindow, source: 'flag' }
-  }
-  const envVal = env.HARNESS_KIT_CONTEXT_WINDOW
-  if (envVal) {
-    const n = Number(envVal)
-    if (Number.isFinite(n) && n > 0) return { value: n, source: 'env' }
-  }
-  if (typeof harnessJson.contextWindow === 'number' && harnessJson.contextWindow > 0) {
-    return { value: harnessJson.contextWindow, source: 'harness.json' }
-  }
-  return { value: DEFAULT_CONTEXT_WINDOW, source: 'default' }
 }
 
 interface ManagedPathMap {

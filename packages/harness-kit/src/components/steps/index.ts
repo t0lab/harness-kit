@@ -1,0 +1,5 @@
+export { stepProjectInfo } from '@/components/steps/project-info.js'
+export { stepDetectTooling } from '@/components/steps/detect-tooling.js'
+export { stepHarnessConfig } from '@/components/steps/harness-config.js'
+export { stepPreviewApply } from '@/components/steps/preview-apply.js'
+export { selectTechStack } from '@/components/steps/tech-stack-select.js'

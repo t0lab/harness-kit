@@ -1,8 +1,11 @@
 import chalk from 'chalk'
-import { getAllBundles } from '../registry/index.js'
-import { harnessExists, readHarnessConfig } from '../config/harness-reader.js'
+import React from 'react'
+import { render } from 'ink'
+import { getAllBundles } from '@/registry/index.js'
+import { harnessExists, readHarnessConfig } from '@/config/harness-reader.js'
 import type { BundleManifest, BundleCategory } from '@harness-kit/core'
 import type { Command } from 'commander'
+import { ListDisplay } from '@/components/list-display.js'
 
 const BUNDLE_CATEGORIES: BundleCategory[] = [
   'git-workflow', 'workflow-preset', 'memory', 'browser', 'search', 'scrape',
@@ -73,13 +76,8 @@ export function registerListCommand(program: Command): void {
 
       const groups = groupBundlesByDefaultRole(filtered)
 
-      for (const [category, members] of [...groups.entries()].sort()) {
-        console.log(`\n${chalk.bold(category)} (${members.length})`)
-        for (const b of [...members].sort((a, c) => a.name.localeCompare(c.name))) {
-          const marker = installedNames.has(b.name) ? chalk.green('✓') : ' '
-          const tag = b.experimental ? chalk.yellow(' [experimental]') : ''
-          console.log(`  ${b.name.padEnd(22)} ${marker}  ${b.description}${tag}`)
-        }
-      }
+      const { unmount } = render(React.createElement(ListDisplay, { groups, installedNames }))
+      await new Promise((resolve) => setTimeout(resolve, 50))
+      unmount()
     })
 }

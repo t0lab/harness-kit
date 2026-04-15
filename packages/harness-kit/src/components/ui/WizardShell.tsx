@@ -1,8 +1,8 @@
 import React, { type ReactNode, useEffect, useState } from 'react'
 import { Box, Text, useStdout } from 'ink'
-import { Summary, type SummaryItem } from '@/wizard/components/ui/Summary.js'
-import { Footer } from '@/wizard/components/ui/Footer.js'
-import type { BudgetState } from '@/wizard/store/budget-state.js'
+import { Summary, type SummaryItem } from '@/components/ui/Summary.js'
+import { Footer } from '@/components/ui/Footer.js'
+import type { BudgetState } from '@/store/budget-state.js'
 
 export interface WizardShellProps {
   stepCurrent: number

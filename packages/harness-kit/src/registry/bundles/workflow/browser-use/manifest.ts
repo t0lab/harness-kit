@@ -1,4 +1,4 @@
-import type { BundleManifest } from '../../../types.js'
+import type { BundleManifest } from '@/registry/types.js'
 export const manifest: BundleManifest = {
   name: 'browser-use',
   description: 'browser-use — CLI-daemon browser automation, natural-language driven',

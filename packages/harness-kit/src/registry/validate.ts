@@ -1,4 +1,4 @@
-import type { Artifact, BundleManifest } from './types.js'
+import type { Artifact, BundleManifest } from '@/registry/types.js'
 
 function collectArtifacts(bundle: BundleManifest): Artifact[] {
   const out: Artifact[] = [...bundle.common.artifacts]

@@ -1,9 +1,9 @@
 import { createMachine, assign, createActor } from 'xstate'
 import type { WizardContext, WizardEvent } from '@/wizard/types.js'
-import { stepProjectInfo, stepDetectTooling, stepHarnessConfig, stepPreviewApply, selectTechStack } from '@/wizard/components/steps'
-import { TECH_OPTIONS } from '@/wizard/lib/tech-options'
-import { applySymbolFix } from '@/wizard/lib/layout'
-import { BudgetState } from '@/wizard/store/budget-state'
+import { stepProjectInfo, stepDetectTooling, stepHarnessConfig, stepPreviewApply, selectTechStack } from '@/components/steps/index.js'
+import { TECH_OPTIONS } from '@/lib/tech-options.js'
+import { applySymbolFix } from '@/lib/layout.js'
+import { BudgetState } from '@/store/budget-state.js'
 import { getRecommendedByCategory } from '@/registry'
 
 const initialContext: WizardContext = {

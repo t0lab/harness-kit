@@ -28,19 +28,31 @@ Tài liệu này là bản đồ các tầng (layer map) và quy tắc phụ thu
 ┌─────────────────────────────────────────────┐
 │               engine/                       │
 │   (artifact-installer, template-renderer,   │
-│    scaffolder — detector sống trong wizard/)│
+│    scaffolder)                              │
+└────────────────────┬────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────┐
+│               components/                   │
+│      (TUI components cho wizard & commands) │
 └────────────────────┬────────────────────────┘
                      │
                      ▼
 ┌─────────────────────────────────────────────┐
 │               wizard/                       │
-│   (thu thập lựa chọn từ người dùng qua UI)  │
+│      (điều phối luồng wizard bằng xstate)   │
 └────────────────────┬────────────────────────┘
                      │
                      ▼
 ┌─────────────────────────────────────────────┐
 │              commands/                      │
 │    (điểm vào của từng lệnh CLI cụ thể)      │
+└────────────────────┬────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────┐
+│                  cli/                       │
+│      (khai báo lệnh với commander)          │
 └─────────────────────────────────────────────┘
 
            ┌──────────────┐
@@ -60,8 +72,9 @@ Luồng phụ thuộc chỉ đi **một chiều: xuống**. Tầng dưới khôn
 | `registry` | `src/registry/` | `@harness-kit/core`, `utils/` |
 | `config` | `src/config/` | `@harness-kit/core`, `utils/`, Node fs |
 | `engine` | `src/engine/` | `@harness-kit/core`, `registry/`, `config/`, `utils/` |
-| `wizard` | `src/wizard/` | `@harness-kit/core`, `registry/`, `utils/`, `@clack/prompts`, xstate |
-| `commands` | `src/commands/` | Tất cả các tầng trên, `config/`, `engine/`, `wizard/` |
+| `components` | `src/components/` | `@harness-kit/core`, `registry/`, `utils/`, `lib/`, `hooks/`, `store/` |
+| `wizard` | `src/wizard/` | `@harness-kit/core`, `registry/`, `utils/`, `components/`, `lib/`, `hooks/`, `store/`, xstate |
+| `commands` | `src/commands/` | Tất cả các tầng trên, `config/`, `engine/`, `components/` |
 | `utils` | `src/utils/` | `@harness-kit/core` (không import tầng nào khác) |
 | `cli` | `src/cli/` | `commands/`, commander |
 
@@ -76,8 +89,8 @@ Khi thêm logic mới, hãy tự hỏi những câu hỏi sau theo thứ tự:
 - [ ] **Là logic đọc hoặc ghi file cấu hình** (`harness.json`, `.mcp.json`)**?** → `src/config/`
 - [ ] **Là logic ghi file vào project của người dùng** (artifact, scaffold, template)**?** → `src/engine/`
 - [ ] **Là helper nhỏ tái sử dụng không phụ thuộc side-effect?** → `src/utils/`
-- [ ] **Là bước tương tác UI hỏi người dùng lựa chọn?** → `src/wizard/steps/`
-- [ ] **Là logic điều phối toàn bộ một lệnh CLI** (`init`, `add`, `list`, `status`)**?** → `src/commands/`
+- [ ] **Là bước tương tác UI hoặc hiển thị kết quả lệnh?** → `src/components/`
+- [ ] **Là logic điều phối toàn bộ một lệnh CLI** (`init`, `add`, `list`, `status`, `budget`)**?** → `src/commands/`
 - [ ] **Là khai báo lệnh cho commander?** → `src/cli/`
 
 ---
@@ -112,11 +125,25 @@ Chịu trách nhiệm đọc và ghi hai file cấu hình trung tâm của một
 
 Tầng thực thi — nơi các lựa chọn trở thành thay đổi trên đĩa. `artifact-installer.ts` cung cấp `installBundle(cwd, bundle, role)`: đọc manifest, dispatch từng loại artifact (mcp, skill, tool, rule, agent, hook, git-hook, plugin) đến handler tương ứng, và trả về `InstallResult`. `template-renderer.ts` cung cấp `renderTemplate(name, context)`: đọc file `.hbs` từ `templates/` và biên dịch qua Handlebars. `scaffolder.ts` cung cấp `writeScaffoldFile(cwd, file, conflict)`: ghi một file vào project đích với chiến lược `overwrite` hoặc `skip`.
 
-> Lưu ý: `detector.ts` (kiểm tra tooling như ESLint, Prettier, tsconfig) sống trong `src/wizard/`, không phải `src/engine/` — vì nó chỉ chạy trong luồng interactive và phụ thuộc `selectedTech` từ wizard context.
+> Lưu ý: `detector.ts` (kiểm tra tooling như ESLint, Prettier, tsconfig) sống trong `src/lib/`, không phải `src/engine/` — vì nó chỉ chạy trong luồng interactive và phụ thuộc `selectedTech` từ wizard context.
+
+### `src/components/`
+
+Tầng hiển thị UI cho toàn bộ CLI. Bao gồm các Ink component tái sử dụng được:
+- `steps/`: Các màn hình tương tác của wizard.
+- `ui/`: Các component layout chung (Shell, Footer, SelectList).
+- `*-display.tsx`: Các component hiển thị kết quả cho từng command (Budget, List, Status, Add, Activate).
+
+### `src/lib/`, `src/hooks/`, `src/store/`
+
+Chứa logic nghiệp vụ dùng chung giữa wizard và các command. Được tách ra khỏi `wizard/` để có thể tái sử dụng:
+- `lib/`: Các hàm utility nghiệp vụ (run-ink, detector, filter, tech-options, layout).
+- `hooks/`: Các React hook dùng chung cho UI.
+- `store/`: Quản lý state dùng chung (BudgetState).
 
 ### `src/wizard/`
 
-Tầng tương tác người dùng. Quản lý luồng multi-step bằng XState machine (`wizardMachine`) với các trạng thái: `projectInfo → techStackSelect → detectTooling → harnessConfig → preview → apply → done`. Hàm `runWizard()` là điểm vào chính: khởi động actor, gọi từng step function (`stepProjectInfo`, `selectTechStack`, `stepDetectTooling`, `stepHarnessConfig`, `stepPreviewApply`) theo trạng thái hiện tại, rồi gửi event kết quả về machine. `detector.ts` phát hiện tooling đã cài trong môi trường. `layout.ts` cung cấp `applySymbolFix()` để fix ký tự Unicode trên terminal Windows. Wizard **không ghi file** — chỉ thu thập và truyền `WizardContext` xuống cho `engine/`.
+Tầng điều phối tương tác người dùng cho lệnh `init`. Quản lý luồng multi-step bằng XState machine (`wizardMachine`) với các trạng thái: `projectInfo → techStackSelect → detectTooling → harnessConfig → preview → apply → done`. Hàm `runWizard()` là điểm vào chính: khởi động actor và truyền kết quả cho `engine/`. Wizard sử dụng các component từ `src/components/steps/`. Các logic helper như `detector.ts` và `layout.ts` hiện đã được chuyển sang `src/lib/`.
 
 ### `src/commands/`
 

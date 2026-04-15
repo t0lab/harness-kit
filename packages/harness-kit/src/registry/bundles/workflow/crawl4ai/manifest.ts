@@ -1,4 +1,4 @@
-import type { BundleManifest } from '../../../types.js'
+import type { BundleManifest } from '@/registry/types.js'
 export const manifest: BundleManifest = {
   name: 'crawl4ai',
   description: 'Crawl4AI — open-source scraping with JS rendering, LLM extraction, deep crawl',

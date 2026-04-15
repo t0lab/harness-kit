@@ -1,4 +1,4 @@
-import type { BundleManifest } from '../../../types.js'
+import type { BundleManifest } from '@/registry/types.js'
 
 export const manifest: BundleManifest = {
   name: 'supabase',

@@ -1,11 +1,11 @@
 import { Command } from 'commander'
 import { HARNESS_KIT_VERSION } from '@harness-kit/core'
-import { registerInitCommand } from './commands/init.js'
-import { registerListCommand } from './commands/list.js'
-import { registerAddCommand } from './commands/add.js'
-import { registerStatusCommand } from './commands/status.js'
-import { registerActivateCommand } from './commands/activate.js'
-import { registerBudgetCommand } from './commands/budget.js'
+import { registerInitCommand } from '@/commands/init.js'
+import { registerListCommand } from '@/commands/list.js'
+import { registerAddCommand } from '@/commands/add.js'
+import { registerStatusCommand } from '@/commands/status.js'
+import { registerActivateCommand } from '@/commands/activate.js'
+import { registerBudgetCommand } from '@/commands/budget.js'
 
 export function createCli(): Command {
   const program = new Command()

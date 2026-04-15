@@ -1,8 +1,8 @@
 import React, { memo, useEffect, useState } from 'react'
 import { Box, Text } from 'ink'
-import type { BudgetState } from '@/wizard/store/budget-state.js'
-import { useBudgetSnapshot, type BudgetSnapshot } from '@/wizard/hooks/use-budget-snapshot.js'
-import { WARN_THRESHOLD_PERCENT } from '@/commands/budget.js'
+import type { BudgetState } from '@/store/budget-state.js'
+import { useBudgetSnapshot, type BudgetSnapshot } from '@/hooks/use-budget-snapshot.js'
+import { WARN_THRESHOLD_PERCENT } from '@/lib/budget-config.js'
 
 function useDebounced<T>(value: T, ms = 50): T {
   const [v, setV] = useState(value)

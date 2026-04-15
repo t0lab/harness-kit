@@ -8,6 +8,7 @@
     "agent-browser",
     "commit-signing",
     "local-memory",
-    "pre-commit-hooks"
+    "pre-commit-hooks",
+    "docs-as-code"
   ]
 }

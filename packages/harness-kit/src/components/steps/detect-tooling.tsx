@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Text, useInput } from 'ink'
 import Spinner from 'ink-spinner'
-import { WizardShell } from '@/wizard/components/ui/WizardShell.js'
-import { runInk } from '@/wizard/lib/run-ink.js'
-import { detectTooling } from '@/wizard/lib/detector.js'
+import { WizardShell } from '@/components/ui/WizardShell.js'
+import { runInk } from '@/lib/run-ink.js'
+import { detectTooling } from '@/lib/detector.js'
 import type { WizardContext, DetectedIssue } from '@/wizard/types.js'
-import type { BudgetState } from '@/wizard/store/budget-state.js'
-import type { SummaryItem } from '@/wizard/components/ui/Summary.js'
+import type { BudgetState } from '@/store/budget-state.js'
+import type { SummaryItem } from '@/components/ui/Summary.js'
 
 interface Props {
   ctx: WizardContext

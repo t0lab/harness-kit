@@ -2,9 +2,9 @@ import { readdir, readFile, stat } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { Artifact, BundleManifest } from '@harness-kit/core'
-import { getAllBundles } from '../registry/index.js'
-import { getRoleData } from '../utils/bundle-utils.js'
-import { countByKind, type FileKind } from './context-cost.js'
+import { getAllBundles } from '@/registry/index.js'
+import { getRoleData } from '@/utils/bundle-utils.js'
+import { countByKind, type FileKind } from '@/engine/context-cost.js'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 const PKG_ROOT = __dir.includes('/dist') ? join(__dir, '..') : join(__dir, '../..')

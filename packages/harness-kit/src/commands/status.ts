@@ -1,12 +1,15 @@
 import chalk from 'chalk'
+import React from 'react'
+import { render } from 'ink'
 import { access } from 'node:fs/promises'
 import { join } from 'node:path'
-import { harnessExists, readHarnessConfig } from '../config/harness-reader.js'
-import { readMcpJsonKeys } from '../config/mcp-reader.js'
-import { getRoleData } from '../utils/bundle-utils.js'
-import { getAllBundles } from '../registry/index.js'
+import { harnessExists, readHarnessConfig } from '@/config/harness-reader.js'
+import { readMcpJsonKeys } from '@/config/mcp-reader.js'
+import { getRoleData } from '@/utils/bundle-utils.js'
+import { getAllBundles } from '@/registry/index.js'
 import type { HarnessConfig } from '@harness-kit/core'
 import type { Command } from 'commander'
+import { StatusDisplay } from '@/components/status-display.js'
 
 const CORE_FILES = [
   'CLAUDE.md',
@@ -112,54 +115,6 @@ export async function auditHarness(cwd: string): Promise<AuditResult> {
   }
 }
 
-function renderBundles(bundles: BundleAudit[]): void {
-  console.log(
-    chalk.bold(`── Installed bundles (${bundles.length}) ──────────────────────────`)
-  )
-  for (const b of bundles) {
-    const icon = b.drift ? chalk.red('✗') : chalk.green('✓')
-    const mcp = b.hasMcp ? '  mcp' : ''
-    const drift = b.drift ? chalk.red('  — missing from .mcp.json [drift]') : ''
-    console.log(`  ${icon} ${b.name.padEnd(20)} ${b.category.padEnd(20)}${mcp}${drift}`)
-  }
-}
-
-function renderFiles(files: FileAudit[]): void {
-  console.log(`\n${chalk.bold('── Config files ───────────────────────────────────')}`)
-  for (const f of files) {
-    const icon = f.exists ? chalk.green('✓') : chalk.red('✗')
-    const missing = f.exists ? '' : chalk.red('  — missing')
-    console.log(`  ${icon} ${f.path}${missing}`)
-  }
-}
-
-function renderEnvVars(envVars: EnvAudit[]): void {
-  if (envVars.length === 0) return
-  console.log(`\n${chalk.bold('── Env vars ───────────────────────────────────────')}`)
-  for (const e of envVars) {
-    const icon = e.set ? chalk.green('✓') : chalk.red('✗')
-    const status = e.set ? '' : chalk.red('  — not set') + `  (${e.bundleName})`
-    console.log(`  ${icon} ${e.key.padEnd(28)}${status}`)
-  }
-}
-
-function renderSummary(result: AuditResult): void {
-  const driftCount = result.bundles.filter((b) => b.drift).length
-  const missingFiles = result.files.filter((f) => !f.exists).length
-  const unsetVars = result.envVars.filter((e) => !e.set).length
-
-  console.log(`\n${chalk.bold('── Summary ────────────────────────────────────────')}`)
-  if (driftCount === 0 && missingFiles === 0 && unsetVars === 0) {
-    console.log(`  ${chalk.green('✓')} All good`)
-  } else {
-    const parts: string[] = []
-    if (driftCount > 0) parts.push(chalk.red(`${driftCount} drift`))
-    if (unsetVars > 0) parts.push(chalk.yellow(`${unsetVars} env var${unsetVars > 1 ? 's' : ''} unset`))
-    if (missingFiles > 0) parts.push(chalk.red(`${missingFiles} file${missingFiles > 1 ? 's' : ''} missing`))
-    console.log(`  ${parts.join('  ·  ')}`)
-  }
-}
-
 export function registerStatusCommand(program: Command): void {
   program
     .command('status')
@@ -174,12 +129,9 @@ export function registerStatusCommand(program: Command): void {
 
       const result = await auditHarness(cwd)
 
-      console.log(`\nharness-kit — ${cwd}\n`)
-
-      renderBundles(result.bundles)
-      renderFiles(result.files)
-      renderEnvVars(result.envVars)
-      renderSummary(result)
+      const { unmount } = render(React.createElement(StatusDisplay, { cwd, auditResult: result }))
+      await new Promise((resolve) => setTimeout(resolve, 50))
+      unmount()
 
       const driftCount = result.bundles.filter((b) => b.drift).length
       const missingFiles = result.files.filter((f) => !f.exists).length

@@ -1,5 +1,5 @@
 import { useSyncExternalStore, useRef } from 'react'
-import type { BudgetState } from '@/wizard/store/budget-state.js'
+import type { BudgetState } from '@/store/budget-state.js'
 
 export interface BudgetSnapshot {
   eager: number

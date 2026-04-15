@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { countTokens } from '@harness-kit/core'
 import { estimateBundlesCost } from '@/engine/estimate-bundle-cost.js'
 import { getAllBundles } from '@/registry/index.js'
-import { resolveContextWindow, WARN_THRESHOLD_PERCENT } from '@/commands/budget.js'
+import { resolveContextWindow, WARN_THRESHOLD_PERCENT } from '@/lib/budget-config.js'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 const PKG_ROOT = __dir.includes('/dist') ? join(__dir, '..') : join(__dir, '../..')

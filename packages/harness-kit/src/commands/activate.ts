@@ -1,12 +1,15 @@
 import chalk from 'chalk'
+import React from 'react'
+import { render } from 'ink'
 import { execaCommand } from 'execa'
 import { access } from 'node:fs/promises'
 import { join } from 'node:path'
-import { harnessExists, readHarnessConfig } from '../config/harness-reader.js'
-import { getAllBundles } from '../registry/index.js'
-import { getRoleData } from '../utils/bundle-utils.js'
+import { harnessExists, readHarnessConfig } from '@/config/harness-reader.js'
+import { getAllBundles } from '@/registry/index.js'
+import { getRoleData } from '@/utils/bundle-utils.js'
 import type { HarnessConfig } from '@harness-kit/core'
 import type { Command } from 'commander'
+import { ActivateDisplay } from '@/components/activate-display.js'
 
 export interface ActivationStep {
   name: string
@@ -67,12 +70,6 @@ export async function runActivate(cwd: string): Promise<ActivationStep[]> {
   return [await activateGitHooks(cwd, config)]
 }
 
-function renderStep(step: ActivationStep): void {
-  const icon =
-    step.status === 'ok' ? chalk.green('✓') : step.status === 'skipped' ? chalk.gray('–') : chalk.red('✗')
-  console.log(`  ${icon} ${step.name.padEnd(14)} ${step.detail}`)
-}
-
 export function registerActivateCommand(program: Command): void {
   program
     .command('activate')
@@ -85,9 +82,11 @@ export function registerActivateCommand(program: Command): void {
         process.exit(1)
       }
 
-      console.log(`\nharness-kit activate — ${cwd}\n`)
       const steps = await runActivate(cwd)
-      for (const s of steps) renderStep(s)
+      
+      const { unmount } = render(React.createElement(ActivateDisplay, { cwd, steps }))
+      await new Promise((resolve) => setTimeout(resolve, 50))
+      unmount()
 
       const failed = steps.filter((s) => s.status === 'failed').length
       if (failed > 0) process.exit(1)
