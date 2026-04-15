@@ -128,9 +128,17 @@ requires: ['docker', 'chrome']  // string labels — informational, not enforced
 
 Only write files for artifact types that exist in the manifest. Don't create files for hypothetical future artifacts.
 
-### skill artifact → `packages/harness-kit/skills/<name>/SKILL.md`
+### skill artifact
 
-The SKILL.md for bundle artifacts follows the same format as all skills:
+**Prefer referencing upstream skills directly** instead of copying. If a well-maintained SKILL.md already exists in a public repo (Vercel agent-skills, superpowers, etc.), use a remote ref:
+
+```ts
+{ type: 'skill', src: 'https://github.com/org/repo --skill <skill-name>' }
+```
+
+The installer runs `npx skills add <src>` which fetches and picks the named skill. This keeps us aligned with upstream improvements and avoids forking. Only copy locally (to `packages/harness-kit/skills/<name>/SKILL.md`) when upstream is abandoned, low-quality, or needs material edits that wouldn't be accepted upstream.
+
+When writing a local SKILL.md, it follows the same format as all skills:
 
 ```
 ---
@@ -179,7 +187,7 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: '<name>',
-  description: '<one-line description of what it provides>',
+  description: '<one-line description — MUST be ≤100 chars>',
   version: '1.0.0',
   experimental: false,
   defaultRole: '<category>',
@@ -200,7 +208,7 @@ export const manifest: BundleManifest = {
 ```
 
 Conventions to follow:
-- `description` is shown in `harness-kit list` — make it scannable, not marketing copy
+- `description` is shown in `harness-kit list` — make it scannable, not marketing copy. **Hard limit: ≤100 characters** (including spaces). If it doesn't fit, cut adjectives before cutting substance.
 - `version` always starts at `'1.0.0'`
 - Put artifacts in `common` unless they genuinely differ by role
 - Only set `recommended: true` on bundles that should be default-suggested in the wizard
@@ -380,6 +388,7 @@ pnpm --filter harness-kit test tests/registry/bundles/<name>.test.ts
 Before calling the bundle done:
 
 - [ ] `manifest.ts` created and follows exact TypeScript patterns of existing manifests
+- [ ] Manifest `description` field is ≤100 characters
 - [ ] Registered in `registry/index.ts` (import + ALL_BUNDLES entry)
 - [ ] All artifact files exist (skill SKILL.md, rule .md, hooks, etc.)
 - [ ] README.md created with artifact table + pairs well with
