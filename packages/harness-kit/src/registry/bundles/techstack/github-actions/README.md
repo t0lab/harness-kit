@@ -1,9 +1,26 @@
-# GitHub Actions
+# github-actions
 
-> **Placeholder** — artifacts will be filled in a follow-up commit.
+Your agent now writes and debugs GitHub Actions workflows against the official GitHub documentation — syntax, triggers, matrices, runners, reusable workflows, caching, secrets, OIDC, deployments, and custom actions.
 
-Category: `infra`
+## What it installs
 
-Planned artifacts:
-- `rules/github-actions/` — coding conventions, patterns, security
-- `skills/github-actions/` — SKILL.md trigger for GitHub Actions files
+| Artifact | Path (in your project) | Purpose |
+|----------|------------------------|---------|
+| Skill | `.agents/skills/github-actions-docs/` | Protocol the agent follows on Actions work — grounds answers in official GitHub docs instead of stale memory. Sourced from [xixu-me/skills](https://github.com/xixu-me/skills/tree/main/skills/github-actions-docs) |
+| Rule | `.claude/rules/github-actions.md` | Always-loaded pointer: triggers on any workflow file, Actions YAML, or CI/CD question |
+
+## How it works
+
+GitHub Actions has a deceptively large surface — trigger semantics, matrix combinatorics, artifact/cache scope rules, OIDC federation for cloud deploys, reusable vs. composite actions, and permissions models change often enough that LLM memory drifts. The skill's job is to ground answers: fetch the right GitHub docs page and return docs-backed YAML rather than plausible-sounding guesses.
+
+The rule loads a pointer into every session, so the agent consults the skill before writing `on:` triggers, matrix strategies, `permissions:` blocks, `uses:` references, or deployment jobs — no explicit invocation needed.
+
+## Setup
+
+No env vars or external accounts required. The skill is fetched from GitHub during `harness-kit add` via `npx skills add`.
+
+## Pairs well with
+
+- `pre-commit-hooks` — run workflow linters (actionlint) locally before pushing CI changes
+- `commit-signing` — OIDC-authenticated signing fits naturally with Actions deploy jobs
+- `code-review-gates` — enforce secret/permissions checks on every workflow diff
