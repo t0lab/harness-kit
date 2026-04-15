@@ -1,6 +1,6 @@
 # Artifact Types Reference
 
-Full reference for all 10 artifact types in `BundleManifest`. Source of truth: `packages/core/src/types.ts`.
+Full reference for all 11 artifact types in `BundleManifest`. Source of truth: `packages/core/src/types.ts`.
 
 ---
 
@@ -42,6 +42,10 @@ Is it an agent definition file?
 
 Is it a generic file to copy into the project?
   Yes → file
+  No ↓
+
+Is this a techstack bundle that should inherit a language base's rules + skills?
+  Yes → stack (ref to a 'stack'-category bundle name)
 ```
 
 ---
@@ -196,6 +200,27 @@ Generic file copy — for config files, templates, or any other file the bundle 
 
 ---
 
+### `stack`
+```ts
+{ type: 'stack'; ref: string }
+```
+Inherits all artifacts from a `stack`-category bundle by reference. The `ref` must be the `name` of a bundle whose `roles` include `'stack'`.
+
+**Example:**
+```ts
+{ type: 'stack', ref: 'typescript' }
+```
+
+**When to use:**
+- In a `techstack`-category bundle that builds on a language base (e.g. `nextjs` → `typescript`, `fastapi` → `python`)
+- Never use in a `stack`-category bundle itself — the validator will throw (cycle prevention)
+
+**Resolver behavior:** `resolveStackArtifacts(bundle)` expands the ref into the target stack's artifacts, deduped by path. Depth is always 1.
+
+**Infra/AI bundles that are language-agnostic** (docker, terraform, langchain) should NOT add a `stack` ref — the user's other tech selections provide the language context.
+
+---
+
 ## Combining Artifact Types
 
 Most bundles use a small combination:
@@ -207,5 +232,8 @@ Most bundles use a small combination:
 | MCP + guidance | `mcp` + `skill` | — |
 | Git enforcement | `git-hook` (+ optional `rule`) | `pre-commit-hooks` |
 | Auto-gate | `hook` (+ optional `rule`) | — |
+| Language base (`stack`) | `rule` × 4 + `skill` | `typescript`, `python`, `go` |
+| Framework bundle (`techstack`) | `stack` ref + `rule` + `skill` | `nextjs`, `fastapi`, `spring` |
+| Infra/AI bundle (`techstack`, no stack ref) | `rule` + `skill` | `docker`, `langchain`, `terraform` |
 
 Keep the artifact list minimal — every artifact installed increases the user's context window footprint.

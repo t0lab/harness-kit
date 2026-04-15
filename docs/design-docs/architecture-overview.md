@@ -12,10 +12,10 @@ Tài liệu này là bản đồ API surface của toàn bộ codebase. Mục đ
 
 | Export | Loại | Mô tả |
 |--------|------|-------|
-| `BundleCategory` | `type` | Union của 7 category string: `'git-workflow' \| 'workflow-preset' \| 'memory' \| 'browser' \| 'search' \| 'scrape' \| 'mcp-tool'` |
+| `BundleCategory` | `type` | Union của 9 category string: `'git-workflow' \| 'workflow-preset' \| 'memory' \| 'browser' \| 'search' \| 'scrape' \| 'mcp-tool' \| 'stack' \| 'techstack'` |
 | `ClaudeHookType` | `type` | Union: `'PreToolUse' \| 'PostToolUse' \| 'Stop' \| 'Notification'` |
 | `GitHookName` | `type` | Union: `'pre-commit' \| 'commit-msg' \| 'pre-push'` |
-| `Artifact` | `type` | Discriminated union (10 variants) cho từng loại artifact: `mcp`, `skill`, `tool`, `plugin`, `hook`, `git-hook`, `rule`, `agent`, `command`, `file` |
+| `Artifact` | `type` | Discriminated union (11 variants) cho từng loại artifact: `mcp`, `skill`, `tool`, `plugin`, `hook`, `git-hook`, `rule`, `agent`, `command`, `file`, `stack` |
 | `EnvVar` | `interface` | `{ key, description, required, default? }` — một biến môi trường cần thiết cho bundle |
 | `BundleManifest` | `interface` | Schema đầy đủ của một bundle: `name`, `description`, `version`, `experimental`, `defaultRole`, `common.artifacts`, `common.env?`, `common.requires?`, `roles` |
 | `HarnessConfig` | `interface` | Schema của `harness.json`: `{ version, registry, techStack, bundles }` |
@@ -24,7 +24,7 @@ Tài liệu này là bản đồ API surface của toàn bộ codebase. Mục đ
 
 ## Module: Registry (`packages/harness-kit/src/registry/`)
 
-**Trách nhiệm:** Đóng gói toàn bộ bundle manifests thành một TypeScript bundle duy nhất. Là nguồn sự thật duy nhất về danh sách bundles có sẵn (40+ bundles). Không đọc file — dữ liệu được nhúng tĩnh lúc build.
+**Trách nhiệm:** Đóng gói toàn bộ bundle manifests thành một TypeScript bundle duy nhất. Là nguồn sự thật duy nhất về danh sách bundles có sẵn (50 bundles: 26 workflow + 5 stack + 19 techstack). Không đọc file — dữ liệu được nhúng tĩnh lúc build. Chạy `validateRegistry` khi load để bắt lỗi cycle và ref không hợp lệ.
 
 **File:** `src/registry/index.ts`
 
@@ -34,6 +34,8 @@ Tài liệu này là bản đồ API surface của toàn bộ codebase. Mục đ
 | `getBundlesByCategory` | `(category: BundleCategory): BundleManifest[]` | Lọc bundles theo category — bundle được tính nếu **có role tương ứng** (không chỉ `defaultRole`) |
 | `getBundle` | `(name: string): BundleManifest` | Lấy một bundle theo tên; ném lỗi nếu không tìm thấy |
 | `getRecommendedByCategory` | `(category: BundleCategory): BundleManifest[]` | Lọc bundles có `recommended: true` trong role của category đó |
+| `resolveStackArtifacts` | `(bundle: BundleManifest): Artifact[]` | Expand `type:'stack'` refs thành flat deduped artifact list; depth luôn = 1 (stack bundles bị cấm tự ref) |
+| `validateRegistry` | `(bundles: BundleManifest[]): void` | Kiểm tra cycle (`stack` bundle không được chứa `type:'stack'`), ref hợp lệ — ném Error ngay khi load |
 
 **Không nên gọi:** Truy cập trực tiếp từng `manifest.js` file trong `bundles/` — luôn dùng các hàm trên.
 

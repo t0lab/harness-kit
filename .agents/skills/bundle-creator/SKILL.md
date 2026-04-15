@@ -72,17 +72,24 @@ Only proceed with a new bundle if it provides distinct value not covered by exis
 
 ### Choose the right category and defaultRole
 
-The `defaultRole` must be one of the 7 `BundleCategory` values. A bundle can appear in multiple roles via `roles`:
+The `defaultRole` must be one of the 9 `BundleCategory` values. A bundle can appear in multiple roles via `roles`:
 
-| Category | When to use |
-|----------|-------------|
-| `workflow-preset` | Behavioral rules or protocols (TDD, code review, planning) |
-| `git-workflow` | Git-specific tools or conventions |
-| `memory` | Persistent memory or knowledge storage |
-| `browser` | Browser automation or web interaction |
-| `search` | Web search or information retrieval |
-| `scrape` | Web scraping or content extraction |
-| `mcp-tool` | General-purpose MCP server that doesn't fit other categories |
+| Category | When to use | Bucket |
+|----------|-------------|--------|
+| `workflow-preset` | Behavioral rules or protocols (TDD, code review, planning) | — |
+| `git-workflow` | Git-specific tools or conventions | — |
+| `memory` | Persistent memory or knowledge storage | — |
+| `browser` | Browser automation or web interaction | — |
+| `search` | Web search or information retrieval | — |
+| `scrape` | Web scraping or content extraction | — |
+| `mcp-tool` | General-purpose MCP server that doesn't fit other categories | — |
+| `stack` | Language-base bundle (typescript, python, go, rust, java) — **cannot** contain `type:'stack'` artifacts | B |
+| `techstack` | Tool/framework bundle (nextjs, docker, langchain…) — **may** inherit via `type:'stack'` artifact | A |
+
+**Choosing `stack` vs `techstack`:**
+- `stack` = "every user of this language benefits from these rules" (idioms, types, testing conventions)
+- `techstack` = "users of this specific framework/tool benefit" (framework patterns, tool-specific skills)
+- Language-agnostic tools (docker, terraform, langchain, db) → `techstack`, no `stack` ref
 
 ### Decide which artifact types are needed
 
@@ -161,10 +168,14 @@ Git hooks run in the developer's terminal. They block the git operation if they 
 
 ## Phase 6: Write the Manifest
 
-Create `packages/harness-kit/src/registry/bundles/<name>/manifest.ts`:
+Create `packages/harness-kit/src/registry/bundles/{workflow,stack,techstack}/<name>/manifest.ts`:
+
+- `workflow/` — process/opinion bundles (existing 26)
+- `stack/` — language-base bundles (5 languages)
+- `techstack/` — tool/framework bundles (19+)
 
 ```ts
-import type { BundleManifest } from '../../types.js'
+import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: '<name>',

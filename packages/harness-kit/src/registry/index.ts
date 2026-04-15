@@ -34,6 +34,26 @@ import { manifest as stackGoM }         from './bundles/stack/go/manifest.js'
 import { manifest as stackRustM }       from './bundles/stack/rust/manifest.js'
 import { manifest as stackJavaM }       from './bundles/stack/java/manifest.js'
 
+import { manifest as nextjsM }        from './bundles/techstack/nextjs/manifest.js'
+import { manifest as reactM }         from './bundles/techstack/react/manifest.js'
+import { manifest as vueM }           from './bundles/techstack/vue/manifest.js'
+import { manifest as expressM }       from './bundles/techstack/express/manifest.js'
+import { manifest as fastifyM }       from './bundles/techstack/fastify/manifest.js'
+import { manifest as fastapiM }       from './bundles/techstack/fastapi/manifest.js'
+import { manifest as djangoM }        from './bundles/techstack/django/manifest.js'
+import { manifest as springM }        from './bundles/techstack/spring/manifest.js'
+import { manifest as postgresqlM }    from './bundles/techstack/postgresql/manifest.js'
+import { manifest as redisM }         from './bundles/techstack/redis/manifest.js'
+import { manifest as supabaseM }      from './bundles/techstack/supabase/manifest.js'
+import { manifest as dockerM }        from './bundles/techstack/docker/manifest.js'
+import { manifest as githubActionsM } from './bundles/techstack/github-actions/manifest.js'
+import { manifest as terraformM }     from './bundles/techstack/terraform/manifest.js'
+import { manifest as kubernetesM }    from './bundles/techstack/kubernetes/manifest.js'
+import { manifest as langchainM }     from './bundles/techstack/langchain/manifest.js'
+import { manifest as langgraphM }     from './bundles/techstack/langgraph/manifest.js'
+import { manifest as llamaindexM }    from './bundles/techstack/llamaindex/manifest.js'
+import { manifest as anthropicSdkM }  from './bundles/techstack/anthropic-sdk/manifest.js'
+
 const ALL_BUNDLES: BundleManifest[] = [
   tavilyM, mem0M, playwrightM, browserUseM, agentBrowserM,
   braveSearchM, firecrawlM, crawl4aiM,
@@ -43,6 +63,11 @@ const ALL_BUNDLES: BundleManifest[] = [
   systematicDebuggingM, codeReviewGatesM, securityReviewM, contextDisciplineM,
   localMemoryM, noMemoryM,
   stackTypescriptM, stackPythonM, stackGoM, stackRustM, stackJavaM,
+  nextjsM, reactM, vueM,
+  expressM, fastifyM, fastapiM, djangoM, springM,
+  postgresqlM, redisM, supabaseM,
+  dockerM, githubActionsM, terraformM, kubernetesM,
+  langchainM, langgraphM, llamaindexM, anthropicSdkM,
 ]
 
 validateRegistry(ALL_BUNDLES)

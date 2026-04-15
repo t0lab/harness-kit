@@ -23,7 +23,10 @@ packages/harness-kit/
       steps/    → project-info, tech-stack-select, detect-tooling, harness-config, preview-apply
     engine/     → template-renderer, scaffolder, detector
     registry/   → bundle registry (TypeScript manifests, query API)
-      bundles/  → one folder per bundle, each with manifest.ts (40 bundles)
+      bundles/
+        workflow/   → 26 process/opinion bundles (tdd, security-review, conventional-commits…)
+        stack/      → 5 language-base bundles (typescript, python, go, rust, java)
+        techstack/  → 19 tool/framework bundles (nextjs, docker, langchain…)
       index.ts  → getAllBundles, getBundlesByCategory, getBundle, getRecommendedByCategory
       types.ts  → BundleManifest, BundleCategory, Artifact, EnvVar
   index.ts      → CLI entry point (Commander)
@@ -32,12 +35,15 @@ packages/harness-kit/
 
 ## Bundle Registry
 
-Bundles are TypeScript files in `src/registry/bundles/<name>/manifest.ts`. Each exports a `BundleManifest` object with:
+Bundles are TypeScript files in `src/registry/bundles/{workflow,stack,techstack}/<name>/manifest.ts`. Each exports a `BundleManifest` object with:
 - `common.artifacts` — installed for all roles (usually contains the MCP entry)
 - `roles` — keyed by `BundleCategory`; each role entry can mark `recommended: true`
 - `defaultRole` — the role used when this bundle is selected
 
-**Bundle categories (7):** `git-workflow`, `workflow-preset`, `memory`, `browser`, `search`, `scrape`, `mcp-tool`
+**Bundle categories (9):** `git-workflow`, `workflow-preset`, `memory`, `browser`, `search`, `scrape`, `mcp-tool`, `stack`, `techstack`
+
+- `stack` — language-base bundles (bucket B): forbidden from containing `type:'stack'` artifacts (cycle prevention)
+- `techstack` — tool/framework bundles (bucket A): may inherit a stack via `{ type: 'stack', ref: '<lang>' }` artifact
 
 Adding a new option = add a bundle manifest, no wizard code change.
 
