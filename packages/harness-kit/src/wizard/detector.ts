@@ -33,17 +33,12 @@ const RULES: DetectionRule[] = [
   {
     label: 'pyproject.toml',
     files: ['pyproject.toml'],
-    tech: ['fastapi', 'django', 'langchain', 'langgraph', 'llamaindex'],
+    tech: ['fastapi', 'django', 'langchain', 'langgraph'],
   },
   {
     label: 'go.mod',
     files: ['go.mod'],
     tech: ['go'],
-  },
-  {
-    label: 'Dockerfile',
-    files: ['Dockerfile'],
-    tech: ['docker'],
   },
   {
     label: 'GitHub Actions',

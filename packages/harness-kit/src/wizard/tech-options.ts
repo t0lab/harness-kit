@@ -21,14 +21,9 @@ export const TECH_OPTIONS: TechOption[] = [
   { id: 'supabase', label: 'Supabase', hint: 'PostgreSQL + auth + storage', category: 'Database', tags: ['database', 'postgres', 'auth', 'storage', 'supabase'] },
 
   // ── Platform ──────────────────────────────────────────────────
-  { id: 'docker', label: 'Docker', hint: 'containerization', category: 'Platform', tags: ['docker', 'container', 'devops', 'platform'] },
   { id: 'github-actions', label: 'GitHub Actions', hint: 'CI/CD', category: 'Platform', tags: ['ci', 'cd', 'github', 'devops', 'platform'] },
-  { id: 'terraform', label: 'Terraform', hint: 'infrastructure as code', category: 'Platform', tags: ['terraform', 'iac', 'devops', 'platform'] },
-  { id: 'kubernetes', label: 'Kubernetes', hint: 'container orchestration', category: 'Platform', tags: ['kubernetes', 'k8s', 'container', 'devops', 'platform'] },
 
   // ── AI ────────────────────────────────────────────────────────
   { id: 'langchain', label: 'LangChain', hint: 'Python / JavaScript', category: 'AI', tags: ['ai', 'llm', 'python', 'javascript', 'langchain'] },
   { id: 'langgraph', label: 'LangGraph', hint: 'graph-based agent workflows', category: 'AI', tags: ['ai', 'agents', 'graph', 'python', 'langgraph'] },
-  { id: 'llamaindex', label: 'LlamaIndex', hint: 'RAG / data pipelines', category: 'AI', tags: ['ai', 'rag', 'llm', 'python', 'data'] },
-  { id: 'anthropic-sdk', label: 'Anthropic SDK', hint: 'direct Claude API', category: 'AI', tags: ['ai', 'claude', 'anthropic', 'llm', 'api'] },
 ]

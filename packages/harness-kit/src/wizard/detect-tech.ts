@@ -69,24 +69,14 @@ export function detectTechStack(cwd: string): string[] {
     detected.push('supabase')
 
   // ── Platform ─────────────────────────────────────────────────────────────────
-  if (exists(cwd, 'Dockerfile') || exists(cwd, 'docker-compose.yml') || exists(cwd, 'docker-compose.yaml'))
-    detected.push('docker')
   if (exists(cwd, '.github', 'workflows'))
     detected.push('github-actions')
-  if (exists(cwd, 'main.tf') || exists(cwd, 'terraform'))
-    detected.push('terraform')
-  if (exists(cwd, 'k8s') || exists(cwd, 'kubernetes') || exists(cwd, 'helm'))
-    detected.push('kubernetes')
 
   // ── AI ───────────────────────────────────────────────────────────────────────
   if (hasDep(pkg, 'langchain') || hasDep(pkg, '@langchain/core') || py.includes('langchain'))
     detected.push('langchain')
   if (hasDep(pkg, '@langchain/langgraph') || py.includes('langgraph'))
     detected.push('langgraph')
-  if (py.includes('llama-index') || py.includes('llama_index') || py.includes('llamaindex'))
-    detected.push('llamaindex')
-  if (hasDep(pkg, '@anthropic-ai/sdk') || py.includes('anthropic'))
-    detected.push('anthropic-sdk')
 
   return detected
 }
