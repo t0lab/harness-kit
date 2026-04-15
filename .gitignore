@@ -4,4 +4,3 @@ dist/
 CLAUDE.local.md
 .claude/settings.local.json
 *.tsbuildinfo
-docs/tmp/

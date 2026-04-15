@@ -130,7 +130,36 @@ Handlebars helpers đã đăng ký:
 
 ## Module: Wizard (`packages/harness-kit/src/wizard/`)
 
-**Trách nhiệm:** Interactive CLI wizard dựa trên `@clack/prompts`. Thu thập thông tin project, detect tech stack, chọn bundles, và apply vào project.
+**Trách nhiệm:** Interactive CLI wizard render qua **Ink + React** component tree, điều phối bằng **xstate v5** state machine. Toàn bộ wizard chạy trong **alternate screen buffer** (`\x1b[?1049h`); footer + summary breadcrumb persist xuyên các step. Xem `docs/design-docs/tui-architecture.md` cho rationale.
+
+### Layout
+
+```
+wizard/
+  index.ts                  — runWizard() + xstate machine
+  types.ts                  — WizardContext, WizardEvent, TechOption, DetectedIssue
+  store/budget-state.ts     — framework-agnostic store; subscribe()/notify() bridged into React qua useSyncExternalStore
+  hooks/use-budget-snapshot.ts — Ink → BudgetState bridge
+  lib/
+    run-ink.ts              — render(element) wrapper, resolve/reject từ step
+    detect-tech.ts          — detectTechStack(cwd): string[]
+    detector.ts             — detectTooling(cwd, selectedTech): Promise<DetectedIssue[]>
+    filter.ts               — filterOptions(query, options)
+    tech-options.ts         — TECH_OPTIONS const
+    layout.ts               — applySymbolFix() (terminal symbol normalisation)
+  components/
+    ui/
+      WizardShell.tsx       — split-pane (header / summary 30% + active pane / footer); too-small guard
+      Summary.tsx           — left-pane breadcrumb (memoized, line-clamp-2 cho value)
+      Footer.tsx            — budget footer (memoized, debounced 50ms)
+      SelectList.tsx        — shared multi/single-select với search + scroll windowing + category labels
+    steps/
+      project-info.tsx      — 4 sequential text inputs (ink-text-input)
+      tech-stack-select.tsx — SelectList qua TECH_OPTIONS, ^D auto-detect
+      detect-tooling.tsx    — Spinner trong khi scan, sau đó multi-select tools cần install
+      harness-config.tsx    — 6 questions (gitWorkflow / memory / workflowPresets / browserTools / webSearch / webScrape) qua SelectList; key={question.key} buộc cursor reset mỗi câu
+      preview-apply.tsx     — preview list, per-file conflict resolution, exit alt-screen rồi listr2 + executeAdd
+```
 
 ### Exports chính
 
@@ -138,39 +167,27 @@ Handlebars helpers đã đăng ký:
 
 | Export | Signature | Mô tả |
 |--------|-----------|-------|
-| `wizardMachine` | XState machine | State machine định nghĩa luồng wizard (internal — không gọi trực tiếp) |
-| `runWizard` | `(): Promise<void>` | Entry point: chạy toàn bộ wizard từ đầu đến cuối |
+| `wizardMachine` | XState machine | Định nghĩa luồng `projectInfo → techStackSelect → detectTooling? → harnessConfig → preview → apply → done` (internal) |
+| `runWizard` | `(): Promise<void>` | Entry point: enter alt-screen, init `BudgetState`, drive machine bằng vòng lặp `getSnapshot/send` |
 
 **`types.ts`**
 
 | Export | Loại | Mô tả |
 |--------|------|-------|
 | `TechOption` | `interface` | `{ id, label, hint, category, tags[] }` |
-| `DetectedIssue` | `interface` | `{ label, found, installCmd? }` — kết quả kiểm tra một tool |
+| `DetectedIssue` | `interface` | `{ label, found, installCmd? }` |
 | `WizardContext` | `interface` | Toàn bộ trạng thái wizard: project info, selected tech, bundle selections theo từng category |
-| `WizardEvent` | `type` | Union của các event: `ENTER`, `NEXT`, `BACK`, `CONFIRM`, `SKIP_DETECT`, `DONE`, `ERROR` |
+| `WizardEvent` | `type` | `NEXT | BACK | CONFIRM | SKIP_DETECT | DONE | ERROR` |
 
-**Sub-modules**
+**`store/budget-state.ts`**
 
-| File | Export chính | Mô tả |
-|------|-------------|-------|
-| `detect-tech.ts` | `detectTechStack(cwd): string[]` | Phát hiện tech stack từ filesystem (package.json, config files) |
-| `detector.ts` | `detectTooling(cwd, selectedTech): Promise<DetectedIssue[]>` | Kiểm tra các tools cần thiết đã được cài chưa |
-| `filter.ts` | `filterOptions(query, options): TechOption[]` | Lọc tech options theo search query |
-| `tech-options.ts` | `TECH_OPTIONS: TechOption[]` | Danh sách tất cả tech options cho wizard |
-| `layout.ts` | `renderTooSmall`, `guardMinHeight`, `applySymbolFix`, v.v. | Tiện ích terminal UI (min height guard, logo render) |
+`BudgetState` class (không import React) — `subscribe(fn)` / `notify()` cho `useSyncExternalStore`. Setters: `setProjectText(patch)`, `setSelectedTech(ids)`, `setSelectedBundles(names)`. Tất cả wizard state mutation đi qua đây để footer cập nhật realtime.
 
-**Steps** (`wizard/steps/`)
+**Step contract**
 
-| File | Export | Mô tả |
-|------|--------|-------|
-| `project-info.ts` | `stepProjectInfo(): Promise<Partial<WizardContext>>` | Hỏi tên project, mục đích, người dùng, constraints |
-| `tech-stack-select.ts` | `selectTechStack(options): Promise<string[]>` | Interactive multi-select tech stack. Dùng **alternate screen buffer** (`\x1b[?1049h`) thay vì inline clack để tránh 3 vấn đề: (1) scroll position sai lúc khởi động, (2) SIGWINCH resize lệch frame, (3) status bar bị đẩy lên khi items fill màn hình. Space-toggle fix: register keypress listener trước `prompt.prompt()` để set `isNavigating=true`. |
-| `detect-tooling.ts` | `stepDetectTooling(ctx): Promise<Partial<WizardContext>>` | Chạy detection và hiển thị kết quả |
-| `harness-config.ts` | `stepHarnessConfig(ctx): Promise<Partial<WizardContext>>` | Chọn bundles theo từng category |
-| `preview-apply.ts` | `collectSelectedBundles(ctx): Array<{name, role}>` + `stepPreviewApply(ctx): Promise<void>` | Preview danh sách bundles sẽ cài, rồi apply |
+Mỗi `steps/*.tsx` export một async function nhận `(budget)` hoặc `(ctx, budget)`, return `Promise<Partial<WizardContext>>` (hoặc `Promise<string[]>` cho `selectTechStack`). Internally gọi `runInk(build)` để render component đến khi `onDone(value)` / `onCancel()`.
 
-**Không nên gọi:** Các step functions trực tiếp từ ngoài wizard — chúng là internal steps của `runWizard()`.
+**Không nên gọi:** step functions từ ngoài `runWizard()` — chúng giả định alt-screen và `BudgetState` đã init.
 
 ---
 

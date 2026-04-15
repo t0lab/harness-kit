@@ -30,7 +30,7 @@ Repo is scaffolded by its own CLI. `.claude/` contains bundle-installed skills +
 
 ## In flight
 
-See [harness-kit-evaluation](../../../docs/tmp/harness-kit-evaluation.md) for P0–P3 roadmap: hooks bundle, eval-harness, context-budget, subagents orchestration, telemetry-otel, drift-doctor.
+See [2026-04-14-harness-engineering evaluation](../../../docs/evaluations/2026-04-14-harness-engineering.md) for P0–P3 roadmap; active plan: [2026-04-15-from-scaffolding-to-harness-toolkit](../../../docs/exec-plans/active/2026-04-15-from-scaffolding-to-harness-toolkit.md).
 
 ## Next concrete steps
 
