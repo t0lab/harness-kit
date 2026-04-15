@@ -2,14 +2,15 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'react',
-  description: 'React — hooks, component patterns, JSX, state management',
+  description: 'React — performance rules from Vercel: waterfalls, bundle size, re-renders, hydration',
   version: '1.0.0',
-  experimental: true,
+  experimental: false,
   defaultRole: 'techstack',
   common: {
     artifacts: [
       { type: 'stack', ref: 'typescript' },
-      // TODO: add rule + skill artifacts in follow-up
+      { type: 'skill', src: 'https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices' },
+      { type: 'rule', src: 'rules/react.md' },
     ],
   },
   roles: {
