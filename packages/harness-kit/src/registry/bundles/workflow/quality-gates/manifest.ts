@@ -2,7 +2,7 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'quality-gates',
-  description: 'Fresh verification before declaring done - repo-appropriate test/lint/typecheck/build evidence, never "should pass". Wired to Claude Code Stop hook so the reminder fires automatically at end-of-turn.',
+  description: 'Fresh verification before done — test/lint/typecheck evidence, wired to Stop hook',
   version: '1.0.0',
   experimental: false,
   defaultRole: 'workflow-preset',

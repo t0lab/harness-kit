@@ -2,7 +2,7 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'local-memory',
-  description: 'Hybrid file-based memory — personal (user/feedback) local, team (project/reference) committed to repo, zero dependencies',
+  description: 'File-based memory — personal local, team committed to repo, zero deps',
   version: '1.0.0', experimental: false, defaultRole: 'memory',
   common: {
     artifacts: [

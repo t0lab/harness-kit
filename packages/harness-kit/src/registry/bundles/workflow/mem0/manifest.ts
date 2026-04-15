@@ -2,7 +2,7 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'mem0',
-  description: 'mem0 hosted long-term memory via MCP — search/add across sessions, scoped by user_id',
+  description: 'mem0 — hosted long-term memory via MCP, scoped by user_id',
   version: '1.0.0',
   experimental: false,
   defaultRole: 'memory',

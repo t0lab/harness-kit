@@ -2,7 +2,7 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'docs-as-code',
-  description: 'Repository-as-system-of-record — AGENTS.md discipline, exec plans, ADRs, and agent-legible docs structure',
+  description: 'Repo-as-system-of-record — AGENTS.md, exec plans, ADRs, agent-legible docs',
   version: '1.0.0',
   experimental: false,
   defaultRole: 'workflow-preset',

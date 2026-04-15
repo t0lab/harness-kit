@@ -1,7 +1,7 @@
 import type { BundleManifest } from '../../../types.js'
 export const manifest: BundleManifest = {
   name: 'crawl4ai',
-  description: 'Crawl4AI — open-source web scraping with JS rendering, LLM extraction, deep crawl, YouTube and PDF processing',
+  description: 'Crawl4AI — open-source scraping with JS rendering, LLM extraction, deep crawl',
   version: '1.0.0', experimental: false, defaultRole: 'scrape',
   common: {
     artifacts: [

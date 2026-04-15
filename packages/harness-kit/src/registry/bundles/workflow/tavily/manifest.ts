@@ -2,7 +2,7 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'tavily',
-  description: 'Tavily MCP - agent-oriented web search plus extract/map/crawl workflow for current, domain-scoped research',
+  description: 'Tavily MCP — agent-oriented search + extract/map/crawl for scoped research',
   version: '1.0.0',
   experimental: false,
   defaultRole: 'search',

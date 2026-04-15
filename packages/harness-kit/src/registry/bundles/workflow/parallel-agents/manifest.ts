@@ -2,7 +2,7 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'parallel-agents',
-  description: 'Dispatch protocol for parallel subagents — when to fan out, how to brief, how to contract output',
+  description: 'Parallel-subagent dispatch protocol — fan-out, briefing, output contracts',
   version: '1.0.0',
   experimental: false,
   defaultRole: 'workflow-preset',

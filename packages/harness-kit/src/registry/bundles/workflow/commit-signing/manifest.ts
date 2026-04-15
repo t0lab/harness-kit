@@ -1,7 +1,7 @@
 import type { BundleManifest } from '../../../types.js'
 export const manifest: BundleManifest = {
   name: 'commit-signing',
-  description: 'GPG and SSH commit signing — setup, verification, and troubleshooting for signed git commits',
+  description: 'GPG/SSH commit signing — setup, verification, troubleshooting',
   version: '1.0.0', experimental: false, defaultRole: 'git-workflow',
   common: {
     artifacts: [

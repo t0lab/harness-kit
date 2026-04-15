@@ -2,7 +2,7 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'playwright',
-  description: 'Playwright CLI — drive a real browser by accessibility-tree refs (snapshot → click eN → re-snapshot), plus skill distilled from OpenAI + Microsoft playwright skills',
+  description: 'Playwright CLI — drive browsers via a11y-tree refs, plus distilled best-practice skill',
   version: '1.0.0',
   experimental: false,
   defaultRole: 'browser',

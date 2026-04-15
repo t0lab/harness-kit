@@ -2,7 +2,7 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'systematic-debugging',
-  description: 'Root-cause-first debugging - reproduce, gather evidence, isolate, test one hypothesis, then fix',
+  description: 'Root-cause debugging — reproduce, isolate, test one hypothesis, then fix',
   version: '1.0.0',
   experimental: false,
   defaultRole: 'workflow-preset',
