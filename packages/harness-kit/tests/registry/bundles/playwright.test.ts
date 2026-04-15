@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { manifest } from '../../../src/registry/bundles/playwright/manifest.js'
+import { manifest } from '../../../src/registry/bundles/workflow/playwright/manifest.js'
 
 const PACKAGE_ROOT = resolve(import.meta.dirname, '../../..')
 

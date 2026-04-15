@@ -3,7 +3,7 @@ import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { executeAdd } from '../../../src/commands/add.js'
-import { manifest } from '../../../src/registry/bundles/mempalace/manifest.js'
+import { manifest } from '../../../src/registry/bundles/workflow/mempalace/manifest.js'
 
 describe('mempalace bundle artifacts', () => {
   it('exposes a plugin artifact with the MemPalace marketplace source', () => {

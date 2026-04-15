@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { manifest } from '../../../src/registry/bundles/conventional-commits/manifest.js'
+import { manifest } from '../../../src/registry/bundles/workflow/conventional-commits/manifest.js'
 
 describe('conventional-commits manifest', () => {
   it('has correct name and defaultRole', () => {

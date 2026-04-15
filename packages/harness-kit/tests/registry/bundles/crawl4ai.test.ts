@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { manifest } from '../../../src/registry/bundles/crawl4ai/manifest.js'
+import { manifest } from '../../../src/registry/bundles/workflow/crawl4ai/manifest.js'
 
 describe('crawl4ai manifest', () => {
   it('has correct name and defaultRole', () => {

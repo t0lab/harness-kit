@@ -4,7 +4,7 @@ import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { tmpdir } from 'node:os'
 import { executeAdd } from '../../../src/commands/add.js'
-import { manifest } from '../../../src/registry/bundles/planning-first/manifest.js'
+import { manifest } from '../../../src/registry/bundles/workflow/planning-first/manifest.js'
 
 const PACKAGE_ROOT = resolve(import.meta.dirname, '../../..')
 

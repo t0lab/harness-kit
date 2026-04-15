@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { manifest } from '../../../src/registry/bundles/firecrawl/manifest.js'
+import { manifest } from '../../../src/registry/bundles/workflow/firecrawl/manifest.js'
 
 describe('firecrawl manifest', () => {
   it('installs the firecrawl CLI globally via firecrawl-cli init', () => {
