@@ -27,7 +27,8 @@ Tài liệu này là bản đồ các tầng (layer map) và quy tắc phụ thu
                      ▼
 ┌─────────────────────────────────────────────┐
 │               engine/                       │
-│   (cài artifact, render template, ghi file) │
+│   (artifact-installer, template-renderer,   │
+│    scaffolder — detector sống trong wizard/)│
 └────────────────────┬────────────────────────┘
                      │
                      ▼
@@ -109,7 +110,9 @@ Chịu trách nhiệm đọc và ghi hai file cấu hình trung tâm của một
 
 ### `src/engine/`
 
-Tầng thực thi — nơi các lựa chọn trở thành thay đổi trên đĩa. `artifact-installer.ts` cung cấp `installBundle(cwd, bundle, role)`: đọc manifest, ghi entry MCP server vào `.mcp.json` qua `config/`, và trả về `InstallResult` với danh sách cảnh báo cho các artifact cần cài thủ công. `template-renderer.ts` cung cấp `renderTemplate(name, context)`: đọc file `.hbs` từ thư mục `templates/` và biên dịch qua Handlebars. `scaffolder.ts` cung cấp `writeScaffoldFile(cwd, file, conflict)`: ghi một file vào project đích với chiến lược xử lý xung đột (`overwrite` hoặc `skip`).
+Tầng thực thi — nơi các lựa chọn trở thành thay đổi trên đĩa. `artifact-installer.ts` cung cấp `installBundle(cwd, bundle, role)`: đọc manifest, dispatch từng loại artifact (mcp, skill, tool, rule, agent, hook, git-hook, plugin) đến handler tương ứng, và trả về `InstallResult`. `template-renderer.ts` cung cấp `renderTemplate(name, context)`: đọc file `.hbs` từ `templates/` và biên dịch qua Handlebars. `scaffolder.ts` cung cấp `writeScaffoldFile(cwd, file, conflict)`: ghi một file vào project đích với chiến lược `overwrite` hoặc `skip`.
+
+> Lưu ý: `detector.ts` (kiểm tra tooling như ESLint, Prettier, tsconfig) sống trong `src/wizard/`, không phải `src/engine/` — vì nó chỉ chạy trong luồng interactive và phụ thuộc `selectedTech` từ wizard context.
 
 ### `src/wizard/`
 

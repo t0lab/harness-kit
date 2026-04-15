@@ -1,8 +1,9 @@
 # CLI Commands — Kế hoạch thực thi
 
-**Trạng thái:** Đang tiến hành  
-**Mục tiêu:** Hoàn thiện và stabilize các commands `list`, `add`, `status`  
-**Ngày tạo:** 2026-04-13
+**Trạng thái:** Đang tiến hành (phần lõi đã xong 2026-04-14; còn nice-to-have)
+**Mục tiêu:** Hoàn thiện và stabilize các commands `list`, `add`, `status`
+**Ngày tạo:** 2026-04-13  
+**Cập nhật gần nhất:** 2026-04-15 — xem thêm `docs/tmp/harness-kit-evaluation.md` cho roadmap harness engineering (P0–P3)
 
 ---
 

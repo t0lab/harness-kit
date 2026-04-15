@@ -15,20 +15,20 @@ npx @harness-kit/cli init
 
 ```bash
 harness-kit init                    # interactive wizard — detects existing config
-harness-kit add typescript          # add a preset bundle
-harness-kit add rules/python        # add a single artifact
-harness-kit list                    # browse all available modules
-harness-kit list --tag testing      # filter by tag
-harness-kit info tdd-workflow       # detail + preview
-harness-kit status                  # view installed harness state
+harness-kit add tdd                 # add a bundle by name
+harness-kit add nextjs              # add a techstack bundle (inherits its stack)
+harness-kit list                    # browse all available bundles
+harness-kit list --category memory  # filter by BundleCategory
+harness-kit list --installed        # show only installed bundles
+harness-kit status                  # audit harness state (bundles, files, env vars)
 ```
 
 ## Design Principles
 
-- **Shadcn distribution model** — artifacts are copied into your project; you own them, no runtime dependency
+- **Copy-own distribution** — artifacts are copied into your project; you own them, no runtime dependency
 - **"Just enough"** — not zero, not everything; each module must justify its context window cost
-- **AI-powered with static fallback** — generates contextual config when you provide an API key; Handlebars templates otherwise
-- **Claude Code first** — targets Claude Code artifacts (`.claude/`, `CLAUDE.md`, `AGENTS.md`); extensible for other IDEs
+- **Registry is data, not code** — adding a bundle never touches wizard or command code
+- **Claude Code first** — targets Claude Code artifacts (`.claude/`, `CLAUDE.md`, `AGENTS.md`); universal skills also install to `.agents/skills/` for other IDEs
 
 ## Packages
 

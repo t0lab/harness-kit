@@ -18,7 +18,7 @@ last-updated: 2026-04-15
 
 **45 bundles across 3 top-level categories:**
 
-- `workflow/` — 26 bundles (git-workflow, workflow-preset, memory, browser, search, scrape, dev-integration)
+- `workflow/` — 26 bundles (covers categories: git-workflow, workflow-preset, memory, browser, search, scrape, mcp-tool)
 - `techstack/` — 14 (nextjs, react, vue, express, fastify, fastapi, django, spring, postgresql, redis, supabase, github-actions, langchain, langgraph)
 - `stack/` — 5 (typescript, python, go, rust, java) — base language rules, inherited via `type: 'stack'` artifact
 

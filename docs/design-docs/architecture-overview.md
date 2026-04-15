@@ -24,7 +24,7 @@ Tài liệu này là bản đồ API surface của toàn bộ codebase. Mục đ
 
 ## Module: Registry (`packages/harness-kit/src/registry/`)
 
-**Trách nhiệm:** Đóng gói toàn bộ bundle manifests thành một TypeScript bundle duy nhất. Là nguồn sự thật duy nhất về danh sách bundles có sẵn (50 bundles: 26 workflow + 5 stack + 19 techstack). Không đọc file — dữ liệu được nhúng tĩnh lúc build. Chạy `validateRegistry` khi load để bắt lỗi cycle và ref không hợp lệ.
+**Trách nhiệm:** Đóng gói toàn bộ bundle manifests thành một TypeScript bundle duy nhất. Là nguồn sự thật duy nhất về danh sách bundles có sẵn (45 bundles: 26 workflow + 5 stack + 14 techstack). Không đọc file — dữ liệu được nhúng tĩnh lúc build. Chạy `validateRegistry` khi load để bắt lỗi cycle và ref không hợp lệ.
 
 **File:** `src/registry/index.ts`
 
