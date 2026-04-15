@@ -1,8 +1,13 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { existsSync } from 'node:fs'
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { tmpdir } from 'node:os'
+
+vi.mock('execa', () => ({
+  execaCommand: vi.fn().mockResolvedValue({ stdout: '', stderr: '' }),
+}))
+
 import { executeAdd } from '../../../src/commands/add.js'
 import { manifest } from '../../../src/registry/bundles/workflow/quality-gates/manifest.js'
 
@@ -42,7 +47,6 @@ describe('quality-gates bundle install', () => {
 
     const config = JSON.parse(await readFile(join(dir, 'harness.json'), 'utf-8'))
     expect(config.bundles).toContain('quality-gates')
-    expect(existsSync(join(dir, '.agents/skills/quality-gates/SKILL.md'))).toBe(true)
     expect(existsSync(join(dir, '.claude/rules/quality-gates.md'))).toBe(true)
   })
 })

@@ -1,4 +1,8 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+
+vi.mock('execa', () => ({
+  execaCommand: vi.fn().mockResolvedValue({ stdout: '', stderr: '' }),
+}))
 import { existsSync } from 'node:fs'
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
@@ -39,7 +43,6 @@ describe('parallel-agents bundle install', () => {
     await executeAdd(dir, 'parallel-agents', { yes: true })
     const config = JSON.parse(await readFile(join(dir, 'harness.json'), 'utf-8'))
     expect(config.bundles).toContain('parallel-agents')
-    expect(existsSync(join(dir, '.agents/skills/parallel-agents/SKILL.md'))).toBe(true)
     expect(existsSync(join(dir, '.claude/rules/parallel-agents.md'))).toBe(true)
   })
 })

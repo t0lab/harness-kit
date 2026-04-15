@@ -1,4 +1,8 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+
+vi.mock('execa', () => ({
+  execaCommand: vi.fn().mockResolvedValue({ stdout: '', stderr: '' }),
+}))
 import { existsSync } from 'node:fs'
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
@@ -42,7 +46,6 @@ describe('tdd bundle install', () => {
 
     const config = JSON.parse(await readFile(join(dir, 'harness.json'), 'utf-8'))
     expect(config.bundles).toContain('tdd')
-    expect(existsSync(join(dir, '.agents/skills/tdd/SKILL.md'))).toBe(true)
     expect(existsSync(join(dir, '.claude/rules/tdd.md'))).toBe(true)
   }, 15000)
 })

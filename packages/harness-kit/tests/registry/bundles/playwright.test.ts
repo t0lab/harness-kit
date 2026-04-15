@@ -17,6 +17,7 @@ describe('playwright bundle artifacts', () => {
     const tool = manifest.common.artifacts.find(a => a.type === 'tool')
     expect(tool).toBeDefined()
     if (tool?.type !== 'tool') return
-    expect(tool.installCmd).toMatch(/playwright install/)
+    expect(tool.installCmd).toMatch(/@playwright\/cli/)
+    expect(tool.installCmd).toMatch(/install-browser chromium/)
   })
 })
