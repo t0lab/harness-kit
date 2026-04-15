@@ -2,14 +2,14 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'langchain',
-  description: 'LangChain — LCEL, chains, agents, memory, retrievers, streaming',
+  description: 'LangChain — create_agent, tools, middleware, human-in-the-loop, error handling',
   version: '1.0.0',
-  experimental: true,
+  experimental: false,
   defaultRole: 'techstack',
   common: {
     artifacts: [
-
-      // TODO: add rule + skill artifacts in follow-up
+      { type: 'skill', src: 'https://github.com/langchain-ai/langchain-skills --skill langchain-fundamentals' },
+      { type: 'rule', src: 'rules/langchain.md' },
     ],
   },
   roles: {
