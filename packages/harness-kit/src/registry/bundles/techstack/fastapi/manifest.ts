@@ -2,14 +2,15 @@ import type { BundleManifest } from '../../../types.js'
 
 export const manifest: BundleManifest = {
   name: 'fastapi',
-  description: 'FastAPI — dependency injection, Pydantic models, async routes, OpenAPI',
+  description: 'FastAPI — project templates, async patterns, DI, Pydantic, middleware, error handling',
   version: '1.0.0',
-  experimental: true,
+  experimental: false,
   defaultRole: 'techstack',
   common: {
     artifacts: [
       { type: 'stack', ref: 'python' },
-      // TODO: add rule + skill artifacts in follow-up
+      { type: 'skill', src: 'https://github.com/wshobson/agents --skill fastapi-templates' },
+      { type: 'rule', src: 'rules/fastapi.md' },
     ],
   },
   roles: {
