@@ -23,5 +23,8 @@
     "build": "tsup",
     "test": "vitest run",
     "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "js-tiktoken": "^1.0.21"
   }
 }

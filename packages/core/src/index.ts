@@ -9,3 +9,6 @@ export type {
   BundleManifest,
   HarnessConfig,
 } from './types.js'
+
+export { countTokens } from './token-count.js'
+export type { TokenCount } from './token-count.js'
