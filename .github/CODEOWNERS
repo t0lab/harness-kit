@@ -1,0 +1,22 @@
+# Default owner for the whole repository
+* @liamlee
+
+# Core packages
+/packages/core/ @liamlee
+/packages/harness-kit/ @liamlee
+
+# Product and architecture docs
+/docs/ @liamlee
+/ARCHITECTURE.md @liamlee
+/CHANGELOG.md @liamlee
+
+# Project governance
+/CONTRIBUTING.md @liamlee
+/SECURITY.md @liamlee
+/SUPPORT.md @liamlee
+/AGENTS.md @liamlee
+/CLAUDE.md @liamlee
+
+# CI and automation
+/.github/workflows/ @liamlee
+/.githooks/ @liamlee
