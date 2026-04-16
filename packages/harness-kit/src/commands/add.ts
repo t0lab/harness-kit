@@ -1,7 +1,6 @@
-import * as p from '@clack/prompts'
-import chalk from 'chalk'
 import React from 'react'
 import { render } from 'ink'
+import { ConfirmPromptApp } from '@/components/confirm-prompt.js'
 import { getAllBundles } from '@/registry/index.js'
 import { harnessExists, readHarnessConfig, writeHarnessConfig } from '@/config/harness-reader.js'
 import { installBundle } from '@/engine/artifact-installer.js'
@@ -92,14 +91,17 @@ export function registerAddCommand(program: Command): void {
         ((await readHarnessConfig(cwd)).bundles?.includes(bundleName) ?? false)
 
       if (alreadyInstalled && !opts.yes) {
-        const confirm = await p.confirm({
-          message: `${bundleName} already added. Re-install? (y/N)`,
-          initialValue: false,
+        const confirmed = await new Promise<boolean>((resolve) => {
+          const { waitUntilExit } = render(
+            React.createElement(ConfirmPromptApp, {
+              message: `${bundleName} already added. Re-install?`,
+              onConfirm: () => resolve(true),
+              onCancel: () => resolve(false),
+            })
+          )
+          waitUntilExit().catch(() => resolve(false))
         })
-        if (p.isCancel(confirm) || !confirm) {
-          p.cancel('Cancelled')
-          process.exit(0)
-        }
+        if (!confirmed) process.exit(0)
       }
 
       const result = await runAdd(cwd, bundleName, opts)

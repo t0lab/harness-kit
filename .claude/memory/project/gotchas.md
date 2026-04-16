@@ -21,8 +21,8 @@ last-updated: 2026-04-15
 
 ## Wizard UX
 
-- **Clack symbols override**: intercept `stdout.write`, not `Object.defineProperty` — ESM namespace exports are non-configurable.
-- **`@clack/prompts` multiselect with 0 options crashes** — guard with length check.
+- **Diamond symbol width override**: intercept `stdout.write`, not `Object.defineProperty` — ESM namespace exports are non-configurable.
+- **Multiselect with 0 options crashes** — guard with length check.
 
 ## Artifact quirks
 

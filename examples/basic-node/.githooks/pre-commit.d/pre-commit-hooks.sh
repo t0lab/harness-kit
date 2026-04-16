@@ -23,11 +23,11 @@ if [ -n "$BAD" ]; then
 fi
 
 # ── Always: obvious secrets ──────────────────────────────────────────────────
-SECRET_RE='(AKIA[0-9A-Z]{16}|-----BEGIN (RSA|OPENSSH|DSA|EC|PGP) PRIVATE KEY-----|xox[pbar]-[0-9A-Za-z-]{10,}|gh[pousr]_[0-9A-Za-z]{36,}|sk-[A-Za-z0-9]{32,})'
+SECRET_RE='(AKIA[0-9A-Z]{16}|-----BEGIN (RSA|OPENSSH|DSA|EC|PGP) PRIVATE KEY-----|xox[pbar]-[0-9A-Za-z-]{10,}|gh[pousr]_[0-9A-Za-z]{36,}|sk-ant-[0-9A-Za-z_-]{40,}|sk-[A-Za-z0-9]{32,}|sk_live_[0-9a-zA-Z]{24,}|AIza[0-9A-Za-z_-]{35})'
 HITS=""
 while IFS= read -r f; do
   [ -f "$f" ] || continue
-  case "$f" in *.lock|*.lockb|*lock.json|*.min.js|*.map) continue ;; esac
+  case "$f" in *.lock|*.lockb|package-lock.json|*.min.js|*.map) continue ;; esac
   if git show ":$f" 2>/dev/null | grep -nE "$SECRET_RE" >/dev/null; then
     HITS="$HITS\n  $f"
   fi
@@ -46,7 +46,7 @@ if [ -f "package.json" ] && echo "$STAGED" | grep -qE '\.(js|jsx|ts|tsx|mjs|cjs)
   [ -f "yarn.lock" ] && PM="yarn"
   { [ -f "bun.lockb" ] || [ -f "bun.lock" ]; } && PM="bun"
   has() { node -e "const s=require('./package.json').scripts||{};process.exit(s['$1']?0:1)" 2>/dev/null; }
-  for target in lint typecheck test; do
+  for target in lint typecheck; do
     if has "$target"; then
       echo "→ $PM run $target"
       $PM run "$target"

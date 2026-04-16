@@ -22,7 +22,7 @@
   - Gọi `installBundle()` từ artifact installer
   - Cập nhật `harness.json` (không duplicate)
   - Hiển thị env vars cần thiết sau khi cài
-  - Xác nhận re-install nếu bundle đã tồn tại (dùng `@clack/prompts`)
+  - Xác nhận re-install nếu bundle đã tồn tại (dùng prompt ngoài wizard)
   - Unit tests trong `tests/commands/add.test.ts` (7 test cases)
 
 - [x] `status` command — `src/commands/status.ts`

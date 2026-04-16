@@ -1,12 +1,11 @@
-# hi
+# a
 
 ## Project
 
-**Purpose:** hi
+**Purpose:** a
 
 ## Stack
 
-- node-express
 
 ## Conventions
 

@@ -6,7 +6,7 @@ CLI tool that scaffolds AI agent harness environments. pnpm workspace monorepo:
 
 ## Stack
 
-TypeScript 5, Node 22, pnpm workspaces, tsup (build), vitest (tests), commander (CLI parsing), Ink + React (wizard TUI), xstate (wizard state machine), @clack/prompts (only outside wizard alt-screen — `commands/add.ts` confirm), chalk, execa, listr2, Handlebars.
+TypeScript 5, Node 22, pnpm workspaces, tsup (build), vitest (tests), commander (CLI parsing), Ink + React (wizard TUI), xstate (wizard state machine), chalk, execa, listr2, Handlebars.
 
 ## Key Principles
 
@@ -21,7 +21,7 @@ TypeScript 5, Node 22, pnpm workspaces, tsup (build), vitest (tests), commander 
 - All new functionality starts with a failing vitest test
 - Build: `pnpm build` from root or `pnpm --filter <pkg> build` per package
 - No `Co-Authored-By` lines in commits
-- **Wizard = Ink only** — every wizard step renders through Ink components. No `process.stdout.write` ANSI from step code, no `@clack/prompts` inline prompts inside the wizard alt-screen (causes render conflict)
+- **Wizard = Ink only** — every wizard step renders through Ink components. No `process.stdout.write` ANSI from step code, no inline prompts that write directly to stdout inside the wizard alt-screen (causes render conflict)
 
 ## Docs
 

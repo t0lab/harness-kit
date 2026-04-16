@@ -1,4 +1,3 @@
-import chalk from 'chalk'
 import React from 'react'
 import { render } from 'ink'
 import { getAllBundles } from '@/registry/index.js'
@@ -76,8 +75,7 @@ export function registerListCommand(program: Command): void {
 
       const groups = groupBundlesByDefaultRole(filtered)
 
-      const { unmount } = render(React.createElement(ListDisplay, { groups, installedNames }))
-      await new Promise((resolve) => setTimeout(resolve, 50))
-      unmount()
+      const { waitUntilExit } = render(React.createElement(ListDisplay, { groups, installedNames }))
+      await waitUntilExit()
     })
 }

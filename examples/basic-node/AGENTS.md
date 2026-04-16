@@ -1,14 +1,13 @@
-# hi — Project Map
+# a — Project Map
 
 > Pointer map for AI agents. Keep this under ~100 lines.
 
 ## What This Does
 
-hi
+a
 
 ## Stack
 
-- `node-express`
 
 ## Key Files
 

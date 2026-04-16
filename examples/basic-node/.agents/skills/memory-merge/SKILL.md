@@ -1,7 +1,6 @@
 ---
 name: memory-merge
 description: Resolve conflicts and consolidate duplicate memories in .claude/memory/. Invoke after git pull surfaces conflict markers in memory files, when two memory files cover overlapping topics, when project.md hot cache has grown past ~100 lines, or when the user asks to "clean up memory" / "merge memories". Do not run proactively without a trigger — merging rewrites team-shared files.
-tags: [memory, git, consolidation, merge-conflict]
 ---
 
 # Memory Merge
@@ -41,9 +40,9 @@ Cross-reference: for each topic slug in a conflicted/oversized file, grep the re
 
 | Pattern | Meaning | Resolution |
 |---------|---------|------------|
-| Cùng file, khác section | Additive conflict (both devs added content) | Keep both, re-sort |
-| Cùng section, khác phrasing | Semantic duplicate | Merge into one paragraph, preserve richer detail |
-| Cùng section, mâu thuẫn | One is stale or wrong | Use `last-updated` + `authors` + code reality to decide winner; mark loser with `supersedes` or delete |
+| Same file, different section | Additive conflict (both devs added content) | Keep both, re-sort |
+| Same section, different phrasing | Semantic duplicate | Merge into one paragraph, preserve richer detail |
+| Same section, conflicting content | One is stale or wrong | Use `last-updated` + `authors` + code reality to decide winner; mark loser with `supersedes` or delete |
 | Two separate files, same topic | Duplicate topic | Consolidate into the better-named file; the other gets `supersedes: [kept-slug]` and is deleted |
 
 ### 3. Propose

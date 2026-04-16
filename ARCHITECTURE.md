@@ -101,7 +101,7 @@ Khi thêm logic mới, hãy tự hỏi những câu hỏi sau theo thứ tự:
 - `commands/` **không query `registry/` trực tiếp để lọc bundle** — logic lọc thuộc về `wizard/` hoặc `engine/`
 - `registry/` **không import `config/` hay `engine/`** — registry chỉ là dữ liệu tĩnh
 - `config/` **không biết gì về bundle hay registry** — chỉ đọc/ghi JSON thuần
-- `engine/` **không hiển thị UI** (`@clack/prompts`) — tất cả prompt thuộc về `wizard/`
+- `engine/` **không hiển thị UI** — tất cả prompt thuộc về `wizard/`
 - `utils/` **không import tầng nghiệp vụ nào** (`wizard/`, `engine/`, `commands/`) — tránh circular dependency
 - `core` **không import bất kỳ thứ gì từ `packages/harness-kit`** — luồng dependency chỉ đi một chiều
 

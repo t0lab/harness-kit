@@ -97,7 +97,12 @@ export async function runWizard(): Promise<void> {
   // Wrap the entire wizard in the alternate screen buffer so every step shares
   // one canvas with a persistent budget footer.
   process.stdout.write('\x1b[?1049h\x1b[2J\x1b[H')
-  const exitAltScreen = () => process.stdout.write('\x1b[?1049l')
+  let inAltScreen = true
+  const exitAltScreen = () => {
+    if (!inAltScreen) return
+    process.stdout.write('\x1b[?1049l')
+    inAltScreen = false
+  }
   process.once('exit', exitAltScreen)
 
   const actor = createActor(wizardMachine)
@@ -132,6 +137,8 @@ export async function runWizard(): Promise<void> {
         }
         case 'preview': {
           await stepPreviewApply(actor.getSnapshot().context, budget)
+          // stepPreviewApply intentionally exits alt-screen before apply logs.
+          inAltScreen = false
           actor.send({ type: 'CONFIRM' })
           break
         }

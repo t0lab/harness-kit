@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Text, useInput } from 'ink'
-import Spinner from 'ink-spinner'
+import { Spinner } from '@inkjs/ui'
 import { WizardShell } from '@/components/ui/WizardShell.js'
 import { runInk } from '@/lib/run-ink.js'
 import { detectTooling } from '@/lib/detector.js'
@@ -83,7 +83,7 @@ function DetectToolingScreen({ ctx, budget, onDone, onCancel }: Props) {
         <Text>Tech: <Text color="cyan">{ctx.selectedTech.join(', ')}</Text></Text>
         <Box marginTop={1} flexDirection="column">
           {phase === 'scanning' ? (
-            <Text><Text color="cyan"><Spinner type="dots" /></Text> Scanning project…</Text>
+            <Spinner label="Scanning project…" />
           ) : (
             <>
               {issues.map((i) => (

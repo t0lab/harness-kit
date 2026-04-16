@@ -3,7 +3,7 @@ import chalk from 'chalk'
 export const MIN_HEIGHT = 16
 
 export function applySymbolFix(): void {
-  // Clack uses ◆ (U+25C6) and ◇ (U+25C7) for its step indicators. These are
+  // Some terminal UIs emit ◆ (U+25C6) and ◇ (U+25C7) as step indicators. These are
   // East Asian Width "Ambiguous" — many fonts (especially CJK/Vietnamese) render
   // their glyphs wider than one terminal cell, causing every character that follows
   // to shift right.
@@ -11,9 +11,7 @@ export function applySymbolFix(): void {
   // We replace them with ● (U+25CF BLACK CIRCLE) and ○ (U+25CB WHITE CIRCLE),
   // which are East Asian Width "Narrow" (always 1 column) in all major fonts.
   //
-  // Patching clack's exported constants directly is not possible — ESM namespace
-  // exports are non-configurable (assignment and Object.defineProperty both throw).
-  // Instead, intercept process.stdout.write and substitute at output time.
+  // Intercept process.stdout.write and substitute at output time.
   const origWrite = process.stdout.write.bind(process.stdout)
   ;(process.stdout as NodeJS.WriteStream & { write: unknown }).write = (
     chunk: string | Uint8Array,

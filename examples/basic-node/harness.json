@@ -1,14 +1,23 @@
 {
   "version": "1.0.0",
   "registry": "bundled",
-  "techStack": [
-    "node-express"
-  ],
+  "techStack": [],
   "bundles": [
-    "agent-browser",
-    "commit-signing",
     "local-memory",
+    "conventional-commits",
+    "branch-strategy",
     "pre-commit-hooks",
-    "docs-as-code"
+    "docs-as-code",
+    "spec-driven",
+    "tdd",
+    "planning-first",
+    "quality-gates",
+    "systematic-debugging",
+    "code-review-gates",
+    "context-discipline",
+    "agent-browser",
+    "browser-use",
+    "playwright",
+    "brave-search"
   ]
 }

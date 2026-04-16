@@ -6,7 +6,7 @@ Tài liệu kỹ thuật cho việc dùng [Ink 6](https://github.com/vadimdemede
 
 ## Invariants
 
-1. **Một render model duy nhất**: chỉ Ink reconciler ghi ra stdout khi wizard active. Cấm `process.stdout.write(…)` ANSI trực tiếp, cấm `@clack/prompts` inline prompts.
+1. **Một render model duy nhất**: chỉ Ink reconciler ghi ra stdout khi wizard active. Cấm `process.stdout.write(…)` ANSI trực tiếp, cấm inline prompts ngoài Ink tree.
 2. **Budget logic framework-agnostic**: `BudgetState` là plain class, không import React. Component Ink đọc qua hook wrapper.
 3. **Debounce realtime updates**: footer / preview pane recompute ≥ 50ms. Không tính token mỗi keystroke.
 4. **Scrollview tự implement**: Ink không có native scroll container.
@@ -246,7 +246,7 @@ function AutocompleteMultiSelect({ options, selected, onToggle }: Props) {
 | Hành vi | Lý do |
 |---|---|
 | `process.stdout.write('\x1b[…]')` trong step code | Xung đột Ink reconciler → artifact render |
-| `@clack/prompts` inline (`p.multiselect`, `p.text`…) trong wizard | Ghi log lines bình thường vào alt-screen → leak |
+| Inline prompt libs (`p.multiselect`, `p.text`…) trong wizard | Ghi log lines bình thường vào alt-screen → leak |
 | `console.log` trong component | Tương tự — dùng Ink `<Text>` hoặc Ink's logger |
 | Re-render footer mỗi keystroke không debounce | Flicker + CPU burn |
 | State mutation trong render (`setState` không `useEffect`) | React infinite loop warning |

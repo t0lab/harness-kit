@@ -11,9 +11,10 @@ export interface WizardShellProps {
   summaryItems: SummaryItem[]
   budget: BudgetState
   children: ReactNode
+  showSummary?: boolean
 }
 
-export function WizardShell({ stepCurrent, stepTotal, stepTitle, summaryItems, budget, children }: WizardShellProps) {
+export function WizardShell({ stepCurrent, stepTotal, stepTitle, summaryItems, budget, children, showSummary = true }: WizardShellProps) {
   const { stdout } = useStdout()
   // Force re-render on terminal resize
   const [, setTick] = useState(0)
@@ -25,7 +26,7 @@ export function WizardShell({ stepCurrent, stepTotal, stepTitle, summaryItems, b
 
   const cols = stdout.columns ?? 80
   const rows = stdout.rows ? stdout.rows - 1 : 24
-  const showSummary = cols >= 80
+  const shouldShowSummary = showSummary && cols >= 80
   const summaryWidth = Math.min(40, Math.max(24, Math.floor(cols * 0.3)))
 
   if (rows < 15 || cols < 60) {
@@ -59,7 +60,7 @@ export function WizardShell({ stepCurrent, stepTotal, stepTitle, summaryItems, b
       </Box>
 
       <Box flexGrow={1}>
-        {showSummary ? (
+        {shouldShowSummary ? (
           <Box
             width={summaryWidth}
             borderStyle="single"
