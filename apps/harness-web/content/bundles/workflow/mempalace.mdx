@@ -6,7 +6,7 @@ Local, offline long-term memory for your agent — a spatial palace (wings → r
 
 | Artifact | Path (in your project) | Purpose |
 |----------|-----------------------|---------|
-| Plugin | Claude Code plugin marketplace → `MemPalace/mempalace` | Ships ~29 MCP tools (`search_memories`, `add_memory`, `wake_up`, `recall_room`, …) plus a Claude Code skill teaching wing/room/hall scoping |
+| Plugin | Runs `pip install mempalace` | Ships ~29 MCP tools (`search_memories`, `add_memory`, `wake_up`, `recall_room`, …) plus a Claude Code skill teaching wing/room/hall scoping |
 
 ## How it works
 
@@ -22,14 +22,15 @@ Because everything is local, there's no API cost per turn and nothing leaves you
 
 ## Setup
 
-`harness-kit add mempalace` records the bundle but does not run Claude Code's plugin installer. Complete the install yourself:
+`harness-kit add mempalace` or selecting it during `harness-kit init` runs:
 
 ```
-claude plugin marketplace add MemPalace/mempalace
-claude plugin install --scope project mempalace
+pip install mempalace
 ```
 
-Restart Claude Code after install. Project scope means the plugin loads when Claude Code is opened inside this repo — matching how `harness.json` declares bundles per-project. On first use the plugin will initialize `~/.mempalace/palace`.
+Restart Claude Code after install. On first use the plugin will initialize `~/.mempalace/palace`.
+
+If the install command fails during `init`/`add`, harness-kit reports it in bundle install notes and you can rerun `pip install mempalace` manually.
 
 (Optional, one-time) Bootstrap the palace with existing project/chat history before you start chatting:
 

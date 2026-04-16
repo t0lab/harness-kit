@@ -8,7 +8,7 @@ Persistent session memory for Claude Code — auto-captures tool use, compresses
 
 | Type | Detail |
 |------|--------|
-| `plugin` | `github:thedotmack/claude-mem` — installs via `npx claude-mem install` |
+| `plugin` | Runs `npx claude-mem install` |
 
 ## Requirements
 
@@ -52,9 +52,10 @@ Plugin that gives Claude Code persistent memory across sessions:
 
 ## Setup
 
-1. Run `harness-kit add claude-mem`
-2. Restart Claude Code
-3. Everything else is automatic — hooks, MCP, worker startup
+1. Run `harness-kit add claude-mem` or select it during `harness-kit init`
+2. harness-kit runs `npx claude-mem install`
+3. Restart Claude Code
+4. Everything else is automatic — hooks, MCP, worker startup
 
 ## License
 
@@ -62,6 +63,7 @@ AGPL-3.0 (core). `ragtime/` subdirectory is PolyForm Noncommercial 1.0.0.
 
 ## Notes
 
-- `npm install -g claude-mem` is NOT enough — must use `npx claude-mem install` to register hooks and MCP
+- `npm install -g claude-mem` is NOT enough — the required installer is `npx claude-mem install`
+- If the install command fails during `init`/`add`, harness-kit reports it in bundle install notes and you can rerun `npx claude-mem install` manually
 - Worker daemon starts automatically on SessionStart, health-checks on port 37777
 - Settings stored in `~/.claude-mem/settings.json`

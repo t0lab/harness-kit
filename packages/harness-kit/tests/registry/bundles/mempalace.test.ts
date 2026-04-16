@@ -10,7 +10,7 @@ describe('mempalace bundle artifacts', () => {
     const plugin = manifest.common.artifacts.find(a => a.type === 'plugin')
     expect(plugin).toBeDefined()
     if (plugin?.type !== 'plugin') return
-    expect(plugin.installSource).toBe('MemPalace/mempalace')
+    expect(plugin.installCmd).toBe('pip install mempalace')
   })
 })
 

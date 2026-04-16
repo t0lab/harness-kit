@@ -18,7 +18,7 @@ export type Artifact =
   | { type: 'mcp';      command: string; args: string[]; env?: Record<string, string> }
   | { type: 'skill';    src: string }
   | { type: 'tool';     installCmd: string }
-  | { type: 'plugin';   installSource: string }
+  | { type: 'plugin';   installCmd: string }
   | { type: 'hook';     src: string; hookType: ClaudeHookType; matcher?: string }
   | { type: 'git-hook'; src: string; hookName: GitHookName }
   | { type: 'rule';     src: string }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, Text, useInput, useStdout } from "ink";
 import { execa } from "execa";
 import { execSync } from "node:child_process";
+import { CompactProgress } from "@/lib/compact-progress.js";
 import { access } from "node:fs/promises";
 import { join } from "node:path";
 import { Listr } from "listr2";
@@ -26,6 +27,34 @@ async function fileExists(path: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+async function detectPm(cwd: string): Promise<'pnpm' | 'yarn' | 'npm'> {
+  if (await fileExists(join(cwd, 'pnpm-lock.yaml'))) return 'pnpm'
+  if (await fileExists(join(cwd, 'yarn.lock'))) return 'yarn'
+  return 'npm'
+}
+
+type CmdKind = 'node' | 'python' | 'other'
+
+function classifyCmd(cmd: string): CmdKind {
+  const first = cmd.trim().split(/\s+/)[0] ?? ''
+  if (/^(npm|pnpm|yarn|bun)$/.test(first)) return 'node'
+  if (/^(pip|pip3|uv|poetry|pdm)$/.test(first)) return 'python'
+  return 'other'
+}
+
+async function resolveInstallCmd(cmd: string, cwd: string): Promise<{ resolved: string; skip?: string }> {
+  const kind = classifyCmd(cmd)
+  if (kind === 'node') {
+    if (!await fileExists(join(cwd, 'package.json'))) {
+      return { resolved: cmd, skip: `no package.json in ${cwd}` }
+    }
+    const pm = await detectPm(cwd)
+    if (pm === 'npm') return { resolved: cmd.replace(/^pnpm add (-D\s*)/, 'npm install --save-dev ') }
+    if (pm === 'yarn') return { resolved: cmd.replace(/^pnpm add (-D\s*)/, 'yarn add --dev ') }
+  }
+  return { resolved: cmd }
 }
 
 interface McpConfig {
@@ -511,6 +540,7 @@ export async function stepPreviewApply(
 
   const toolsToInstall = preview.toolsToInstall ?? [];
   const toolErrors: string[] = [];
+  const bundleWarnings: string[] = [];
 
   await new Listr(
     [
@@ -534,25 +564,60 @@ export async function stepPreviewApply(
       {
         title: `Installing ${preview.allBundles.length} bundle${preview.allBundles.length !== 1 ? "s" : ""}`,
         skip: () => preview.allBundles.length === 0,
-        task: (_, task) =>
-          task.newListr(
-            allSelectedBundleNames(ctx).map((name) => ({
-              title: name,
-              task: async () => {
-                try {
-                  getBundle(name);
-                } catch {
-                  return;
-                }
-                await executeAdd(cwd, name, {
-                  yes: true,
-                  silent: true,
-                  agents: ctx.ide,
-                });
-              },
-            })),
-            { concurrent: false },
-          ),
+        task: async (_, task) => {
+          const names = allSelectedBundleNames(ctx)
+          // Listr2 indents `task.output`, so give CompactProgress a slightly smaller width
+          // to avoid terminal auto-wrapping (which breaks the grid alignment).
+          const effectiveWidth = Math.max(40, (process.stdout.columns ?? 80) - 8)
+          const progress = new CompactProgress(names, effectiveWidth, { animate: false })
+
+          // Listr2 prints `task.output` into the terminal; updating it for every bundle
+          // causes the whole grid to get duplicated many times. Throttle updates.
+          let lastOutput = ""
+          let lastAt = 0
+          let stepCounter = 0
+          const maybeUpdateOutput = (kind: "init" | "running" | "done" | "skip" | "final", force = false) => {
+            const grid = progress.getGrid()
+            const now = Date.now()
+            const changed = grid !== lastOutput
+            if (!changed && !force) return
+
+            stepCounter++
+
+            const minIntervalMs =
+              kind === "done" || kind === "skip"
+                ? 120 // show progress more responsively
+                : kind === "running"
+                  ? 350 // running state is noisy; update occasionally
+                  : 0
+
+            const shouldUpdate = force || changed && (now - lastAt > minIntervalMs)
+            if (!shouldUpdate) return
+
+            lastAt = now
+            lastOutput = grid
+            task.output = grid
+          }
+
+          maybeUpdateOutput("init", true)
+          for (const name of names) {
+            progress.update(name, 'running')
+            maybeUpdateOutput("running")
+            try {
+              getBundle(name)
+            } catch {
+              progress.update(name, 'skip')
+              maybeUpdateOutput("skip")
+              continue
+            }
+            const addResult = await executeAdd(cwd, name, { yes: true, silent: true, agents: ctx.ide })
+            bundleWarnings.push(...addResult.warnings)
+            progress.update(name, 'done')
+            maybeUpdateOutput("done")
+          }
+
+          maybeUpdateOutput("final", true)
+        },
       },
       {
         title: `Installing ${toolsToInstall.length} system tool${toolsToInstall.length !== 1 ? "s" : ""}`,
@@ -564,8 +629,13 @@ export async function stepPreviewApply(
               .map((tool) => ({
                 title: tool.label,
                 task: async () => {
+                  const { resolved, skip } = await resolveInstallCmd(tool.installCmd!, cwd)
+                  if (skip) {
+                    toolErrors.push(`${tool.label}: skipped — ${skip}`)
+                    return
+                  }
                   try {
-                    await execa(tool.installCmd!, { shell: true, cwd });
+                    await execa(resolved, { shell: true, cwd });
                   } catch (err) {
                     toolErrors.push(`${tool.label}: ${(err as Error).message}`);
                     throw err;
@@ -599,6 +669,11 @@ export async function stepPreviewApply(
   if (toolErrors.length > 0) {
     process.stdout.write(`${Y}⚠ Tool install errors:${R}\n`);
     for (const e of toolErrors) process.stdout.write(`  ${Y}• ${e}${R}\n`);
+    process.stdout.write("\n");
+  }
+  if (bundleWarnings.length > 0) {
+    process.stdout.write(`${Y}⚠ Bundle install notes:${R}\n`);
+    for (const w of bundleWarnings) process.stdout.write(`  ${Y}• ${w}${R}\n`);
     process.stdout.write("\n");
   }
   process.stdout.write(

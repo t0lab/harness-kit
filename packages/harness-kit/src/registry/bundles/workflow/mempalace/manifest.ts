@@ -7,7 +7,7 @@ export const manifest: BundleManifest = {
   experimental: true,
   defaultRole: 'memory',
   common: {
-    artifacts: [{ type: 'plugin', installSource: 'MemPalace/mempalace' }],
+    artifacts: [{ type: 'plugin', installCmd: 'pip install mempalace' }],
     requires: ['python3'],
   },
   roles: {

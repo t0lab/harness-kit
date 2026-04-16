@@ -164,10 +164,16 @@ export async function installBundle(
 
   for (const artifact of allArtifacts) {
     if (artifact.type === 'tool') {
-      try {
-        await runInteractive(artifact.installCmd, cwd)
-      } catch {
-        result.warnings.push(`Failed: ${artifact.installCmd}`)
+      if (options.silent) {
+        // In silent/wizard mode, skip auto-executing tool installs — they may
+        // be interactive (pip, brew) and can fail on managed environments.
+        result.warnings.push(`Skipped auto-install (run manually): ${artifact.installCmd}`)
+      } else {
+        try {
+          await runInteractive(artifact.installCmd, cwd)
+        } catch {
+          result.warnings.push(`Failed: ${artifact.installCmd}`)
+        }
       }
     } else if (artifact.type === 'skill') {
       skillArtifacts.push(artifact)
@@ -208,19 +214,17 @@ export async function installBundle(
         result.warnings.push(`Failed to install git-hook: ${artifact.src} (${err instanceof Error ? err.message : String(err)})`)
       }
     } else if (artifact.type === 'plugin') {
-      const source = artifact.installSource
-      if (source.includes(':')) {
-        result.warnings.push(`plugin '${source}' — install manually (see bundle README)`)
-        continue
-      }
       try {
-        await runInteractive(`claude plugin marketplace add ${source}`, cwd)
-        await runInteractive(`claude plugin install --scope project ${bundle.name}`, cwd)
+        const cmd = artifact.installCmd
+        if (options.silent) {
+          await execaCommand(cmd, { cwd, stdio: 'pipe', shell: true })
+        } else {
+          await runInteractive(cmd, cwd)
+        }
       } catch {
-        result.warnings.push(
-          `plugin install failed — run manually: 'claude plugin marketplace add ${source}' then 'claude plugin install --scope project ${bundle.name}'`
-        )
+        result.warnings.push(`Failed: ${artifact.installCmd}`)
       }
+      continue
     } else if (artifact.type !== 'mcp') {
       result.warnings.push(`artifact type '${artifact.type}' not yet supported — add manually`)
     }
