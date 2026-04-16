@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { CommandBlock } from "@/components/command-block";
-import { CLI_INIT_COMMAND, CLI_PACKAGE, CLI_VERSION_TAG } from "@/lib/commands";
+import { CLI_INIT_COMMAND, CLI_PACKAGE, CLI_VERSION_TAG, cliCommand } from "@/lib/commands";
 
 export const metadata: Metadata = {
   title: "CLI",
@@ -18,11 +18,15 @@ export default function CliPage() {
       </p>
       <h2>Quick workflow (first 10 minutes)</h2>
       <CommandBlock command={CLI_INIT_COMMAND} label="1) Initialize baseline" />
-      <CommandBlock command="harness-kit add tdd" label="2) Add one bundle" className="mt-3" />
-      <CommandBlock command="harness-kit status" label="3) Verify harness health" className="mt-3" />
-      <CommandBlock command="harness-kit list --installed" label="4) Confirm installed bundles" className="mt-3" />
+      <CommandBlock command={cliCommand("add tdd")} label="2) Add one bundle" className="mt-3" />
+      <CommandBlock command={cliCommand("status")} label="3) Verify harness health" className="mt-3" />
+      <CommandBlock command={cliCommand("list --installed")} label="4) Confirm installed bundles" className="mt-3" />
 
       <h2>Global usage</h2>
+      <p>
+        The commands below assume you already installed the CLI globally. If you did not, prepend commands with{" "}
+        <code>npx {CLI_PACKAGE}@{CLI_VERSION_TAG}</code>.
+      </p>
       <CommandBlock command="harness-kit --help" label="Show all commands" />
       <CommandBlock command="harness-kit --version" label="Show installed CLI version" className="mt-3" />
 
@@ -40,14 +44,14 @@ export default function CliPage() {
           , <code>browser</code>, <code>search</code>, <code>scrape</code>, <code>mcp-tool</code>
         </li>
       </ul>
-      <CommandBlock command="harness-kit list --category workflow-preset" label="Example valid category filter" />
+      <CommandBlock command={cliCommand("list --category workflow-preset")} label="Example valid category filter" />
 
       <h2>Command reference</h2>
       <h3>
         <code>init</code>
       </h3>
       <p>Initialize Harness Kit in the current project and run the setup wizard.</p>
-      <CommandBlock command="harness-kit init" label="Run setup wizard" />
+      <CommandBlock command={cliCommand("init")} label="Run setup wizard" />
       <p>
         <strong>Flags:</strong> No command-specific flags currently.
       </p>
@@ -56,7 +60,7 @@ export default function CliPage() {
         <code>add &lt;bundle&gt;</code>
       </h3>
       <p>Add a bundle to the current harness and install its artifacts.</p>
-      <CommandBlock command="harness-kit add tdd" label="Add bundle by slug" />
+      <CommandBlock command={cliCommand("add tdd")} label="Add bundle by slug" />
       <p>
         <strong>Flags:</strong>
       </p>
@@ -76,8 +80,8 @@ export default function CliPage() {
         <code>list</code>
       </h3>
       <p>List available bundles, optionally filtered by category or installed state.</p>
-      <CommandBlock command="harness-kit list --category workflow-preset" label="Filter by category" />
-      <CommandBlock command="harness-kit list --installed" label="Show installed bundles only" className="mt-3" />
+      <CommandBlock command={cliCommand("list --category workflow-preset")} label="Filter by category" />
+      <CommandBlock command={cliCommand("list --installed")} label="Show installed bundles only" className="mt-3" />
       <p>
         <strong>Flags:</strong>
       </p>
@@ -94,7 +98,7 @@ export default function CliPage() {
         <code>status</code>
       </h3>
       <p>Audit harness health: bundle drift, required core files, and environment variable readiness.</p>
-      <CommandBlock command="harness-kit status" label="Run health audit" />
+      <CommandBlock command={cliCommand("status")} label="Run health audit" />
       <p>
         <strong>Flags:</strong> No command-specific flags currently.
       </p>
@@ -103,7 +107,7 @@ export default function CliPage() {
         <code>activate</code>
       </h3>
       <p>Run idempotent post-install activations for installed bundles (for example Git hook activation).</p>
-      <CommandBlock command="harness-kit activate" label="Run activation steps" />
+      <CommandBlock command={cliCommand("activate")} label="Run activation steps" />
       <p>
         <strong>Flags:</strong> No command-specific flags currently.
       </p>
@@ -112,10 +116,10 @@ export default function CliPage() {
         <code>budget</code>
       </h3>
       <p>Measure context-window token cost of installed harness-managed files.</p>
-      <CommandBlock command="harness-kit budget" label="Human-readable budget report" />
-      <CommandBlock command="harness-kit budget --json" label="Machine-readable JSON output" className="mt-3" />
+      <CommandBlock command={cliCommand("budget")} label="Human-readable budget report" />
+      <CommandBlock command={cliCommand("budget --json")} label="Machine-readable JSON output" className="mt-3" />
       <CommandBlock
-        command="harness-kit budget --context-window 200000"
+        command={cliCommand("budget --context-window 200000")}
         label="Override context window for calculation"
         className="mt-3"
       />
@@ -145,8 +149,8 @@ export default function CliPage() {
       <ul>
         <li>Prefer <code>npx {CLI_PACKAGE}@{CLI_VERSION_TAG}</code> if you want the newest CLI without global upgrades.</li>
         <li>
-          Use <code>harness-kit &lt;command&gt; --help</code> to inspect command usage directly from your installed
-          version.
+          Use <code>{CLI_PACKAGE}</code> through <code>npx</code>, or install globally first if you want to run plain{" "}
+          <code>harness-kit &lt;command&gt;</code>.
         </li>
         <li>Keep bundle additions small and commit after each logical setup step.</li>
         <li>If category filters fail, verify you are using CLI category names, not docs grouping names.</li>

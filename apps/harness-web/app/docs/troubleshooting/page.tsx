@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { CommandBlock } from "@/components/command-block";
-import { CLI_INIT_COMMAND, CLI_PACKAGE, CLI_VERSION_TAG } from "@/lib/commands";
+import { CLI_INIT_COMMAND, CLI_PACKAGE, CLI_VERSION_TAG, cliCommand } from "@/lib/commands";
 
 export const metadata: Metadata = {
   title: "Troubleshooting",
@@ -36,7 +36,7 @@ export default function TroubleshootingPage() {
           <strong>Fix:</strong> use valid CLI categories.
         </li>
       </ul>
-      <CommandBlock command="harness-kit list --category workflow-preset" label="Use a valid CLI category" />
+      <CommandBlock command={cliCommand("list --category workflow-preset")} label="Use a valid CLI category" />
 
       <h2>Symptom: command not found (harness-kit)</h2>
       <ul>
@@ -48,6 +48,7 @@ export default function TroubleshootingPage() {
         </li>
       </ul>
       <CommandBlock command={`npx ${CLI_PACKAGE}@${CLI_VERSION_TAG} --help`} label="Run CLI via npx" />
+      <CommandBlock command="pnpm add -g @harness-kit/cli && harness-kit --help" label="Or install globally first" className="mt-3" />
 
       <h2>Symptom: setup works but files seem incomplete</h2>
       <ul>
@@ -58,8 +59,8 @@ export default function TroubleshootingPage() {
           <strong>Fix:</strong> inspect installed bundles, then add missing ones explicitly.
         </li>
       </ul>
-      <CommandBlock command="harness-kit list --installed" label="Inspect installed bundles" />
-      <CommandBlock command="harness-kit add security-review" label="Add a missing bundle" className="mt-3" />
+      <CommandBlock command={cliCommand("list --installed")} label="Inspect installed bundles" />
+      <CommandBlock command={cliCommand("add security-review")} label="Add a missing bundle" className="mt-3" />
 
       <h2>Symptom: unsure if current state is healthy</h2>
       <ul>
@@ -67,7 +68,7 @@ export default function TroubleshootingPage() {
           <strong>Fix:</strong> run status to audit drift and required files, then resolve reported issues.
         </li>
       </ul>
-      <CommandBlock command="harness-kit status" label="Audit current harness state" />
+      <CommandBlock command={cliCommand("status")} label="Audit current harness state" />
     </article>
   );
 }
