@@ -20,10 +20,10 @@ export function LeftSidebarNav({ items }: { items: BundleDocMeta[] }) {
             <Link
               href={href}
               className={cn(
-                "block line-clamp-1 rounded-md px-2 py-1.5 text-sm transition-colors",
+                "block line-clamp-1 rounded-lg border px-2.5 py-2 text-sm transition-colors duration-200 motion-reduce:transition-none",
                 isActive
-                  ? "bg-accent text-accent-foreground font-medium"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  ? "border-primary/25 bg-accent-soft font-medium text-foreground"
+                  : "border-transparent text-muted-foreground hover:border-border hover:bg-surface-soft hover:text-foreground"
               )}
             >
               {item.title}

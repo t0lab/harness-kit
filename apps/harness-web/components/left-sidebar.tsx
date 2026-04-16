@@ -1,22 +1,13 @@
 import { readBundleIndex } from "@/lib/bundles";
+import { categoryLabel, getBundleGroups } from "@/components/bundle-nav";
 import { LeftSidebarNav } from "@/components/left-sidebar-nav";
-
-const categoryLabel: Record<string, string> = {
-  workflow: "Workflow",
-  techstack: "Tech Stack",
-  stack: "Language Stack",
-};
 
 export function LeftSidebar() {
   const bundles = readBundleIndex();
-  const groups = bundles.reduce<Record<string, typeof bundles>>((acc, bundle) => {
-    if (!acc[bundle.category]) acc[bundle.category] = [];
-    acc[bundle.category].push(bundle);
-    return acc;
-  }, {});
+  const groups = getBundleGroups(bundles);
 
   return (
-    <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-72 shrink-0 overflow-y-auto border-r bg-background p-4 lg:block">
+    <aside className="h-full overflow-y-auto rounded-2xl glass-panel-soft p-4">
       <p className="mb-3 px-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
         Bundle Categories
       </p>
