@@ -34,6 +34,13 @@ export interface EnvVar {
   default?: string
 }
 
+export interface BundleRoleConfig {
+  artifacts: Artifact[]
+  env?: EnvVar[]
+  requires?: string[]
+  recommended?: boolean
+}
+
 export interface BundleManifest {
   name: string
   description: string
@@ -45,12 +52,7 @@ export interface BundleManifest {
     env?: EnvVar[]
     requires?: string[]
   }
-  roles: Partial<Record<BundleCategory, {
-    artifacts: Artifact[]
-    env?: EnvVar[]
-    requires?: string[]
-    recommended?: boolean
-  }>>
+  roles: Partial<Record<BundleCategory, BundleRoleConfig>>
 }
 
 export interface HarnessConfig {

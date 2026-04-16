@@ -1,4 +1,4 @@
-export const HARNESS_KIT_VERSION = '0.1.1'
+export const HARNESS_KIT_VERSION = '0.2.0-beta.10'
 
 export type {
   BundleCategory,

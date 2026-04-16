@@ -1,11 +1,11 @@
 {
   "name": "@harness-kit/cli",
-  "version": "0.2.0-beta.7",
+  "version": "0.2.0-beta.10",
   "description": "CLI tool that scaffolds AI agent harness environments for projects",
   "license": "MIT",
   "type": "module",
   "bin": {
-    "harness-kit": "./dist/index.js"
+    "harness-kit": "dist/index.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -20,6 +20,9 @@
     "rules",
     "skills",
     "templates",
+    "hooks",
+    "git-hooks",
+    "agents",
     "README.md"
   ],
   "engines": {
