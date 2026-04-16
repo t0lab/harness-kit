@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Text, useInput } from 'ink'
+import { Box, Text, useInput, useStdout } from 'ink'
 import { Spinner } from '@inkjs/ui'
 import { WizardShell } from '@/components/ui/WizardShell.js'
 import { runInk } from '@/lib/run-ink.js'
@@ -22,6 +22,8 @@ function DetectToolingScreen({ ctx, budget, onDone, onCancel }: Props) {
   const [issues, setIssues] = useState<DetectedIssue[]>([])
   const [cursor, setCursor] = useState(0)
   const [selected, setSelected] = useState<Set<string>>(new Set())
+  const [scrollRow, setScrollRow] = useState(0)
+  const { stdout } = useStdout()
 
   useEffect(() => {
     let cancelled = false
@@ -39,6 +41,42 @@ function DetectToolingScreen({ ctx, budget, onDone, onCancel }: Props) {
   }, [])
 
   const installable = issues.filter((i) => !i.found && i.installCmd)
+
+  // Budget: shell chrome(4) + tech line(1) + margin(1) + issues(n) + margin(1) + header(1) + hint(1) + margin(1)
+  const rows = stdout.rows ?? 24
+  const fixedOverhead = 10 + issues.length
+  const listBudget = Math.max(2, rows - fixedOverhead)
+
+  // Each item is 1 row; cursor item expands to 2 rows (shows installCmd)
+  // Build a rows-per-item map and compute visible slice
+  const itemHeights = installable.map((_, idx) => (idx === cursor && installable[idx]?.installCmd ? 2 : 1))
+  const totalRows = itemHeights.reduce((s, h) => s + h, 0)
+
+  // Scroll cursor into view
+  useEffect(() => {
+    const cursorTop = itemHeights.slice(0, cursor).reduce((s, h) => s + h, 0)
+    const cursorBottom = cursorTop + (itemHeights[cursor] ?? 1)
+    if (cursorTop < scrollRow) {
+      setScrollRow(cursorTop)
+    } else if (cursorBottom > scrollRow + listBudget) {
+      setScrollRow(cursorBottom - listBudget)
+    }
+  }, [cursor, listBudget])
+
+  // Build visible items from scrollRow within listBudget rows
+  let rowPos = 0
+  const visibleItems: Array<{ item: DetectedIssue; idx: number }> = []
+  for (let i = 0; i < installable.length; i++) {
+    const h = itemHeights[i] ?? 1
+    if (rowPos + h > scrollRow && rowPos < scrollRow + listBudget) {
+      visibleItems.push({ item: installable[i]!, idx: i })
+    }
+    rowPos += h
+    if (rowPos >= scrollRow + listBudget) break
+  }
+
+  const aboveRows = scrollRow
+  const belowRows = Math.max(0, totalRows - scrollRow - listBudget)
 
   useInput((input, key) => {
     if (key.escape || (key.ctrl && input === 'c')) { onCancel(); return }
@@ -85,37 +123,43 @@ function DetectToolingScreen({ ctx, budget, onDone, onCancel }: Props) {
         <Box marginTop={1} flexDirection="column">
           {phase === 'scanning' ? (
             <Spinner label="Scanning project…" />
-          ) : (
-            <>
-              {issues.map((i) => (
-                <Text key={i.label} color={i.found ? 'green' : 'yellow'}>
-                  {i.found ? '✓' : '⚠'} {i.label}{i.found ? '' : ' not configured'}
-                </Text>
-              ))}
-            </>
-          )}
+          ) : (() => {
+            const found = issues.filter((i) => i.found)
+            const missing = issues.filter((i) => !i.found)
+            return (
+              <>
+                {found.length > 0 && (
+                  <Text><Text color="green">✓</Text> <Text dimColor>{found.map((i) => i.label).join(' · ')}</Text></Text>
+                )}
+                {missing.length > 0 && (
+                  <Text><Text color="yellow">⚠</Text> missing: <Text color="yellow">{missing.map((i) => i.label).join(' · ')}</Text></Text>
+                )}
+              </>
+            )
+          })()}
         </Box>
 
         {phase === 'pick-installs' ? (
           <Box marginTop={1} flexDirection="column">
-            <Text bold>Install missing tools?</Text>
-            <Text dimColor>Space to toggle · Enter to continue</Text>
+            <Text dimColor>Install? [space] toggle · [enter] continue</Text>
             <Box marginTop={1} flexDirection="column">
-              {installable.map((i, idx) => {
+              {aboveRows > 0 ? <Text dimColor>  ↑ {aboveRows} more</Text> : null}
+              {visibleItems.map(({ item, idx }) => {
                 const isCursor = idx === cursor
-                const isSel = selected.has(i.label)
+                const isSel = selected.has(item.label)
                 return (
-                  <Box key={i.label} flexDirection="column">
+                  <Box key={item.label} flexDirection="column">
                     <Text {...(isCursor ? { color: 'cyan' } : {})}>
                       {isCursor ? '❯ ' : '  '}
-                      {isSel ? '●' : '○'} {i.label}
+                      {isSel ? '●' : '○'} {item.label}
                     </Text>
-                    {isCursor && i.installCmd ? (
-                      <Text dimColor>    {i.installCmd}</Text>
+                    {isCursor && item.installCmd ? (
+                      <Text dimColor>    {item.installCmd}</Text>
                     ) : null}
                   </Box>
                 )
               })}
+              {belowRows > 0 ? <Text dimColor>  ↓ {belowRows} more</Text> : null}
             </Box>
           </Box>
         ) : null}

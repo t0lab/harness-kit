@@ -8,6 +8,7 @@ export default defineConfig({
     // internal DTS worker doesn't support. Disable composite for DTS-only.
     compilerOptions: { composite: false, incremental: false },
   },
+  external: ['react', 'react-dom', 'ink', '@inkjs/ui', 'ink-text-input'],
   clean: true,
   sourcemap: false,
   banner: {
