@@ -2,7 +2,7 @@
 name: project-state
 type: project
 created: 2026-04-14
-last-updated: 2026-04-15
+last-updated: 2026-04-17
 ---
 
 # Project State
@@ -32,9 +32,18 @@ Repo is scaffolded by its own CLI. `.claude/` contains bundle-installed skills +
 
 See [2026-04-14-harness-engineering evaluation](../../../docs/evaluations/2026-04-14-harness-engineering.md) for P0–P3 roadmap; active plan: [2026-04-15-from-scaffolding-to-harness-toolkit](../../../docs/exec-plans/active/2026-04-15-from-scaffolding-to-harness-toolkit.md).
 
+## 0.2.0-beta.11 planning state (2026-04-17)
+
+- Roadmap and release planning were switched to **owner-driven scope** (no auto-generated roadmap direction).
+- Release scope was **snapshot-locked** to explicit plan files instead of "all currently active" wording to avoid scope drift when new plans are created later.
+- Plan transition completed: `2026-04-13-cli-commands` moved from `docs/exec-plans/active/` to `docs/exec-plans/completed/`.
+- `2026-04-16-harness-web-nextjs-nextra-plan` task status was refreshed from repo evidence:
+  - Task 1/2/3/4 complete
+  - Task 5/6/7 pending
+- New beta.11 web scope added: public `blogs` feature for sharing vibe-coding recommendations.
+
 ## Next concrete steps
 
-1. Bundle `workflow/skill-authoring` — gather the 4 orphan manual skills.
-2. Bundle `workflow/hooks-guardrails` (P0).
-3. Add `contextCost` field to `BundleManifest`.
-4. Tests for rule / agent / git-hook artifact types; init → add → status integration test.
+1. Land skill updates (`docs-as-code`, `release`, research-oriented skill) targeted in beta.11 release docs.
+2. Close or re-scope remaining tasks in `2026-04-16-harness-web-nextjs-nextra-plan` (Task 5/6/7 + new Task 8 blogs).
+3. Keep roadmap/release/changelog synchronized as source of truth for release cut readiness.

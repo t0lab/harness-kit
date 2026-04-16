@@ -85,6 +85,8 @@ examples/               → manual test projects (not in pnpm workspace)
 
 ## Specs & Plans
 
+- Product roadmap: `docs/product-specs/ROADMAP.md`
+- Release plans: `docs/releases/`
 - Design specs: `docs/design-docs/`
 - Kế hoạch đang active: `docs/exec-plans/active/`
 - Kế hoạch hoàn thành: `docs/exec-plans/completed/`

@@ -31,7 +31,9 @@ TypeScript 5, Node 22, pnpm workspaces, tsup (build), vitest (tests), commander 
 |-----------------------------------------|----------------------------------------|
 | Hiểu layer nào code này thuộc về        | `ARCHITECTURE.md`                      |
 | Hiểu tại sao một quyết định được đưa ra | `docs/design-docs/core-beliefs.md`     |
-| Biết product đang đi đâu                | `docs/DESIGN.md`                       |
+| Biết product đang đi đâu                | `docs/product-specs/ROADMAP.md`        |
+| Nắm phạm vi một release cụ thể          | `docs/releases/<version>.md`           |
+| Xem định hướng sản phẩm hiện tại        | `docs/DESIGN.md`                       |
 | Xem spec của một feature cụ thể         | `docs/design-docs/<feature>.md`        |
 | Xem plan đang active                    | `docs/exec-plans/active/`              |
 | Biết technical debt nào đã biết         | `docs/exec-plans/tech-debt-tracker.md` |

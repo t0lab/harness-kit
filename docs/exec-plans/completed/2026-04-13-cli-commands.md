@@ -1,8 +1,10 @@
 # CLI Commands — Kế hoạch thực thi
 
 **Trạng thái:** Hoàn thành (core commands + full test suite 2026-04-15)
+**Release 0.2.0-beta.11:** Đã chuyển từ `active` -> `completed` vào 2026-04-17
 **Mục tiêu:** Hoàn thiện và stabilize các commands `list`, `add`, `status`
 **Ngày tạo:** 2026-04-13  
+**Ngày hoàn tất:** 2026-04-17  
 **Cập nhật gần nhất:** 2026-04-15 — phần core done; nice-to-have roll sang plan tới
 
 ---
@@ -35,7 +37,7 @@
 
 ---
 
-## Còn lại
+## Deferred (roll sang plan kế tiếp)
 
 - [ ] `registerListCommand` chưa có integration test — chỉ unit test các helper function; action callback chưa được test
 - [ ] `status` chưa có `--json` output flag — cần thiết cho scripting/CI consumption

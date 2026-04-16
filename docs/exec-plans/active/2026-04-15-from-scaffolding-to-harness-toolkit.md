@@ -1,6 +1,8 @@
 # From Scaffolding Kit to Harness Engineering Toolkit
 
-**Trạng thái:** Active
+**Trạng thái:** Active (đã hoàn thành Block A; còn Block B/C/D)
+**Release 0.2.0-beta.11:** In scope (re-scope để tập trung phần còn lại)
+**Cập nhật trạng thái:** 2026-04-17 (Block A done, các block còn lại chưa đóng)
 **Ngày tạo:** 2026-04-15
 **Nguồn:** [docs/evaluations/2026-04-14-harness-engineering.md](../../evaluations/2026-04-14-harness-engineering.md)
 **Mục tiêu:** Lấp feedback-loop layer + isolation layer để harness-kit vượt "setup tool" thành "harness as a product", đồng thời tôn trọng các điểm mạnh đã có (copy-own, layer discipline, registry-as-data, docs-as-code).

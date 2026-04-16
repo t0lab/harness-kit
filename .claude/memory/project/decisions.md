@@ -2,7 +2,7 @@
 name: decisions
 type: project
 created: 2026-04-14
-last-updated: 2026-04-15
+last-updated: 2026-04-17
 ---
 
 # Architectural Decisions
@@ -42,3 +42,9 @@ last-updated: 2026-04-15
 ## CLI UX
 
 - **`list --category` filters by `defaultRole`** not by registry directory.
+
+## Docs & release governance
+
+- **Roadmap ownership is explicit** — roadmap content is maintained by project owner; agents should not invent future direction.
+- **Release scope is snapshot-locked for each train** — reference explicit plan files (with date) instead of dynamic phrases like "all currently active plans."
+- **Exec plan lifecycle must be enforced in docs** — completed plans are moved from `docs/exec-plans/active/` to `docs/exec-plans/completed/` instead of only tagging status inline.
