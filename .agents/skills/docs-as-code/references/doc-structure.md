@@ -11,8 +11,16 @@ When setting up docs from scratch, or auditing an existing `docs/` tree, use thi
 ├── AGENTS.md                   # Hot — entry point, ~100 lines, table of contents
 ├── CLAUDE.md                   # Hot — symlink or mirror of AGENTS.md (tooling-specific)
 ├── ARCHITECTURE.md             # Warm — package/module map, dependency direction
+├── CHANGELOG.md                # Warm — shipped user-facing changes
+├── CONTRIBUTING.md             # Warm — contribution workflow for external collaborators
+├── SECURITY.md                 # Warm — private vulnerability disclosure policy
+├── SUPPORT.md                  # Warm — support channels + triage expectations
+├── .github/
+│   └── CODEOWNERS              # Warm — ownership map for review routing
 ├── docs/
 │   ├── DESIGN.md               # Warm — product direction, phases, non-goals
+│   ├── evaluations/            # Cold — post-release/process evaluations
+│   │   └── <date>-<topic>.md
 │   ├── exec-plans/
 │   │   ├── active/             # Warm — in-progress plans, one file per initiative
 │   │   ├── completed/          # Cold — historical record, read on demand
@@ -21,7 +29,10 @@ When setting up docs from scratch, or auditing an existing `docs/` tree, use thi
 │   │   ├── core-beliefs.md     #   (optional) foundational decisions
 │   │   └── <topic>.md
 │   ├── product-specs/          # Cold — feature specs, one file per feature
+│   │   ├── ROADMAP.md
 │   │   └── <feature>.md
+│   ├── releases/               # Cold — release train plans and gates
+│   │   └── <version>.md
 │   └── references/             # Cold — library usage notes, agent-readable
 │       └── <lib>-llms.txt
 └── .agents/ (or .claude/)
@@ -41,6 +52,10 @@ Only create directories you'll populate. An empty `docs/product-specs/` is noise
 
 **`docs/DESIGN.md`** — Product-level: where the product is heading, what phase it's in, what's explicitly out of scope. Not technical.
 
+**`CHANGELOG.md`** — User-facing release history. Updated whenever behavior visible to users/operators changes.
+
+**`CONTRIBUTING.md` / `SECURITY.md` / `SUPPORT.md` / `.github/CODEOWNERS`** — Governance docs for contributor flow, vulnerability reporting, support expectations, and ownership routing.
+
 **`docs/exec-plans/active/`** — One file per in-progress initiative. Created when work starts, archived when done. See `exec-plan.md`.
 
 **`docs/exec-plans/completed/`** — Historical archive. **Do not rewrite** these when code changes — annotate instead (see `freshness-refactor.md`).
@@ -50,6 +65,12 @@ Only create directories you'll populate. An empty `docs/product-specs/` is noise
 **`docs/design-docs/`** — ADRs (Architecture Decision Records). One file per decision. These are the highest-value docs in the repo because they capture **why**, which code can never express.
 
 **`docs/product-specs/`** — Feature specs. "What this feature is, who it's for, how success is measured." Separate from design-docs because product intent and technical decision often have different authors and lifecycles.
+
+**`docs/product-specs/ROADMAP.md`** — Near-term roadmap with upcoming release priorities and sequencing.
+
+**`docs/releases/`** — Release train docs: intended scope, launch gates, rollback plan, and owners.
+
+**`docs/evaluations/`** — Post-release assessments, incident retrospectives, and process evaluations that inform future planning.
 
 **`docs/references/`** — Library usage notes tailored to your project's patterns. Named `<lib>-llms.txt` by convention (agent-readable plain-text reference). See `agent-readable.md`.
 
@@ -64,6 +85,7 @@ Create the minimum first. Don't create empty folders for hypothetical future doc
 ```
 AGENTS.md                           # Write this first (100 lines, table of contents)
 ARCHITECTURE.md                     # One page: package map + dependency rules
+CHANGELOG.md                        # For shipped user-facing behavior
 docs/
 ├── exec-plans/
 │   ├── active/
@@ -73,7 +95,7 @@ docs/
     └── <first-decision>.md         # Capture one real decision, not a placeholder
 ```
 
-Add `completed/`, `product-specs/`, `references/` only when you have real content for them.
+Add `completed/`, `product-specs/`, `releases/`, `evaluations/`, `references/` only when you have real content for them.
 
 ---
 

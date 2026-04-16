@@ -1,6 +1,6 @@
 ---
 name: docs-as-code
-description: Repository-as-system-of-record protocol. Invoke when starting a feature/sprint with ≥3 tasks, making an architectural decision, capturing tech debt, refactoring code that may leave docs stale, auditing AGENTS.md/CLAUDE.md, setting up docs/, or asking where to document something. Covers exec plans, ADRs, design docs, and agent-readable doc structure.
+description: Repository-as-system-of-record protocol for multi-step or decision-heavy work. Invoke when a task spans >=3 tracked tasks, changes architecture/module boundaries, introduces or reverses important technical decisions, affects release/governance docs, audits AGENTS.md/CLAUDE.md, sets up docs/, or asks where durable project context should live. Do not invoke for small single-task edits unless the user asks for doc hygiene.
 ---
 
 # Docs-as-Code
@@ -39,6 +39,24 @@ When in doubt: write an ADR. Decisions are the highest-value thing to capture �
 
 ---
 
+## Trigger guardrails
+
+Invoke this skill when at least one is true:
+- Work is multi-step (>=3 tracked tasks) or spans more than one module
+- A design or architecture decision must be captured
+- Refactor risk can stale docs/config boundaries
+- Release/governance expectations changed
+- User asks where to document durable context
+
+Do not invoke this skill for:
+- Single-file, single-task implementation edits
+- Pure bug fixes with no decision/process change
+- Cosmetic doc edits that do not affect process or architecture
+
+If unsure, use a lightweight check: "Will missing docs likely cause the next agent to make a wrong decision?" If yes, invoke.
+
+---
+
 ## Divergence rule
 
 Docs that contradict code are a critical failure — an agent following stale docs confidently implements the wrong thing. **Trust the code, fix the doc.**
@@ -50,6 +68,39 @@ Triggers for a doc sweep:
 - Completed exec plan task
 
 After **any refactor**, read `references/freshness-refactor.md`. It covers the full surface: `docs/`, `AGENTS.md`, `ARCHITECTURE.md`, JSDoc in source, test descriptions, tsconfig paths, `package.json` exports, barrel files. This is where agents most often miss things.
+
+---
+
+## Repo maturity profiles (fallback behavior)
+
+Adapt protocol to repository maturity to avoid process overkill:
+
+- **Startup/minimal repo**
+  - Required: `AGENTS.md`, `ARCHITECTURE.md`, `CHANGELOG.md`
+  - Required when applicable: `docs/exec-plans/active/<initiative>.md`, one ADR in `docs/design-docs/`
+  - Optional until needed: roadmap, release plans, evaluations, governance docs
+
+- **Growing repo**
+  - Add `docs/product-specs/ROADMAP.md`
+  - Add `docs/exec-plans/tech-debt-tracker.md`
+  - Add governance docs once external contributors or on-call/support exists
+
+- **Mature/enterprise repo**
+  - Maintain full standard set in `references/standards-docs.md`
+  - Treat missing/stale governance docs as release blockers
+
+If a referenced file does not exist, create minimum scaffold first, then continue implementation.
+
+---
+
+## Hotfix exception policy
+
+For urgent production hotfixes, implementation may proceed before full docs updates if and only if:
+- The hotfix PR includes a follow-up docs task in the active exec plan
+- `CHANGELOG.md` is updated before release
+- Decision changes are captured in ADR within the same release train
+
+Default remains docs-coupled development; this exception is for time-critical incidents only.
 
 ---
 
