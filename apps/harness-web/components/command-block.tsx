@@ -6,19 +6,14 @@ import { CheckIcon, CopyIcon, TerminalIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export function bundleInstallCommand(slug: string) {
-  return `harness-kit add ${slug}`;
-}
-
-export function BundleInstallCommand({
-  slug,
-  className,
-}: {
-  slug: string;
+type CommandBlockProps = {
+  command: string;
+  label?: string;
   className?: string;
-}) {
+};
+
+export function CommandBlock({ command, label = "Command", className }: CommandBlockProps) {
   const [copied, setCopied] = useState(false);
-  const command = bundleInstallCommand(slug);
 
   async function handleCopy() {
     try {
@@ -30,9 +25,9 @@ export function BundleInstallCommand({
     }
   }
 
-  function handleCopyClick(event: MouseEvent<HTMLElement>) {
-    event.preventDefault();
-    event.stopPropagation();
+  function handleCopyClick(event?: MouseEvent<HTMLElement>) {
+    event?.preventDefault();
+    event?.stopPropagation();
     void handleCopy();
   }
 
@@ -42,12 +37,11 @@ export function BundleInstallCommand({
         "rounded-lg border border-elevated-border bg-background/70 px-3 py-2 text-xs text-foreground/90",
         className
       )}
-      aria-label={`Install command for ${slug}`}
     >
       <div className="flex items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground">
           <TerminalIcon className="size-3" />
-          Install
+          {label}
         </span>
         <Button
           type="button"
@@ -55,7 +49,7 @@ export function BundleInstallCommand({
           size="xs"
           onClick={handleCopyClick}
           className="h-6 cursor-pointer px-2 text-[11px]"
-          aria-label={`Copy install command for ${slug}`}
+          aria-label={`Copy command ${command}`}
         >
           {copied ? (
             <>
@@ -74,7 +68,7 @@ export function BundleInstallCommand({
         type="button"
         onClick={handleCopyClick}
         className="mt-1 w-full cursor-pointer overflow-hidden rounded-md border border-transparent bg-surface-soft px-2 py-1 text-left font-mono transition-colors duration-200 hover:border-elevated-border hover:bg-surface-strong"
-        aria-label={`Copy install command ${command}`}
+        aria-label={`Copy command ${command}`}
       >
         <span className="block overflow-hidden text-ellipsis whitespace-nowrap">{command}</span>
       </button>

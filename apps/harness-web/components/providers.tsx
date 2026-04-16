@@ -10,7 +10,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 export function Providers({ children }: PropsWithChildren) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
       <TooltipProvider delay={120}>
         {children}
         <ToastContainer

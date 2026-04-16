@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import { BundleInstallCommand } from "@/components/bundle-install-command";
+import { CommandBlock } from "@/components/command-block";
+import { bundleInstallCommand } from "@/lib/commands";
 import { CategoryBadge } from "@/components/category-badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { BundleDocMeta } from "@/lib/bundles";
@@ -22,7 +23,7 @@ export function BundleCard({ bundle }: { bundle: BundleDocMeta }) {
         </div>
       </CardHeader>
       <CardContent>
-        <BundleInstallCommand slug={bundle.slug} />
+        <CommandBlock command={bundleInstallCommand(bundle.slug)} label="Install" />
         <p className="mt-3 line-clamp-3 text-sm text-muted-foreground">{bundle.description || "No description yet."}</p>
         <Link
           href={`/docs/bundles/${bundle.category}/${bundle.slug}`}

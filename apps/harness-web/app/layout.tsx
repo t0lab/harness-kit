@@ -16,8 +16,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "harness-web",
-  description: "Harness-kit landing page and bundle documentation portal.",
+  title: {
+    default: "Harness Kit Docs",
+    template: "%s | Harness Kit Docs",
+  },
+  description: "Official Harness Kit documentation and bundle catalog.",
 };
 
 export default function RootLayout({
@@ -28,6 +31,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
