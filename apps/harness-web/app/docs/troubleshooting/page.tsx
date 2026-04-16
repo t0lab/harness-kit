@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { CommandBlock } from "@/components/command-block";
+import { CLI_INIT_COMMAND, CLI_PACKAGE, CLI_VERSION_TAG } from "@/lib/commands";
 
 export const metadata: Metadata = {
   title: "Troubleshooting",
@@ -23,7 +24,7 @@ export default function TroubleshootingPage() {
           <strong>Fix:</strong> initialize first, then retry.
         </li>
       </ul>
-      <CommandBlock command="npx @harness-kit/cli@latest init" label="Initialize harness first" />
+      <CommandBlock command={CLI_INIT_COMMAND} label="Initialize harness first" />
 
       <h2>Symptom: Unknown category in list command</h2>
       <ul>
@@ -46,7 +47,7 @@ export default function TroubleshootingPage() {
           <strong>Fix:</strong> use <code>npx</code> directly, or install globally and restart shell.
         </li>
       </ul>
-      <CommandBlock command="npx @harness-kit/cli@latest --help" label="Run CLI via npx" />
+      <CommandBlock command={`npx ${CLI_PACKAGE}@${CLI_VERSION_TAG} --help`} label="Run CLI via npx" />
 
       <h2>Symptom: setup works but files seem incomplete</h2>
       <ul>

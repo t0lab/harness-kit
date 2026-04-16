@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { CommandBlock } from "@/components/command-block";
+import { CLI_INIT_COMMAND, CLI_PACKAGE, CLI_VERSION_TAG } from "@/lib/commands";
 
 export const metadata: Metadata = {
   title: "CLI",
@@ -16,7 +17,7 @@ export default function CliPage() {
         below, then use the reference section for exact commands and flags.
       </p>
       <h2>Quick workflow (first 10 minutes)</h2>
-      <CommandBlock command="npx @harness-kit/cli@latest init" label="1) Initialize baseline" />
+      <CommandBlock command={CLI_INIT_COMMAND} label="1) Initialize baseline" />
       <CommandBlock command="harness-kit add tdd" label="2) Add one bundle" className="mt-3" />
       <CommandBlock command="harness-kit status" label="3) Verify harness health" className="mt-3" />
       <CommandBlock command="harness-kit list --installed" label="4) Confirm installed bundles" className="mt-3" />
@@ -142,7 +143,7 @@ export default function CliPage() {
       </ol>
       <h2>Usage tips</h2>
       <ul>
-        <li>Prefer <code>npx @harness-kit/cli@latest</code> if you want the newest CLI without global upgrades.</li>
+        <li>Prefer <code>npx {CLI_PACKAGE}@{CLI_VERSION_TAG}</code> if you want the newest CLI without global upgrades.</li>
         <li>
           Use <code>harness-kit &lt;command&gt; --help</code> to inspect command usage directly from your installed
           version.

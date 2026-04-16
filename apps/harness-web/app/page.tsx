@@ -4,7 +4,7 @@ import { BookText, Rocket } from "lucide-react";
 import { CommandBlock } from "@/components/command-block";
 import { GithubIcon } from "@/components/icons/github-icon";
 import { Logo } from "@/components/logo";
-import { bundleInstallCommand } from "@/lib/commands";
+import { bundleInstallCommand, CLI_INIT_COMMAND } from "@/lib/commands";
 import { CategoryBadge } from "@/components/category-badge";
 import { readBundleIndex } from "@/lib/bundles";
 
@@ -63,7 +63,7 @@ export default function Home() {
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
             Start immediately with the latest CLI and run project initialization in one command.
           </p>
-          <CommandBlock command="npx @harness-kit/cli@latest init" label="Bootstrap command" className="mt-4 w-full" />
+          <CommandBlock command={CLI_INIT_COMMAND} label="Bootstrap command" className="mt-4 w-full" />
         </article>
       </section>
       <section className="mt-4 grid gap-4 md:grid-cols-3">

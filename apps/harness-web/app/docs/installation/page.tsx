@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { CommandBlock } from "@/components/command-block";
+import { CLI_INIT_COMMAND } from "@/lib/commands";
 
 export const metadata: Metadata = {
   title: "Installation",
@@ -23,7 +24,7 @@ export default function InstallationPage() {
         <li>Optional: <code>pnpm</code> if you prefer global install with pnpm.</li>
       </ul>
       <h2>Option 1: Run without global install</h2>
-      <CommandBlock command="npx @harness-kit/cli@latest init" label="Run init immediately" />
+      <CommandBlock command={CLI_INIT_COMMAND} label="Run init immediately" />
       <p className="mt-2 text-sm text-muted-foreground">
         Recommended for first-time setup and teams that want the newest CLI without managing global updates.
       </p>

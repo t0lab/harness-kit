@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { CommandBlock } from "@/components/command-block";
+import { CLI_INIT_COMMAND } from "@/lib/commands";
 
 export const metadata: Metadata = {
   title: "Introduction",
@@ -64,7 +65,7 @@ export default function IntroductionPage() {
           <strong>Step 3:</strong> Add one bundle, verify with <code>status</code>, then commit.
         </li>
       </ul>
-      <CommandBlock command="npx @harness-kit/cli@latest init" label="Initialize with npx" />
+      <CommandBlock command={CLI_INIT_COMMAND} label="Initialize with npx" />
       <CommandBlock command="harness-kit status" label="Validate generated harness state" className="mt-3" />
       <CommandBlock command="harness-kit add tdd" label="Add one workflow bundle" className="mt-3" />
       <h2>Success criteria</h2>

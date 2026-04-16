@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { CommandBlock } from "@/components/command-block";
+import { CLI_INIT_COMMAND } from "@/lib/commands";
 
 export const metadata: Metadata = {
   title: "Quickstart",
@@ -21,7 +22,7 @@ export default function QuickstartPage() {
       </ul>
 
       <h2>Step 1: Initialize baseline</h2>
-      <CommandBlock command="npx @harness-kit/cli@latest init" label="Initialize harness" />
+      <CommandBlock command={CLI_INIT_COMMAND} label="Initialize harness" />
       <p className="text-sm text-muted-foreground">
         Expected outcome: <code>harness.json</code>, <code>CLAUDE.md</code>, and <code>AGENTS.md</code> are generated.
       </p>
