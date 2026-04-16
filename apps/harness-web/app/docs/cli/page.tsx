@@ -4,7 +4,7 @@ import { CommandBlock } from "@/components/command-block";
 
 export const metadata: Metadata = {
   title: "CLI",
-  description: "Command reference for initializing, extending, and inspecting Harness Kit setups.",
+  description: "Practical CLI workflow plus full command and flag reference.",
 };
 
 export default function CliPage() {
@@ -12,19 +12,34 @@ export default function CliPage() {
     <article className="bundle-content">
       <h1>CLI</h1>
       <p>
-        Use the CLI to initialize your harness, add bundles, and audit project health. This page documents commands and
-        flags supported by the current CLI implementation.
+        Use the CLI to initialize your harness, add bundles, and verify project health. Start with the quick workflow
+        below, then use the reference section for exact commands and flags.
       </p>
+      <h2>Quick workflow (first 10 minutes)</h2>
+      <CommandBlock command="npx @harness-kit/cli@latest init" label="1) Initialize baseline" />
+      <CommandBlock command="harness-kit add tdd" label="2) Add one bundle" className="mt-3" />
+      <CommandBlock command="harness-kit status" label="3) Verify harness health" className="mt-3" />
+      <CommandBlock command="harness-kit list --installed" label="4) Confirm installed bundles" className="mt-3" />
+
       <h2>Global usage</h2>
       <CommandBlock command="harness-kit --help" label="Show all commands" />
-      <CommandBlock command="harness-kit --version" label="Show CLI version" className="mt-3" />
-      <h2>Core commands</h2>
-      <CommandBlock command="harness-kit init" label="Initialize harness in current project" />
-      <CommandBlock command="harness-kit add <bundle>" label="Add one bundle by slug" className="mt-3" />
-      <CommandBlock command="harness-kit list" label="List available bundles" className="mt-3" />
-      <CommandBlock command="harness-kit status" label="Inspect installed harness state" className="mt-3" />
-      <CommandBlock command="harness-kit activate" label="Run post-install activations" className="mt-3" />
-      <CommandBlock command="harness-kit budget" label="Measure context-window cost" className="mt-3" />
+      <CommandBlock command="harness-kit --version" label="Show installed CLI version" className="mt-3" />
+
+      <h2>Category mapping (important)</h2>
+      <p>
+        Bundle docs pages are grouped by <code>workflow</code>, <code>stack</code>, and <code>techstack</code> for
+        browsing. CLI <code>list --category</code> uses install-role categories from the registry.
+      </p>
+      <ul>
+        <li>
+          <strong>Docs categories:</strong> <code>workflow</code>, <code>stack</code>, <code>techstack</code>
+        </li>
+        <li>
+          <strong>CLI categories:</strong> <code>git-workflow</code>, <code>workflow-preset</code>, <code>memory</code>
+          , <code>browser</code>, <code>search</code>, <code>scrape</code>, <code>mcp-tool</code>
+        </li>
+      </ul>
+      <CommandBlock command="harness-kit list --category workflow-preset" label="Example valid category filter" />
 
       <h2>Command reference</h2>
       <h3>
@@ -133,7 +148,7 @@ export default function CliPage() {
           version.
         </li>
         <li>Keep bundle additions small and commit after each logical setup step.</li>
-        <li>Cross-check bundle docs pages for role-specific installation guidance.</li>
+        <li>If category filters fail, verify you are using CLI category names, not docs grouping names.</li>
       </ul>
     </article>
   );

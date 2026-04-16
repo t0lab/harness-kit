@@ -12,7 +12,7 @@ export function LeftSidebar() {
       <div className="overflow-y-auto h-full p-4 md:p-5">
       <div className="space-y-5">
         <div>
-          <p className="mb-1.5 px-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <p className="mb-1.5 px-2 text-sm font-semibold text-foreground/90">
             Getting Started
           </p>
           <DocsStaticNav />

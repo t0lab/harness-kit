@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -53,8 +54,9 @@ export default async function BundleDocPage({ params }: PageProps) {
 
   return (
     <div className="space-y-5 md:space-y-6 flex flex-col flex-1 overflow-hidden">
-      <Link href="/docs" className="inline-block text-sm text-muted-foreground hover:text-foreground">
-        Back to docs
+      <Link href="/docs" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+        <ArrowLeft className="size-4" aria-hidden="true" />
+        <span>Back to docs</span>
       </Link>
       <div className="glass-panel rounded-xl h-full overflow-hidden p-5 md:p-7">
         <div className="mb-6 space-y-4 border-b border-border/70 pb-6">

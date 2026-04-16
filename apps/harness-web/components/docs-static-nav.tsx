@@ -7,9 +7,11 @@ import { cn } from "@/lib/utils";
 
 export const STATIC_DOC_ITEMS = [
   { href: "/docs/introduction", label: "Introduction" },
+  { href: "/docs/quickstart", label: "Quickstart" },
   { href: "/docs/installation", label: "Installation" },
   { href: "/docs/bundles", label: "Bundles" },
   { href: "/docs/cli", label: "CLI" },
+  { href: "/docs/troubleshooting", label: "Troubleshooting" },
   { href: "/docs/changelog", label: "Change log" },
 ] as const;
 

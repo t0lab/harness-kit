@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type MouseEvent } from "react";
-import { CheckIcon, CopyIcon, TerminalIcon } from "lucide-react";
+import { CheckCheck, CopyIcon, TerminalIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -53,7 +53,7 @@ export function CommandBlock({ command, label = "Command", className }: CommandB
         >
           {copied ? (
             <>
-              <CheckIcon className="size-3" />
+              <CheckCheck className="size-3" />
               Copied
             </>
           ) : (

@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { BookText, Rocket } from "lucide-react";
 
 import { CommandBlock } from "@/components/command-block";
+import { GithubIcon } from "@/components/icons/github-icon";
 import { Logo } from "@/components/logo";
 import { bundleInstallCommand } from "@/lib/commands";
 import { CategoryBadge } from "@/components/category-badge";
@@ -26,15 +28,32 @@ export default function Home() {
           </span>
         </div>
         <h1 className="relative mt-4 max-w-4xl text-4xl font-semibold tracking-tight md:text-5xl">
-          Build and ship AI harness workflows with a clean bundle-first documentation hub.
+          Onboard AI coding guardrails in minutes, then scale them safely across projects.
         </h1>
         <p className="relative mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">
-          `harness-web` powers discovery across workflow, stack, and tech-stack bundles. Everything stays in sync
-          with source READMEs so docs remain accurate by default.
+          Harness Kit helps teams reduce setup drift with installable bundles and auditable diffs. Start with one
+          command, verify state, and grow capabilities incrementally.
         </p>
         <div className="relative mt-8 flex w-full flex-wrap justify-end gap-3">
-          <Link href="/docs" className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
-            Documentation
+          <Link
+            href="/docs/quickstart"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
+          >
+            <Rocket className="size-4" aria-hidden="true" />
+            Start in 5 minutes
+          </Link>
+          <Link href="/docs" className="inline-flex items-center gap-1.5 rounded-lg border border-border px-4 py-2 text-sm font-medium">
+            <BookText className="size-4" aria-hidden="true" />
+            Browse docs
+          </Link>
+          <Link
+            href="https://github.com/t0lab/harness-kit"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border px-4 py-2 text-sm font-medium"
+          >
+            <GithubIcon className="size-4" />
+            GitHub repo
           </Link>
         </div>
       </section>
@@ -50,16 +69,16 @@ export default function Home() {
       <section className="mt-4 grid gap-4 md:grid-cols-3">
         {[
           {
-            title: "Bundle-first docs",
-            body: "Each catalog entry maps directly to registry content for transparent setup guidance.",
+            title: "Small, reviewable diffs",
+            body: "Add one capability at a time so setup changes stay understandable and easy to audit.",
           },
           {
-            title: "Fast category navigation",
-            body: "Scan workflows, language stacks, and tool stacks with a responsive docs IA.",
+            title: "Consistent team baseline",
+            body: "Standardize agent rules, skills, and harness state across repositories.",
           },
           {
-            title: "Readable by design",
-            body: "Glass surfaces, strong contrast, and reduced-motion support for calmer reading.",
+            title: "Practical onboarding docs",
+            body: "Follow quickstart, command reference, and troubleshooting without reading source code first.",
           },
         ].map((item) => (
           <article key={item.title} className="card-frame rounded-2xl p-5">
@@ -72,8 +91,8 @@ export default function Home() {
         <article className="card-frame rounded-2xl p-6">
           <h2 className="text-xl font-semibold tracking-tight">How installation works</h2>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            Pick a bundle from the docs, run the install command, and harness-kit updates your project artifacts.
-            The command format stays consistent across all bundles.
+            Initialize once, add one bundle, and verify with status checks. The command shape stays consistent across
+            bundles so onboarding is predictable for new contributors.
           </p>
           <CommandBlock command={bundleInstallCommand("tdd")} label="Install" className="mt-4 w-full" />
           <p className="mt-3 text-xs text-muted-foreground">
@@ -84,10 +103,10 @@ export default function Home() {
         <article className="card-frame rounded-2xl p-6">
           <h2 className="text-xl font-semibold tracking-tight">What you get</h2>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-            <li>Bundle docs synced from source README files</li>
-            <li>Workflow, stack, and tech-stack coverage in one catalog</li>
-            <li>Production-minded guardrails for quality, tests, and security</li>
-            <li>Responsive docs navigation for desktop and mobile</li>
+            <li>Project baseline files tracked in git</li>
+            <li>Incremental bundle installation with explicit commands</li>
+            <li>Verification flow for drift and install health</li>
+            <li>Catalog of workflow, stack, and tech-stack capabilities</li>
           </ul>
         </article>
       </section>
