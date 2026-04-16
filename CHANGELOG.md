@@ -75,7 +75,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Notes
 
 > Refactors: wizard fully migrated from clack to Ink; registry reorganized into `workflow/` subfolder; skill triggers sharpened across brave-search, branch-strategy, context-discipline, commit-signing, crawl4ai, docs-as-code, local-memory, mem0; bundle descriptions trimmed for token efficiency.
-> CI: GitHub Pages deployment added for harness-web at [harness-kit.liamlee.cloud](https://harness-kit.liamlee.cloud).
+> CI: GitHub Pages deployment added for harness-web at [harness.timezlab.org](https://harness.timezlab.org).
 > Docs: restructured to Diátaxis layout.
 
 ---
