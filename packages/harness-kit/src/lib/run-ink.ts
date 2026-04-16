@@ -31,10 +31,15 @@ export async function runInk<T>(
 
   const app = render(element, { exitOnCtrlC: false })
   try {
-    const value = await promise
+    // Race: component settles the promise, OR Ink unmounts on its own (internal error)
+    const value = await Promise.race([
+      promise,
+      app.waitUntilExit().then(() => {
+        if (!done) throw new Error('Ink exited unexpectedly — check stderr for details')
+      }),
+    ])
     app.unmount()
-    await app.waitUntilExit()
-    return value
+    return value as T
   } catch (err) {
     app.unmount()
     throw err

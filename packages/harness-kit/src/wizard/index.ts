@@ -99,6 +99,11 @@ export const wizardMachine = createMachine({
 })
 
 export async function runWizard(): Promise<void> {
+  if (!process.stdin.isTTY) {
+    process.stderr.write('Error: harness-kit init requires an interactive terminal (TTY).\n')
+    process.exit(1)
+  }
+
   applySymbolFix()
 
   const budget = new BudgetState()
@@ -167,11 +172,14 @@ export async function runWizard(): Promise<void> {
     }
   } catch (err) {
     actor.send({ type: 'ERROR', error: err as Error })
+    exitAltScreen()
     if (err instanceof Error && err.message === 'Cancelled') {
       console.log('\nWizard cancelled.')
       return
     }
-    throw err
+    const msg = err instanceof Error ? err.message : String(err)
+    process.stderr.write(`\nError: ${msg}\n`)
+    process.exit(1)
   } finally {
     exitAltScreen()
     process.removeListener('exit', exitAltScreen)
