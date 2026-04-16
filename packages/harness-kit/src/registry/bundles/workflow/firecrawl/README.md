@@ -1,4 +1,10 @@
-# firecrawl
+---
+title: Firecrawl
+description: Hosted web scraping, search, crawling, and browser interaction via the Firecrawl CLI — clean markdown output shaped for LLM context windows.
+category: workflow
+slug: firecrawl
+---
+# Firecrawl
 
 Hosted web scraping, search, crawling, and browser interaction via the Firecrawl CLI — clean markdown output shaped for LLM context windows.
 

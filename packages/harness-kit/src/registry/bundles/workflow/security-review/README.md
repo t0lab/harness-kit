@@ -1,4 +1,10 @@
-# security-review
+---
+title: Security Review
+description: Dedicated security review for risky diffs. The agent stops treating security as one checkbox inside generic code review and runs a focused pass on attacker-controlled inputs, trust boundaries, and exploit paths.
+category: workflow
+slug: security-review
+---
+# Security Review
 
 Dedicated security review for risky diffs. The agent stops treating security as one checkbox inside generic code review and runs a focused pass on attacker-controlled inputs, trust boundaries, and exploit paths.
 

@@ -1,12 +1,21 @@
-# stack-typescript
+---
+title: TypeScript
+description: TypeScript and JavaScript language baseline with coding style, implementation patterns, testing discipline, and security defaults for harness-kit projects.
+category: stack
+slug: typescript
+---
 
-TypeScript/JavaScript language base for harness-kit. Installed automatically when a `typescript` tech is selected (directly or via techstack inheritance through `type: 'stack'` artifact).
+# TypeScript
 
-Contents:
+TypeScript stack baseline for harness-kit. This bundle is installed automatically when `typescript` is selected directly, or inherited by a techstack bundle via `type: 'stack'`.
 
-- `coding-style` — naming, file layout, types
-- `patterns` — idioms and anti-patterns
-- `testing` — test structure and conventions
-- `security` — input handling, secrets, common vulnerabilities
+## What it includes
 
-Rules adapted from [everything-claude-code](https://github.com/affaan-m/everything-claude-code) (MIT).
+- `coding-style` - naming, project/file layout, typing conventions
+- `patterns` - practical implementation patterns and anti-patterns
+- `testing` - test strategy, structure, and quality expectations
+- `security` - input validation, secrets handling, and common vuln guardrails
+
+## Notes
+
+Rules are adapted from [everything-claude-code](https://github.com/affaan-m/everything-claude-code) (MIT) and tuned for harness-kit conventions.

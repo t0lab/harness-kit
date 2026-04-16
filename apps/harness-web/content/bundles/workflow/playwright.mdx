@@ -1,0 +1,42 @@
+# Playwright
+
+Terminal-driven browser automation via the Playwright CLI. The agent opens a real browser, snapshots the accessibility tree, and interacts by stable element refs (`e3`, `e15`) — not CSS selectors, not pixel screenshots.
+
+## What it installs
+
+| Artifact | Path (in your project) | Purpose |
+|----------|-----------------------|---------|
+| Tool | `npx playwright install chromium` (one-time, global) | Installs the Chromium binary Playwright drives |
+| Skill | `.agents/skills/playwright/` | Full CLI command reference + the snapshot → act-by-ref → re-snapshot loop, guardrails, failure modes |
+
+## How it works
+
+The skill teaches a specific loop:
+
+1. **Open** a page (`playwright-cli open <url>`, add `--headed` when you need to see it)
+2. **Snapshot** the accessibility tree — returns stable refs (`e3`, `e15`, …)
+3. **Act by ref** — `click e15`, `fill e7 "text"`, `press Enter`
+4. **Re-snapshot** after anything that mutates the DOM (navigation, modal, dynamic load)
+5. **Verify** via snapshot, console, or screenshot (screenshots are for humans, not for the agent to "look at")
+
+Refs are only valid against the most recent snapshot. The #1 failure mode is acting on a stale ref — the skill's guardrails enforce re-snapshotting.
+
+The skill also covers: session management (`--persistent` + named sessions, `state-save` / `state-load` to skip login), network mocking (`route "**/*.jpg" --status=404`), tab control, tracing for debugging, and the escape hatch (`eval`) with a note to prefer CLI verbs.
+
+## Setup
+
+The bundle runs `npx -y playwright install chromium` on install — no API keys, no account. Node.js must be on PATH. If the install is skipped or fails, the agent runs it on first use.
+
+## When to use this vs. siblings
+
+| Task | Bundle |
+|------|--------|
+| Click through a live UI, reproduce a bug, fill a form step by step | **playwright** (this) |
+| Write a persistent `@playwright/test` test suite | *not this* — the skill explicitly refuses to pivot unless you ask |
+| Scrape static content at scale, no real browser needed | `firecrawl` / `crawl4ai` |
+| "Book me a flight" — agent-driven natural-language goal | `browser-use` |
+
+## Pairs well with
+
+- `context-discipline` — snapshots can be large; the skill nudges toward action-then-verify over dumping full page HTML into context
+- `systematic-debugging` — Playwright is often the reproduction step for UI bugs; `tracing-start`/`tracing-stop` capture the trace for post-mortem

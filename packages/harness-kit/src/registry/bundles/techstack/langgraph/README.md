@@ -1,4 +1,10 @@
-# langgraph
+---
+title: LangGraph
+description: Your agent now models LangGraph workflows as directed graphs correctly — `StateGraph`, state schemas, nodes, edges, `Command`, `Send`, `invoke`, streaming, and error handling. Sourced from LangChain AI.
+category: techstack
+slug: langgraph
+---
+# LangGraph
 
 Your agent now models LangGraph workflows as directed graphs correctly — `StateGraph`, state schemas, nodes, edges, `Command`, `Send`, `invoke`, streaming, and error handling. Sourced from LangChain AI.
 

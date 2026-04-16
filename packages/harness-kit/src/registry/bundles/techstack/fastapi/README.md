@@ -1,4 +1,10 @@
-# fastapi
+---
+title: FastAPI
+description: Your agent now scaffolds and reviews FastAPI applications against production-ready templates — async patterns, dependency injection, Pydantic models, middleware, and comprehensive error handling.
+category: techstack
+slug: fastapi
+---
+# FastAPI
 
 Your agent now scaffolds and reviews FastAPI applications against production-ready templates — async patterns, dependency injection, Pydantic models, middleware, and comprehensive error handling.
 

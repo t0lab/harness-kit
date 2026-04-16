@@ -1,4 +1,10 @@
-# supabase
+---
+title: Supabase
+description: Your agent now follows Supabase's own guidance for Database, Auth, RLS, Edge Functions, Realtime, Storage, and SSR client libraries (`supabase-js`, `@supabase/ssr`) — sourced from Supabase Engineering.
+category: techstack
+slug: supabase
+---
+# Supabase
 
 Your agent now follows Supabase's own guidance for Database, Auth, RLS, Edge Functions, Realtime, Storage, and SSR client libraries (`supabase-js`, `@supabase/ssr`) — sourced from Supabase Engineering.
 

@@ -1,4 +1,10 @@
-# tavily
+---
+title: Tavily
+description: Agent-oriented web access via Tavily MCP. The agent can search for current information, extract clean content from URLs, and escalate into site mapping or crawling when a single page is not enough.
+category: workflow
+slug: tavily
+---
+# Tavily
 
 Agent-oriented web access via Tavily MCP. The agent can search for current information, extract clean content from URLs, and escalate into site mapping or crawling when a single page is not enough.
 

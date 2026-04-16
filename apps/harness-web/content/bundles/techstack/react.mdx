@@ -1,0 +1,29 @@
+# React
+
+Your agent now writes and reviews React/Next.js code against 70 performance rules from Vercel Engineering — waterfalls, bundle size, server caching, re-renders, and hydration patterns.
+
+## What it installs
+
+| Artifact | Path (in your project) | Purpose |
+|----------|------------------------|---------|
+| Stack ref | *(inherits typescript bundle)* | TypeScript coding style, patterns, testing, and security rules |
+| Skill | `.agents/skills/vercel-react-best-practices/` | Protocol the agent follows when writing or reviewing React code — sourced from [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices) |
+| Rule | `.claude/rules/react.md` | Always-loaded pointer: tells the agent to consult the skill when touching React files |
+
+## How it works
+
+React performance problems are usually invisible until they bite — a stray `Promise.all` forgotten, a barrel import that pulls in 500KB, a `useState` that triggers re-renders on every keystroke. The Vercel skill encodes 70 battle-tested rules across 8 priority-ordered categories (CRITICAL → LOW), each with concrete incorrect/correct code examples.
+
+When the agent writes a component, fetches data, or reviews a diff, it consults the skill before suggesting patterns — so it catches the stuff linters don't: server waterfalls, unnecessary memoization, barrel import bloat, hydration flicker.
+
+The rule loads a pointer into every session, so the agent reaches for the skill automatically — no explicit invocation needed.
+
+## Setup
+
+No env vars or external accounts required. The skill is fetched from GitHub during `harness-kit add` via `npx skills add`.
+
+## Pairs well with
+
+- `nextjs` — complements with App Router / RSC-specific patterns on top of the general React rules
+- `tdd` — write failing tests before refactoring toward the performance patterns
+- `code-review-gates` — enforce the rules on every commit, not just when you remember

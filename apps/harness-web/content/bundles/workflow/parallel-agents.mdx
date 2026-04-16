@@ -1,0 +1,36 @@
+# Parallel Agents
+
+Teaches the agent when to split work across parallel subagents, how to brief them so the results are actually usable, and how to avoid the common failure modes (overlapping edits, vague output, sequential dispatch).
+
+## What it installs
+
+| Artifact | Path (in your project) | Purpose |
+|----------|-----------------------|---------|
+| Skill | `.agents/skills/parallel-agents/` | Full protocol: when to fan out vs. inline, briefing template, output contract, failure modes |
+| Rule | `.claude/rules/parallel-agents.md` | Always-loaded nudge — batch Task calls in one message, every brief is self-contained, never parallelize shared-file edits |
+
+## How it works
+
+Subagents (Claude Code's `Task` / `Agent` tool) run in their own context window. Used well, they cut wall-clock time on independent work and keep noise out of the main conversation. Used badly, they burn tokens on overlapping work or return prose nobody can integrate.
+
+The rule stays in context at all times and catches the two most common mistakes:
+1. **Sequential dispatch** — firing Task calls across multiple assistant messages, which defeats the point.
+2. **Leaky briefs** — referencing "the bug we discussed" when the subagent has no memory of the conversation.
+
+The skill is consulted when the agent is about to delegate. It covers:
+
+- **When to parallelize** — 2+ independent domains, narrowly scoped, main context would otherwise drown in noise
+- **When not to** — related failures, shared files, exploratory debugging without a hypothesis, trivial single lookups
+- **Briefing template** — goal, context the agent needs, constraints, output contract, length cap
+- **Dispatch rules** — one message with multiple tool calls, partition by file not by task, match tool to job (read-only vs. general-purpose), no recursion
+- **After dispatch** — verify work with fresh tests, don't duplicate agent searches, summarize then discard reports
+
+## When it fires
+
+The agent should pull this up before any `Task` / `Agent` tool call, and whenever the user says "in parallel", "fan out", "spawn agents", "delegate", or "split this up".
+
+## Pairs well with
+
+- `context-discipline` — parallel agents are one of the main tools for keeping main context lean; the two skills reinforce each other
+- `planning-first` — decomposing a task into independent chunks is easier once a plan exists; the plan identifies what can run concurrently
+- `systematic-debugging` — explicit about *not* parallelizing exploratory debugging, which is when delegation tends to misfire

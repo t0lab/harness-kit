@@ -1,12 +1,21 @@
-# stack-python
+---
+title: Python
+description: Python language baseline with style, architecture patterns, testing guidance, and security guardrails for harness-kit workflows.
+category: stack
+slug: python
+---
 
-Python language base for harness-kit. Installed automatically when a `python` tech is selected (directly or via techstack inheritance through `type: 'stack'` artifact).
+# Python
 
-Contents:
+Python stack baseline for harness-kit. This bundle is installed automatically when `python` is selected directly, or inherited by a techstack bundle via `type: 'stack'`.
 
-- `coding-style` — naming, file layout, types
-- `patterns` — idioms and anti-patterns
-- `testing` — test structure and conventions
-- `security` — input handling, secrets, common vulnerabilities
+## What it includes
 
-Rules adapted from [everything-claude-code](https://github.com/affaan-m/everything-claude-code) (MIT).
+- `coding-style` - naming, module layout, typing and readability rules
+- `patterns` - Pythonic implementation patterns and anti-patterns
+- `testing` - test organization, fixture usage, and reliability checks
+- `security` - safe input handling, dependency hygiene, and secret protection
+
+## Notes
+
+Rules are adapted from [everything-claude-code](https://github.com/affaan-m/everything-claude-code) (MIT) and tuned for harness-kit conventions.

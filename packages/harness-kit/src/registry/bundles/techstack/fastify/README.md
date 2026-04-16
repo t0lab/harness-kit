@@ -1,4 +1,10 @@
-# fastify
+---
+title: Fastify
+description: Your agent now builds Fastify backends against best practices maintained by Fastify co-creator Matteo Collina — routes, plugins, JSON Schema validation, lifecycle hooks, Pino logging, security headers, and the full request lifecycle.
+category: techstack
+slug: fastify
+---
+# Fastify
 
 Your agent now builds Fastify backends against best practices maintained by Fastify co-creator Matteo Collina — routes, plugins, JSON Schema validation, lifecycle hooks, Pino logging, security headers, and the full request lifecycle.
 

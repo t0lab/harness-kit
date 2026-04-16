@@ -1,4 +1,10 @@
-# spring
+---
+title: Spring
+description: Your agent now writes and reviews Spring Boot applications following GitHub's curated best practices — project structure, dependency injection, JPA, REST controllers, validation, Spring Security, and testing.
+category: techstack
+slug: spring
+---
+# Spring
 
 Your agent now writes and reviews Spring Boot applications following GitHub's curated best practices — project structure, dependency injection, JPA, REST controllers, validation, Spring Security, and testing.
 

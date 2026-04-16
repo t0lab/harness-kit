@@ -1,4 +1,10 @@
-# local-memory
+---
+title: Local Memory
+description: File-based long-term memory for your agent — personal learnings stay on your machine, team-shared context lives in the repo. Zero dependencies.
+category: workflow
+slug: local-memory
+---
+# Local Memory
 
 File-based long-term memory for your agent — personal learnings stay on your machine, team-shared context lives in the repo. Zero dependencies.
 

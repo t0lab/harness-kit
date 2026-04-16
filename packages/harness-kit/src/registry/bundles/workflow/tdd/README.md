@@ -1,4 +1,10 @@
-# tdd
+---
+title: TDD
+description: Test-driven development for agent sessions. The agent stops coding first and instead grows behavior through small red-green-refactor loops.
+category: workflow
+slug: tdd
+---
+# TDD
 
 Test-driven development for agent sessions. The agent stops coding first and instead grows behavior through small red-green-refactor loops.
 

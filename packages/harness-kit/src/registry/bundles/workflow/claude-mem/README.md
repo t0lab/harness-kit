@@ -1,4 +1,10 @@
-# claude-mem
+---
+title: Claude Mem
+description: > **Experimental** — heavy dependencies (Bun, ChromaDB via uv/Python). Powerful but complex setup.
+category: workflow
+slug: claude-mem
+---
+# Claude Mem
 
 > **Experimental** — heavy dependencies (Bun, ChromaDB via uv/Python). Powerful but complex setup.
 

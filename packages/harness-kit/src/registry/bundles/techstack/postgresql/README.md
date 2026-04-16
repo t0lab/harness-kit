@@ -1,4 +1,10 @@
-# postgresql
+---
+title: PostgreSQL
+description: Your agent now designs and reviews PostgreSQL schemas against production-grade rules — proper data types (`TIMESTAMPTZ`, `NUMERIC`, `JSONB`), indexing for actual access paths, constraints, partitioning, and workload-aware patterns (insert-heavy / update-heavy / upsert).
+category: techstack
+slug: postgresql
+---
+# PostgreSQL
 
 Your agent now designs and reviews PostgreSQL schemas against production-grade rules — proper data types (`TIMESTAMPTZ`, `NUMERIC`, `JSONB`), indexing for actual access paths, constraints, partitioning, and workload-aware patterns (insert-heavy / update-heavy / upsert).
 

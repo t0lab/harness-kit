@@ -1,4 +1,10 @@
-# no-memory
+---
+title: No Memory
+description: Explicit opt-out of persistent memory. Installs a short rule telling the agent that no memory backend exists in this project — so it stops trying (or pretending) to use one.
+category: workflow
+slug: no-memory
+---
+# No Memory
 
 Explicit opt-out of persistent memory. Installs a short rule telling the agent that no memory backend exists in this project — so it stops trying (or pretending) to use one.
 

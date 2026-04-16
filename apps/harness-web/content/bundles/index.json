@@ -1,0 +1,317 @@
+[
+  {
+    "category": "stack",
+    "slug": "go",
+    "title": "Go",
+    "description": "Go language baseline with idiomatic structure, implementation patterns, testing defaults, and security checks for harness-kit projects.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/stack/go/README.md"
+  },
+  {
+    "category": "stack",
+    "slug": "java",
+    "title": "Java",
+    "description": "Java language baseline with coding standards, implementation patterns, testing discipline, and security practices for harness-kit projects.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/stack/java/README.md"
+  },
+  {
+    "category": "stack",
+    "slug": "python",
+    "title": "Python",
+    "description": "Python language baseline with style, architecture patterns, testing guidance, and security guardrails for harness-kit workflows.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/stack/python/README.md"
+  },
+  {
+    "category": "stack",
+    "slug": "rust",
+    "title": "Rust",
+    "description": "Rust language baseline covering idiomatic structure, implementation patterns, testing expectations, and secure coding defaults for harness-kit.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/stack/rust/README.md"
+  },
+  {
+    "category": "stack",
+    "slug": "typescript",
+    "title": "TypeScript",
+    "description": "TypeScript and JavaScript language baseline with coding style, implementation patterns, testing discipline, and security defaults for harness-kit projects.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/stack/typescript/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "django",
+    "title": "Django",
+    "description": "Your agent now works on Django projects across four specialized skills — architecture patterns, security, TDD with pytest-django, and pre-release verification loops.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/django/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "express",
+    "title": "Express",
+    "description": "Your agent now builds production-ready Express servers — middleware stacks, routing, authentication, robust error handling, and database integration patterns for REST APIs.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/express/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "fastapi",
+    "title": "FastAPI",
+    "description": "Your agent now scaffolds and reviews FastAPI applications against production-ready templates — async patterns, dependency injection, Pydantic models, middleware, and comprehensive error handling.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/fastapi/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "fastify",
+    "title": "Fastify",
+    "description": "Your agent now builds Fastify backends against best practices maintained by Fastify co-creator Matteo Collina — routes, plugins, JSON Schema validation, lifecycle hooks, Pino logging, security headers, and the full request lifecycle.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/fastify/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "github-actions",
+    "title": "GitHub Actions",
+    "description": "Your agent now writes and debugs GitHub Actions workflows against the official GitHub documentation — syntax, triggers, matrices, runners, reusable workflows, caching, secrets, OIDC, deployments, and custom actions.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/github-actions/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "langchain",
+    "title": "LangChain",
+    "description": "Your agent now builds LangChain apps using the modern agent runtime — `create_agent()`, `@tool` decorator, middleware for custom flows, and standard patterns for human-in-the-loop and error handling. Sourced from LangChain AI.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/langchain/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "langgraph",
+    "title": "LangGraph",
+    "description": "Your agent now models LangGraph workflows as directed graphs correctly — `StateGraph`, state schemas, nodes, edges, `Command`, `Send`, `invoke`, streaming, and error handling. Sourced from LangChain AI.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/langgraph/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "nextjs",
+    "title": "Next.js",
+    "description": "Your agent now follows Next.js App Router best practices — RSC boundaries, async APIs, data fetching patterns, error handling, and image/font optimization.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/nextjs/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "postgresql",
+    "title": "PostgreSQL",
+    "description": "Your agent now designs and reviews PostgreSQL schemas against production-grade rules — proper data types (`TIMESTAMPTZ`, `NUMERIC`, `JSONB`), indexing for actual access paths, constraints, partitioning, and workload-aware patterns (insert-heavy / update-heavy / upsert).",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/postgresql/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "react",
+    "title": "React",
+    "description": "Your agent now writes and reviews React/Next.js code against 70 performance rules from Vercel Engineering — waterfalls, bundle size, server caching, re-renders, and hydration patterns.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/react/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "redis",
+    "title": "Redis",
+    "description": "Your agent now follows Redis Engineering's own guidance for data structures, the Query Engine (RQE), vector search with RedisVL, semantic caching with LangCache, and performance tuning.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/redis/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "spring",
+    "title": "Spring",
+    "description": "Your agent now writes and reviews Spring Boot applications following GitHub's curated best practices — project structure, dependency injection, JPA, REST controllers, validation, Spring Security, and testing.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/spring/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "supabase",
+    "title": "Supabase",
+    "description": "Your agent now follows Supabase's own guidance for Database, Auth, RLS, Edge Functions, Realtime, Storage, and SSR client libraries (`supabase-js`, `@supabase/ssr`) — sourced from Supabase Engineering.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/supabase/README.md"
+  },
+  {
+    "category": "techstack",
+    "slug": "vue",
+    "title": "Vue",
+    "description": "Your agent now writes and reviews Vue 3 code following a vetted Composition API workflow — `<script setup>` with TypeScript, Pinia for state, Vue Router patterns, SSR, and Vite conventions.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/techstack/vue/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "agent-browser",
+    "title": "Agent Browser",
+    "description": "Token-efficient browser automation via accessibility snapshots (~200-400 tokens/page).",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/agent-browser/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "branch-strategy",
+    "title": "Branch Strategy",
+    "description": "Branch naming conventions and PR size limits.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/branch-strategy/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "brave-search",
+    "title": "Brave Search",
+    "description": "Brave Search MCP server + usage skill — independent index, privacy-focused web search.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/brave-search/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "browser-use",
+    "title": "Browser Use",
+    "description": "Playwright browser automation via persistent CLI daemon. Fine-grained control with ~50ms latency per command.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/browser-use/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "claude-mem",
+    "title": "Claude Mem",
+    "description": "> **Experimental** — heavy dependencies (Bun, ChromaDB via uv/Python). Powerful but complex setup.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/claude-mem/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "code-review-gates",
+    "title": "Code Review Gates",
+    "description": "Self-review checklist, PR review protocol, and review-response protocol for Claude Code. Covers all three sides of the review loop: before sending (self-review), when reviewing others, and when receiving feedback on your own diff.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/code-review-gates/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "commit-signing",
+    "title": "Commit Signing",
+    "description": "GPG and SSH commit signing setup for Claude Code projects.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/commit-signing/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "context-discipline",
+    "title": "Context Discipline",
+    "description": "Context hygiene rules and task decomposition guide for Claude Code sessions.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/context-discipline/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "conventional-commits",
+    "title": "Conventional Commits",
+    "description": "Conventional Commits format for AI-assisted git workflows — structured commit messages that map directly to semantic versioning.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/conventional-commits/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "crawl4ai",
+    "title": "Crawl4AI",
+    "description": "Open-source web scraping with JavaScript rendering, LLM extraction, deep crawl, and YouTube/PDF processing — self-hosted, no API key required.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/crawl4ai/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "docs-as-code",
+    "title": "Docs as Code",
+    "description": "The agent treats the repository as the system of record — decisions, plans, and constraints that aren't in the repo don't exist for the agent.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/docs-as-code/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "firecrawl",
+    "title": "Firecrawl",
+    "description": "Hosted web scraping, search, crawling, and browser interaction via the Firecrawl CLI — clean markdown output shaped for LLM context windows.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/firecrawl/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "local-memory",
+    "title": "Local Memory",
+    "description": "File-based long-term memory for your agent — personal learnings stay on your machine, team-shared context lives in the repo. Zero dependencies.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/local-memory/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "mem0",
+    "title": "Mem0",
+    "description": "Hosted long-term memory for your agent — searchable facts that persist across sessions, extracted automatically from conversation.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/mem0/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "mempalace",
+    "title": "MemPalace",
+    "description": "Local, offline long-term memory for your agent — a spatial palace (wings → rooms → halls) of verbatim memories retrieved by semantic search + metadata filter. No API keys, no cloud, no LLM calls on write.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/mempalace/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "no-memory",
+    "title": "No Memory",
+    "description": "Explicit opt-out of persistent memory. Installs a short rule telling the agent that no memory backend exists in this project — so it stops trying (or pretending) to use one.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/no-memory/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "parallel-agents",
+    "title": "Parallel Agents",
+    "description": "Teaches the agent when to split work across parallel subagents, how to brief them so the results are actually usable, and how to avoid the common failure modes (overlapping edits, vague output, sequential dispatch).",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/parallel-agents/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "planning-first",
+    "title": "Planning First",
+    "description": "Installs the brainstorm-then-plan-then-execute discipline — the habit of exploring the code, asking one clarifying question at a time, putting 2–3 approaches on the table with trade-offs, waiting for explicit approval before touching the filesystem, and then executing the approved plan with proper verification gates between tasks.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/planning-first/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "playwright",
+    "title": "Playwright",
+    "description": "Terminal-driven browser automation via the Playwright CLI. The agent opens a real browser, snapshots the accessibility tree, and interacts by stable element refs (`e3`, `e15`) — not CSS selectors, not pixel screenshots.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/playwright/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "pre-commit-hooks",
+    "title": "Pre-commit Hooks",
+    "description": "Blocks bad commits at the git layer — conflict markers, obvious secrets, and tech-stack-appropriate lint/typecheck/test. No framework dependency (husky, lefthook, pre-commit.com) — just a portable shell script.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/pre-commit-hooks/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "quality-gates",
+    "title": "Quality Gates",
+    "description": "Fresh verification before completion claims. The agent stops treating \\\"looks correct\\\" as evidence and proves \\\"done\\\" with repo-appropriate commands.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/quality-gates/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "security-review",
+    "title": "Security Review",
+    "description": "Dedicated security review for risky diffs. The agent stops treating security as one checkbox inside generic code review and runs a focused pass on attacker-controlled inputs, trust boundaries, and exploit paths.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/security-review/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "spec-driven",
+    "title": "Spec Driven",
+    "description": "Spec before plan for non-trivial work. The agent stops letting implementation become the first precise statement of scope and writes the source-of-truth spec in the repo first.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/spec-driven/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "systematic-debugging",
+    "title": "Systematic Debugging",
+    "description": "Root-cause-first debugging for agent sessions. The agent stops thrashing on quick fixes and works through reproduction, evidence, isolation, hypothesis, and only then a targeted fix.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/systematic-debugging/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "tavily",
+    "title": "Tavily",
+    "description": "Agent-oriented web access via Tavily MCP. The agent can search for current information, extract clean content from URLs, and escalate into site mapping or crawling when a single page is not enough.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/tavily/README.md"
+  },
+  {
+    "category": "workflow",
+    "slug": "tdd",
+    "title": "TDD",
+    "description": "Test-driven development for agent sessions. The agent stops coding first and instead grows behavior through small red-green-refactor loops.",
+    "sourceReadme": "packages/harness-kit/src/registry/bundles/workflow/tdd/README.md"
+  }
+]

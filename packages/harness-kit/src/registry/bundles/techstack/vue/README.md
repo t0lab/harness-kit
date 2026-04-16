@@ -1,4 +1,10 @@
-# vue
+---
+title: Vue
+description: Your agent now writes and reviews Vue 3 code following a vetted Composition API workflow — `<script setup>` with TypeScript, Pinia for state, Vue Router patterns, SSR, and Vite conventions.
+category: techstack
+slug: vue
+---
+# Vue
 
 Your agent now writes and reviews Vue 3 code following a vetted Composition API workflow — `<script setup>` with TypeScript, Pinia for state, Vue Router patterns, SSR, and Vite conventions.
 

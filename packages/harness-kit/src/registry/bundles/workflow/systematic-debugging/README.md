@@ -1,4 +1,10 @@
-# systematic-debugging
+---
+title: Systematic Debugging
+description: Root-cause-first debugging for agent sessions. The agent stops thrashing on quick fixes and works through reproduction, evidence, isolation, hypothesis, and only then a targeted fix.
+category: workflow
+slug: systematic-debugging
+---
+# Systematic Debugging
 
 Root-cause-first debugging for agent sessions. The agent stops thrashing on quick fixes and works through reproduction, evidence, isolation, hypothesis, and only then a targeted fix.
 

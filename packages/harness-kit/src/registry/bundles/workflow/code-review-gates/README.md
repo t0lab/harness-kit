@@ -1,4 +1,10 @@
-# code-review-gates
+---
+title: Code Review Gates
+description: Self-review checklist, PR review protocol, and review-response protocol for Claude Code. Covers all three sides of the review loop: before sending (self-review), when reviewing others, and when receiving feedback on your own diff.
+category: workflow
+slug: code-review-gates
+---
+# Code Review Gates
 
 Self-review checklist, PR review protocol, and review-response protocol for Claude Code. Covers all three sides of the review loop: before sending (self-review), when reviewing others, and when receiving feedback on your own diff.
 

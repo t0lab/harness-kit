@@ -1,4 +1,10 @@
-# mem0
+---
+title: Mem0
+description: Hosted long-term memory for your agent — searchable facts that persist across sessions, extracted automatically from conversation.
+category: workflow
+slug: mem0
+---
+# Mem0
 
 Hosted long-term memory for your agent — searchable facts that persist across sessions, extracted automatically from conversation.
 

@@ -1,4 +1,10 @@
-# mempalace
+---
+title: MemPalace
+description: Local, offline long-term memory for your agent — a spatial palace (wings → rooms → halls) of verbatim memories retrieved by semantic search + metadata filter. No API keys, no cloud, no LLM calls on write.
+category: workflow
+slug: mempalace
+---
+# MemPalace
 
 Local, offline long-term memory for your agent — a spatial palace (wings → rooms → halls) of verbatim memories retrieved by semantic search + metadata filter. No API keys, no cloud, no LLM calls on write.
 

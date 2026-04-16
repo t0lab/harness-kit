@@ -1,4 +1,10 @@
-# express
+---
+title: Express
+description: Your agent now builds production-ready Express servers — middleware stacks, routing, authentication, robust error handling, and database integration patterns for REST APIs.
+category: techstack
+slug: express
+---
+# Express
 
 Your agent now builds production-ready Express servers — middleware stacks, routing, authentication, robust error handling, and database integration patterns for REST APIs.
 

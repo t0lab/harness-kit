@@ -1,4 +1,10 @@
-# planning-first
+---
+title: Planning First
+description: Installs the brainstorm-then-plan-then-execute discipline — the habit of exploring the code, asking one clarifying question at a time, putting 2–3 approaches on the table with trade-offs, waiting for explicit approval before touching the filesystem, and then executing the approved plan with proper verification gates between tasks.
+category: workflow
+slug: planning-first
+---
+# Planning First
 
 Installs the brainstorm-then-plan-then-execute discipline — the habit of exploring the code, asking one clarifying question at a time, putting 2–3 approaches on the table with trade-offs, waiting for explicit approval before touching the filesystem, and then executing the approved plan with proper verification gates between tasks.
 

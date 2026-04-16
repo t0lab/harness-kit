@@ -1,4 +1,10 @@
-# spec-driven
+---
+title: Spec Driven
+description: Spec before plan for non-trivial work. The agent stops letting implementation become the first precise statement of scope and writes the source-of-truth spec in the repo first.
+category: workflow
+slug: spec-driven
+---
+# Spec Driven
 
 Spec before plan for non-trivial work. The agent stops letting implementation become the first precise statement of scope and writes the source-of-truth spec in the repo first.
 

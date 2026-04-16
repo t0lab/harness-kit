@@ -1,4 +1,10 @@
-# github-actions
+---
+title: GitHub Actions
+description: Your agent now writes and debugs GitHub Actions workflows against the official GitHub documentation — syntax, triggers, matrices, runners, reusable workflows, caching, secrets, OIDC, deployments, and custom actions.
+category: techstack
+slug: github-actions
+---
+# GitHub Actions
 
 Your agent now writes and debugs GitHub Actions workflows against the official GitHub documentation — syntax, triggers, matrices, runners, reusable workflows, caching, secrets, OIDC, deployments, and custom actions.
 

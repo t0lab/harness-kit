@@ -1,4 +1,10 @@
-# conventional-commits
+---
+title: Conventional Commits
+description: Conventional Commits format for AI-assisted git workflows — structured commit messages that map directly to semantic versioning.
+category: workflow
+slug: conventional-commits
+---
+# Conventional Commits
 
 Conventional Commits format for AI-assisted git workflows — structured commit messages that map directly to semantic versioning.
 

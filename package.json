@@ -8,7 +8,12 @@
     "build": "pnpm -r run build",
     "test": "pnpm -r run test",
     "dev": "pnpm --filter @harness-kit/cli run dev",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "web:dev": "pnpm --filter harness-web dev",
+    "web:build": "pnpm --filter harness-web build",
+    "web:start": "pnpm --filter harness-web start",
+    "web:sync": "pnpm --filter harness-web sync:bundles",
+    "web:check": "pnpm --filter harness-web check:content"
   },
   "devDependencies": {
     "typescript": "^6.0.0",

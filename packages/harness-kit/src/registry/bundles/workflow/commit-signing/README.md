@@ -1,4 +1,10 @@
-# commit-signing
+---
+title: Commit Signing
+description: GPG and SSH commit signing setup for Claude Code projects.
+category: workflow
+slug: commit-signing
+---
+# Commit Signing
 
 GPG and SSH commit signing setup for Claude Code projects.
 

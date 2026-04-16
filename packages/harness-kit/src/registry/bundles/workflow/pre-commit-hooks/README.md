@@ -1,4 +1,10 @@
-# pre-commit-hooks
+---
+title: Pre-commit Hooks
+description: Blocks bad commits at the git layer — conflict markers, obvious secrets, and tech-stack-appropriate lint/typecheck/test. No framework dependency (husky, lefthook, pre-commit.com) — just a portable shell script.
+category: workflow
+slug: pre-commit-hooks
+---
+# Pre-commit Hooks
 
 Blocks bad commits at the git layer — conflict markers, obvious secrets, and tech-stack-appropriate lint/typecheck/test. No framework dependency (husky, lefthook, pre-commit.com) — just a portable shell script.
 

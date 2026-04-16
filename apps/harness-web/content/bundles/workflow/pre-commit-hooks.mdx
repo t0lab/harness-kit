@@ -1,0 +1,68 @@
+# Pre-commit Hooks
+
+Blocks bad commits at the git layer — conflict markers, obvious secrets, and tech-stack-appropriate lint/typecheck/test. No framework dependency (husky, lefthook, pre-commit.com) — just a portable shell script.
+
+## What it installs
+
+| Artifact | Path (in your project) | Purpose |
+|----------|-----------------------|---------|
+| Git hook dispatcher | `.githooks/pre-commit` | Canonical dispatcher — runs every `*.sh` in `.githooks/pre-commit.d/` in sorted order; blocks commit on any failure. Auto-installed by engine on any `git-hook` artifact |
+| Check script | `.githooks/pre-commit.d/pre-commit-hooks.sh` | Tech-stack scanner — conflict markers, secrets, Node/Python/Go/Rust checks |
+| Rule | `.claude/rules/pre-commit-hooks.md` | Tells the agent not to `--no-verify` on failure, and where to add project checks |
+
+## How it works
+
+The hook is a single self-gating script. Every check inspects the project for marker files before running — nothing fires on a stack you don't use:
+
+| Check | Fires when | What it does |
+|-------|-----------|--------------|
+| Conflict markers | always (if anything staged) | Blocks commits containing `<<<<<<<`, `=======`, `>>>>>>>` |
+| Secret scan | always | Heuristic match for AWS keys, private-key headers, GitHub/Slack/OpenAI tokens |
+| Node.js | `package.json` present + JS/TS staged | Runs `lint`, `typecheck`, `test` npm scripts that exist (auto-detects pnpm/yarn/bun) |
+| Python | `pyproject.toml`/`requirements.txt` + .py staged | `ruff check` on staged files; `mypy` if `[tool.mypy]` configured |
+| Go | `go.mod` + .go staged | `gofmt -l` (blocks if unformatted), `go vet ./...` |
+| Rust | `Cargo.toml` + .rs staged | `cargo fmt --check`, `cargo clippy -- -D warnings` |
+| User extensions | `.githooks/pre-commit.d/*.sh` exists | Sources each script in sorted order; any non-zero exit blocks commit |
+
+The secret scan is a last-line guard, not a replacement for gitleaks/trufflehog. It catches the obvious leaks (committed `.env` with `AKIA…`, pasted private key) — integrate a dedicated scanner for deeper coverage.
+
+## Setup
+
+After install, activate the hooks directory once per clone:
+
+```bash
+npx harness-kit activate
+# or manually:
+git config core.hooksPath .githooks
+```
+
+### Adding project-specific checks
+
+Drop any executable script into `.githooks/pre-commit.d/`:
+
+```bash
+mkdir -p .githooks/pre-commit.d
+cat > .githooks/pre-commit.d/99-custom.sh <<'EOF'
+#!/usr/bin/env bash
+# your check here
+EOF
+chmod +x .githooks/pre-commit.d/99-custom.sh
+```
+
+Each bundle's check lands at `.githooks/pre-commit.d/<bundle-name>.sh`, so they compose without collision. If a non-harness-kit pre-commit hook existed before install, the engine migrates it to `.githooks/pre-commit.d/00-legacy.sh` automatically — it keeps running alongside the new checks.
+
+### Bypassing (rare)
+
+If a check is a false positive and blocks legitimate work:
+
+```bash
+git commit --no-verify
+```
+
+Prefer fixing the check or filtering the file over habitual bypassing.
+
+## Pairs well with
+
+- `conventional-commits` — pre-commit runs before the commit; conventional-commits validates the commit message shape afterward. Different gates, different failure modes.
+- `quality-gates` — same philosophy at the agent-workflow layer (lint/typecheck/test before declaring done). This one enforces it at the git layer.
+- `local-memory` — its conflict-marker check migrates into `.githooks/pre-commit.d/` and composes with the rest.

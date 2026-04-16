@@ -1,4 +1,10 @@
-# nextjs
+---
+title: Next.js
+description: Your agent now follows Next.js App Router best practices — RSC boundaries, async APIs, data fetching patterns, error handling, and image/font optimization.
+category: techstack
+slug: nextjs
+---
+# Next.js
 
 Your agent now follows Next.js App Router best practices — RSC boundaries, async APIs, data fetching patterns, error handling, and image/font optimization.
 

@@ -1,4 +1,10 @@
-# context-discipline
+---
+title: Context Discipline
+description: Context hygiene rules and task decomposition guide for Claude Code sessions.
+category: workflow
+slug: context-discipline
+---
+# Context Discipline
 
 Context hygiene rules and task decomposition guide for Claude Code sessions.
 

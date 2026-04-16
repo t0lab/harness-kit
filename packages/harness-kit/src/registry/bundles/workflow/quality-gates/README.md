@@ -1,4 +1,10 @@
-# quality-gates
+---
+title: Quality Gates
+description: Fresh verification before completion claims. The agent stops treating \"looks correct\" as evidence and proves \"done\" with repo-appropriate commands.
+category: workflow
+slug: quality-gates
+---
+# Quality Gates
 
 Fresh verification before completion claims. The agent stops treating "looks correct" as evidence and proves "done" with repo-appropriate commands.
 

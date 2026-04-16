@@ -1,4 +1,10 @@
-# browser-use
+---
+title: Browser Use
+description: Playwright browser automation via persistent CLI daemon. Fine-grained control with ~50ms latency per command.
+category: workflow
+slug: browser-use
+---
+# Browser Use
 
 Playwright browser automation via persistent CLI daemon. Fine-grained control with ~50ms latency per command.
 

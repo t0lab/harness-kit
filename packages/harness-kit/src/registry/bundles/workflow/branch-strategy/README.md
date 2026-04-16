@@ -1,4 +1,10 @@
-# branch-strategy
+---
+title: Branch Strategy
+description: Branch naming conventions and PR size limits.
+category: workflow
+slug: branch-strategy
+---
+# Branch Strategy
 
 Branch naming conventions and PR size limits.
 

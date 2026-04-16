@@ -1,0 +1,46 @@
+# Commit Signing
+
+GPG and SSH commit signing setup for Claude Code projects.
+
+## What it installs
+
+| Artifact | Path (in your project) | Purpose |
+|----------|----------------------|---------|
+| Skill | `.agents/skills/commit-signing/` | Setup guide, verification steps, troubleshooting |
+| Rule | `.claude/rules/signed-commits.md` | Always-loaded reminder — never bypass signing |
+
+## SSH vs GPG
+
+**SSH signing** (recommended for new setups):
+- Reuses your existing SSH key — no separate keyring
+- Simpler setup: 3 git config lines + one key on GitHub
+- Requires git ≥ 2.34
+
+**GPG signing** (traditional):
+- Wider tool support, required by some compliance frameworks
+- Separate GPG keyring and agent management
+- Keys expire (must be renewed and re-uploaded)
+
+## Quick setup (SSH)
+
+```bash
+# 1. Configure git
+git config --global gpg.format ssh
+git config --global user.signingkey ~/.ssh/id_ed25519.pub
+git config --global commit.gpgsign true
+
+# 2. Add signing key on GitHub
+# Settings → SSH and GPG keys → New signing key → paste id_ed25519.pub
+
+# 3. Verify
+git commit --allow-empty -m "test: commit signing"
+git log --show-signature -1
+```
+
+See `.agents/skills/commit-signing/` for the full guide including GPG setup and troubleshooting.
+
+## Rule installed
+
+`signed-commits.md` loads on every Claude Code session and enforces:
+- Never `--no-gpg-sign` or `-c commit.gpgsign=false`
+- Fix the underlying issue (expired key, missing agent) instead of bypassing

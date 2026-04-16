@@ -1,4 +1,10 @@
-# docs-as-code
+---
+title: Docs as Code
+description: The agent treats the repository as the system of record — decisions, plans, and constraints that aren't in the repo don't exist for the agent.
+category: workflow
+slug: docs-as-code
+---
+# Docs as Code
 
 The agent treats the repository as the system of record — decisions, plans, and constraints that aren't in the repo don't exist for the agent.
 

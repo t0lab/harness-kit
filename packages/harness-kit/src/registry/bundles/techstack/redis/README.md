@@ -1,4 +1,10 @@
-# redis
+---
+title: Redis
+description: Your agent now follows Redis Engineering's own guidance for data structures, the Query Engine (RQE), vector search with RedisVL, semantic caching with LangCache, and performance tuning.
+category: techstack
+slug: redis
+---
+# Redis
 
 Your agent now follows Redis Engineering's own guidance for data structures, the Query Engine (RQE), vector search with RedisVL, semantic caching with LangCache, and performance tuning.
 

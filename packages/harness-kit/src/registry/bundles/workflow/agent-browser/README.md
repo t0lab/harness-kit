@@ -1,4 +1,10 @@
-# agent-browser
+---
+title: Agent Browser
+description: Token-efficient browser automation via accessibility snapshots (~200-400 tokens/page).
+category: workflow
+slug: agent-browser
+---
+# Agent Browser
 
 Token-efficient browser automation via accessibility snapshots (~200-400 tokens/page).
 

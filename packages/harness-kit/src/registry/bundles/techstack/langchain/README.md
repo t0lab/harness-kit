@@ -1,4 +1,10 @@
-# langchain
+---
+title: LangChain
+description: Your agent now builds LangChain apps using the modern agent runtime — `create_agent()`, `@tool` decorator, middleware for custom flows, and standard patterns for human-in-the-loop and error handling. Sourced from LangChain AI.
+category: techstack
+slug: langchain
+---
+# LangChain
 
 Your agent now builds LangChain apps using the modern agent runtime — `create_agent()`, `@tool` decorator, middleware for custom flows, and standard patterns for human-in-the-loop and error handling. Sourced from LangChain AI.
 

@@ -1,12 +1,21 @@
-# stack-rust
+---
+title: Rust
+description: Rust language baseline covering idiomatic structure, implementation patterns, testing expectations, and secure coding defaults for harness-kit.
+category: stack
+slug: rust
+---
 
-Rust language base for harness-kit. Installed automatically when a `rust` tech is selected (directly or via techstack inheritance through `type: 'stack'` artifact).
+# Rust
 
-Contents:
+Rust stack baseline for harness-kit. This bundle is installed automatically when `rust` is selected directly, or inherited by a techstack bundle via `type: 'stack'`.
 
-- `coding-style` — naming, file layout, types
-- `patterns` — idioms and anti-patterns
-- `testing` — test structure and conventions
-- `security` — input handling, secrets, common vulnerabilities
+## What it includes
 
-Rules adapted from [everything-claude-code](https://github.com/affaan-m/everything-claude-code) (MIT).
+- `coding-style` - naming, crate layout, and type-driven design rules
+- `patterns` - idiomatic Rust patterns and anti-patterns for production code
+- `testing` - unit/integration test structure and regression discipline
+- `security` - defensive input handling, secret safety, and risk controls
+
+## Notes
+
+Rules are adapted from [everything-claude-code](https://github.com/affaan-m/everything-claude-code) (MIT) and tuned for harness-kit conventions.

@@ -1,4 +1,10 @@
-# crawl4ai
+---
+title: Crawl4AI
+description: Open-source web scraping with JavaScript rendering, LLM extraction, deep crawl, and YouTube/PDF processing — self-hosted, no API key required.
+category: workflow
+slug: crawl4ai
+---
+# Crawl4AI
 
 Open-source web scraping with JavaScript rendering, LLM extraction, deep crawl, and YouTube/PDF processing — self-hosted, no API key required.
 

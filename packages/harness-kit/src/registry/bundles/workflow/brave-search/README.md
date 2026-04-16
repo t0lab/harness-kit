@@ -1,4 +1,10 @@
-# brave-search
+---
+title: Brave Search
+description: Brave Search MCP server + usage skill — independent index, privacy-focused web search.
+category: workflow
+slug: brave-search
+---
+# Brave Search
 
 Brave Search MCP server + usage skill — independent index, privacy-focused web search.
 

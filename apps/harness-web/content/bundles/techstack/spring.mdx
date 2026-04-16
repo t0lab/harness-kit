@@ -1,0 +1,27 @@
+# Spring
+
+Your agent now writes and reviews Spring Boot applications following GitHub's curated best practices — project structure, dependency injection, JPA, REST controllers, validation, Spring Security, and testing.
+
+## What it installs
+
+| Artifact | Path (in your project) | Purpose |
+|----------|------------------------|---------|
+| Stack ref | *(inherits java bundle)* | Java coding style, patterns, testing, and security rules |
+| Skill | `.agents/skills/java-springboot/` | Protocol the agent follows on Spring Boot work — sourced from [github/awesome-copilot](https://github.com/github/awesome-copilot/tree/main/skills/java-springboot) |
+| Rule | `.claude/rules/spring.md` | Always-loaded pointer: triggers on any Spring Boot controller, service, repository, or config work |
+
+## How it works
+
+Spring Boot's conventions are strong — but agents often reach for older Java EE patterns, mis-scope beans, or skip `@Transactional` boundaries. The skill encodes opinionated guidance on project layout (controller / service / repository separation), constructor injection over field injection, `@Valid` + bean validation, proper `@Transactional` placement, `@ControllerAdvice` for global error handling, and Spring Security defaults.
+
+The rule loads a pointer into every session, so the agent consults the skill before writing a controller, service, `@Entity`, or security config — no explicit invocation needed.
+
+## Setup
+
+No env vars or external accounts required. The skill is fetched from GitHub during `harness-kit add` via `npx skills add`.
+
+## Pairs well with
+
+- `postgresql` — JPA schema and query patterns land on top of Postgres-native rules
+- `code-review-gates` — enforce DI, transaction, and validation conventions on every commit
+- `spec-driven` — design REST contracts before wiring controllers

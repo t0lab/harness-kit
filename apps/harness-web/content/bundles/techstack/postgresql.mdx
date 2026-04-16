@@ -1,0 +1,28 @@
+# PostgreSQL
+
+Your agent now designs and reviews PostgreSQL schemas against production-grade rules — proper data types (`TIMESTAMPTZ`, `NUMERIC`, `JSONB`), indexing for actual access paths, constraints, partitioning, and workload-aware patterns (insert-heavy / update-heavy / upsert).
+
+## What it installs
+
+| Artifact | Path (in your project) | Purpose |
+|----------|------------------------|---------|
+| Skill | `.agents/skills/postgresql-table-design/` | Protocol the agent follows when designing tables, migrations, or queries — sourced from [wshobson/agents](https://github.com/wshobson/agents/tree/main/plugins/database-design/skills/postgresql) |
+| Rule | `.claude/rules/postgresql.md` | Always-loaded pointer: triggers on any PostgreSQL schema, migration, or query work |
+
+## How it works
+
+PostgreSQL schema mistakes compound silently — `TIMESTAMP` without timezone, `FLOAT` for money, missing indexes on foreign keys, premature denormalization. By the time you notice, you're hauling terabytes through bad plans.
+
+The skill encodes hard rules (use `TIMESTAMPTZ` for event time, `NUMERIC` for money, `BIGINT IDENTITY` for PKs, index FK columns manually), normalization guidance (3NF first, denormalize only with measured ROI), and workload-specific patterns for insert-heavy, update-heavy, and upsert paths.
+
+The rule loads a pointer into every session, so the agent consults the skill before writing `CREATE TABLE`, a migration, or a non-trivial query — no explicit invocation needed.
+
+## Setup
+
+No env vars or external accounts required. The skill is fetched from GitHub during `harness-kit add` via `npx skills add`.
+
+## Pairs well with
+
+- `supabase` — pairs RLS + auth patterns on top of these schema fundamentals
+- `spec-driven` — design schemas from contracts before writing DDL
+- `code-review-gates` — enforce data-type and indexing rules on every migration

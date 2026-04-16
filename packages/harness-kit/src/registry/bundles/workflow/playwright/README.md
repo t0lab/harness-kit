@@ -1,4 +1,10 @@
-# playwright
+---
+title: Playwright
+description: Terminal-driven browser automation via the Playwright CLI. The agent opens a real browser, snapshots the accessibility tree, and interacts by stable element refs (`e3`, `e15`) — not CSS selectors, not pixel screenshots.
+category: workflow
+slug: playwright
+---
+# Playwright
 
 Terminal-driven browser automation via the Playwright CLI. The agent opens a real browser, snapshots the accessibility tree, and interacts by stable element refs (`e3`, `e15`) — not CSS selectors, not pixel screenshots.
 

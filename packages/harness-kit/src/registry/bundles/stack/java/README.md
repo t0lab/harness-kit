@@ -1,12 +1,21 @@
-# stack-java
+---
+title: Java
+description: Java language baseline with coding standards, implementation patterns, testing discipline, and security practices for harness-kit projects.
+category: stack
+slug: java
+---
 
-Java language base for harness-kit. Installed automatically when a `java` tech is selected (directly or via techstack inheritance through `type: 'stack'` artifact).
+# Java
 
-Contents:
+Java stack baseline for harness-kit. This bundle is installed automatically when `java` is selected directly, or inherited by a techstack bundle via `type: 'stack'`.
 
-- `coding-style` — naming, file layout, types
-- `patterns` — idioms and anti-patterns
-- `testing` — test structure and conventions
-- `security` — input handling, secrets, common vulnerabilities
+## What it includes
 
-Rules adapted from [everything-claude-code](https://github.com/affaan-m/everything-claude-code) (MIT).
+- `coding-style` - naming, package conventions, and class design rules
+- `patterns` - practical Java architecture patterns and anti-patterns
+- `testing` - unit/integration test structure and maintainability defaults
+- `security` - input validation, credential safety, and common risk controls
+
+## Notes
+
+Rules are adapted from [everything-claude-code](https://github.com/affaan-m/everything-claude-code) (MIT) and tuned for harness-kit conventions.

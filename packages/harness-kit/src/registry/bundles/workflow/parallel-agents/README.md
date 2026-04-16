@@ -1,4 +1,10 @@
-# parallel-agents
+---
+title: Parallel Agents
+description: Teaches the agent when to split work across parallel subagents, how to brief them so the results are actually usable, and how to avoid the common failure modes (overlapping edits, vague output, sequential dispatch).
+category: workflow
+slug: parallel-agents
+---
+# Parallel Agents
 
 Teaches the agent when to split work across parallel subagents, how to brief them so the results are actually usable, and how to avoid the common failure modes (overlapping edits, vague output, sequential dispatch).
 

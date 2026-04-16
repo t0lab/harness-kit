@@ -1,4 +1,10 @@
-# react
+---
+title: React
+description: Your agent now writes and reviews React/Next.js code against 70 performance rules from Vercel Engineering — waterfalls, bundle size, server caching, re-renders, and hydration patterns.
+category: techstack
+slug: react
+---
+# React
 
 Your agent now writes and reviews React/Next.js code against 70 performance rules from Vercel Engineering — waterfalls, bundle size, server caching, re-renders, and hydration patterns.
 

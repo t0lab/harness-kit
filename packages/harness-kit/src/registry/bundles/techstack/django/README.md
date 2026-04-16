@@ -1,4 +1,10 @@
-# django
+---
+title: Django
+description: Your agent now works on Django projects across four specialized skills — architecture patterns, security, TDD with pytest-django, and pre-release verification loops.
+category: techstack
+slug: django
+---
+# Django
 
 Your agent now works on Django projects across four specialized skills — architecture patterns, security, TDD with pytest-django, and pre-release verification loops.
 
