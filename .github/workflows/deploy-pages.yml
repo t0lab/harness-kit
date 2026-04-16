@@ -36,8 +36,6 @@ jobs:
 
       - name: Build harness-web
         run: pnpm --filter harness-web build
-        env:
-          GITHUB_ACTIONS: "true"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
