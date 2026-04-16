@@ -58,6 +58,7 @@ export interface HarnessConfig {
   registry: string
   techStack: string[]
   bundles: string[]
+  ide?: string[]
   /** Override the effective context window (tokens) used by budget calculations. */
   contextWindow?: number
 }

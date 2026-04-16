@@ -18,7 +18,7 @@ Tài liệu này là bản đồ API surface của toàn bộ codebase. Mục đ
 | `Artifact` | `type` | Discriminated union (11 variants) cho từng loại artifact: `mcp`, `skill`, `tool`, `plugin`, `hook`, `git-hook`, `rule`, `agent`, `command`, `file`, `stack` |
 | `EnvVar` | `interface` | `{ key, description, required, default? }` — một biến môi trường cần thiết cho bundle |
 | `BundleManifest` | `interface` | Schema đầy đủ của một bundle: `name`, `description`, `version`, `experimental`, `defaultRole`, `common.artifacts`, `common.env?`, `common.requires?`, `roles` |
-| `HarnessConfig` | `interface` | Schema của `harness.json`: `{ version, registry, techStack, bundles }` |
+| `HarnessConfig` | `interface` | Schema của `harness.json`: `{ version, registry, techStack, bundles, ide? }` |
 
 ---
 
@@ -167,7 +167,7 @@ wizard/
 
 | Export | Signature | Mô tả |
 |--------|-----------|-------|
-| `wizardMachine` | XState machine | Định nghĩa luồng `projectInfo → techStackSelect → detectTooling? → harnessConfig → preview → apply → done` (internal) |
+| `wizardMachine` | XState machine | Định nghĩa luồng `projectInfo → techStackSelect → detectTooling? → harnessConfig → selectIde → preview → apply → done` (internal) |
 | `runWizard` | `(): Promise<void>` | Entry point: enter alt-screen, init `BudgetState`, drive machine bằng vòng lặp `getSnapshot/send` |
 
 **`types.ts`**
@@ -206,7 +206,7 @@ Mỗi `steps/*.tsx` export một async function nhận `(budget)` hoặc `(ctx, 
 | Export | Loại | Mô tả |
 |--------|------|-------|
 | `AddResult` | `interface` | `{ bundleName, role, mcpUpdated, warnings, envVars }` |
-| `executeAdd` | `(cwd: string, bundleName: string, opts: { role?: string }): Promise<AddResult>` | Logic core của lệnh add — testable, không có side effects của Commander hay prompts; ném lỗi với prefix code (`NOT_INITIALIZED:`, `UNKNOWN_BUNDLE:`, `INVALID_ROLE:`) |
+| `executeAdd` | `(cwd: string, bundleName: string, opts: { role?: string; yes?: boolean; silent?: boolean; agents?: string[] }): Promise<AddResult>` | Logic core của lệnh add — testable, không có side effects của Commander hay prompts; ném lỗi với prefix code (`NOT_INITIALIZED:`, `UNKNOWN_BUNDLE:`, `INVALID_ROLE:`) |
 | `registerAddCommand` | `(program: Command): void` | Đăng ký lệnh `harness-kit add <bundle>` — gọi `executeAdd`, xử lý confirm khi re-install |
 
 ### list.ts

@@ -14,10 +14,12 @@
     "quality-gates",
     "systematic-debugging",
     "code-review-gates",
-    "context-discipline",
-    "agent-browser",
-    "browser-use",
-    "playwright",
-    "brave-search"
+    "context-discipline"
+  ],
+  "ide": [
+    "claude-code",
+    "cursor",
+    "codex",
+    "antigravity"
   ]
 }

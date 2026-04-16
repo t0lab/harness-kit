@@ -124,8 +124,29 @@ describe('installBundle', () => {
     expect(result.warnings).toContain('Failed: pnpm add -D eslint')
   })
 
-  it('runs npx skills add for skill artifact', async () => {
+  it('runs npx skills add for skill artifact with non-interactive default', async () => {
     const result = await installBundle(dir, SKILL_BUNDLE, 'browser')
+    expect(mockedExeca).toHaveBeenCalledWith(
+      'npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser --yes',
+      { cwd: dir, stdio: 'inherit', shell: true },
+    )
+    expect(result.warnings).toHaveLength(0)
+  })
+
+  it('passes selected agents and --yes to npx skills add', async () => {
+    const result = await installBundle(dir, SKILL_BUNDLE, 'browser', {
+      yes: true,
+      agents: ['cursor', 'codex'],
+    })
+    expect(mockedExeca).toHaveBeenCalledWith(
+      'npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser --agent cursor --agent codex --yes',
+      { cwd: dir, stdio: 'inherit', shell: true },
+    )
+    expect(result.warnings).toHaveLength(0)
+  })
+
+  it('omits --yes for npx skills when options.yes is false', async () => {
+    const result = await installBundle(dir, SKILL_BUNDLE, 'browser', { yes: false })
     expect(mockedExeca).toHaveBeenCalledWith(
       'npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser',
       { cwd: dir, stdio: 'inherit', shell: true },

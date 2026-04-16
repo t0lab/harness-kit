@@ -79,7 +79,7 @@ function ProjectInfoScreen({ budget, onDone, onCancel }: Props) {
   return (
     <WizardShell
       stepCurrent={1}
-      stepTotal={5}
+      stepTotal={6}
       stepTitle="Project info"
       summaryItems={summaryItems}
       budget={budget}

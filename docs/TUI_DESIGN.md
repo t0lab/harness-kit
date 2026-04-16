@@ -113,6 +113,7 @@ Steps (src/components/steps/):
   techStackSelect  → selectTechStack()
   detectTooling    → stepDetectTooling()
   harnessConfig    → stepHarnessConfig()
+  selectIde        → stepSelectIde()
   preview          → stepPreviewApply()
   apply            → stepApply()
 ```
@@ -122,10 +123,10 @@ Each step is an async function that renders an Ink component via `runInk()` and 
 ### xstate Flow
 
 ```
-projectInfo → techStackSelect → detectTooling → harnessConfig → preview → apply → done
-                                      ↑                ↑
-                              (skipped if no          BACK allowed
-                               tech selected)         from preview
+projectInfo → techStackSelect → detectTooling → harnessConfig → selectIde → preview → apply → done
+                                      ↑                                   ↑
+                              (skipped if no                     BACK allowed
+                               tech selected)                    from preview
 ```
 
 The machine accumulates `WizardContext` through `assign()` on each `NEXT` event.
@@ -136,12 +137,13 @@ Every step renders inside `WizardShell` — a persistent chrome that wraps all s
 
 ```
 ┌─────────────────────────────────────────────────────────────┐  ← alt-screen top
-│ harness-kit init · step 3/5 — Harness config                │  ← step header
+│ harness-kit init · step 5/6 — Select IDE                    │  ← step header
 ├──────────────────┬──────────────────────────────────────────┤
 │ Steps            │                                          │
 │ ✓ Project info   │   step content (SelectList / TextInput)  │
 │ ✓ Tech stack     │                                          │
-│ ▸ Harness config │                                          │
+│ ✓ Harness config │                                          │
+│ ▸ Select IDE     │                                          │
 │ ○ Preview        │                                          │
 │ ○ Apply          │                                          │
 ├──────────────────┴──────────────────────────────────────────┤

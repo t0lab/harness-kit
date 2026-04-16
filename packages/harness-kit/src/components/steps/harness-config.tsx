@@ -128,11 +128,12 @@ function HarnessConfigScreen({ ctx, budget, onDone, onCancel }: Props) {
       ...(i < qIdx && preview ? { value: preview } : {}),
     } as SummaryItem
   })
+  summaryItems.push({ label: 'Select IDE', status: 'pending' }, { label: 'Preview', status: 'pending' })
 
   return (
     <WizardShell
-      stepCurrent={3}
-      stepTotal={5}
+      stepCurrent={4}
+      stepTotal={6}
       stepTitle={question.title}
       summaryItems={summaryItems}
       budget={budget}

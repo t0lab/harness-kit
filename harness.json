@@ -18,5 +18,11 @@
     "context-discipline",
     "parallel-agents",
     "security-review"
+  ],
+  "ide": [
+    "claude-code",
+    "cursor",
+    "codex",
+    "antigravity"
   ]
 }

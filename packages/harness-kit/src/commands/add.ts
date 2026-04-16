@@ -24,7 +24,7 @@ export interface AddResult {
 export async function executeAdd(
   cwd: string,
   bundleName: string,
-  opts: { role?: string; yes?: boolean; silent?: boolean }
+  opts: { role?: string; yes?: boolean; silent?: boolean; agents?: string[] }
 ): Promise<AddResult> {
   if (!(await harnessExists(cwd))) {
     throw new Error('NOT_INITIALIZED: harness.json not found. Run harness-kit init first.')
@@ -44,9 +44,13 @@ export async function executeAdd(
   const config = await readHarnessConfig(cwd)
   const alreadyInstalled = config.bundles.includes(bundleName)
 
-  const installOpts: { yes?: boolean; silent?: boolean } = {}
-  if (opts.yes) installOpts.yes = true
+  const installOpts: { yes?: boolean; silent?: boolean; agents?: string[] } = {}
+  // `yes` is only set when callers need to override installer default (non-interactive `--yes`).
+  if (opts.yes !== undefined) installOpts.yes = opts.yes
   if (opts.silent) installOpts.silent = true
+  const configuredAgents = config.ide ?? []
+  if (opts.agents && opts.agents.length > 0) installOpts.agents = opts.agents
+  else if (configuredAgents.length > 0) installOpts.agents = configuredAgents
   const result = await installBundle(cwd, bundle, role, installOpts)
 
   const newBundles = alreadyInstalled ? config.bundles : [...config.bundles, bundleName]
@@ -65,7 +69,7 @@ export async function executeAdd(
 async function runAdd(
   cwd: string,
   bundleName: string,
-  opts: { role?: string; yes?: boolean; silent?: boolean }
+  opts: { role?: string; yes?: boolean; silent?: boolean; agents?: string[] }
 ): Promise<AddResult> {
   try {
     return await executeAdd(cwd, bundleName, opts)
@@ -81,8 +85,13 @@ export function registerAddCommand(program: Command): void {
     .command('add <bundle>')
     .description('Add a bundle to the current harness')
     .option('--role <role>', 'override default role')
-    .option('-y, --yes', 'skip interactive prompts — auto-confirm sub-commands', false)
-    .action(async (bundleName: string, opts: { role?: string; yes?: boolean }) => {
+    .option('-y, --yes', 'skip re-install confirmation prompt', false)
+    .option(
+      '--interactive-skills',
+      'run npx skills interactively (omit --yes; default is non-interactive)',
+      false,
+    )
+    .action(async (bundleName: string, opts: { role?: string; yes?: boolean; interactiveSkills?: boolean }) => {
       const cwd = process.cwd()
 
       // Check if already installed before calling executeAdd, to handle re-install confirm
@@ -104,7 +113,14 @@ export function registerAddCommand(program: Command): void {
         if (!confirmed) process.exit(0)
       }
 
-      const result = await runAdd(cwd, bundleName, opts)
+      const addOpts: { role?: string; yes?: boolean; silent?: boolean; agents?: string[] } = {}
+      if (opts.role !== undefined) addOpts.role = opts.role
+      // Commander sets -y/--yes default to false; only opt out of `npx skills --yes` via --interactive-skills.
+      if (opts.interactiveSkills) addOpts.yes = false
+      // Match init behavior: keep downstream installers non-interactive from the CLI flow.
+      addOpts.silent = true
+
+      const result = await runAdd(cwd, bundleName, addOpts)
       
       const { unmount } = render(React.createElement(AddDisplay, { result }))
       await new Promise((resolve) => setTimeout(resolve, 50))

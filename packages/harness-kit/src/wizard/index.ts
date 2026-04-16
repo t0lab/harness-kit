@@ -1,10 +1,11 @@
 import { createMachine, assign, createActor } from 'xstate'
 import type { WizardContext, WizardEvent } from '@/wizard/types.js'
-import { stepProjectInfo, stepDetectTooling, stepHarnessConfig, stepPreviewApply, selectTechStack } from '@/components/steps/index.js'
+import { stepProjectInfo, stepDetectTooling, stepHarnessConfig, stepPreviewApply, stepSelectIde, selectTechStack } from '@/components/steps/index.js'
 import { TECH_OPTIONS } from '@/lib/tech-options.js'
 import { applySymbolFix } from '@/lib/layout.js'
 import { BudgetState } from '@/store/budget-state.js'
 import { getRecommendedByCategory } from '@/registry'
+import { DEFAULT_IDE_SELECTION } from '@/lib/skills-agents.js'
 
 const initialContext: WizardContext = {
   projectName: '',
@@ -20,6 +21,7 @@ const initialContext: WizardContext = {
   browserTools: getRecommendedByCategory('browser').map(b => b.name),
   webSearch: getRecommendedByCategory('search').map(b => b.name),
   webScrape: getRecommendedByCategory('scrape').map(b => b.name),
+  ide: DEFAULT_IDE_SELECTION,
 }
 
 export const wizardMachine = createMachine({
@@ -67,6 +69,14 @@ export const wizardMachine = createMachine({
     harnessConfig: {
       on: {
         NEXT: {
+          target: 'selectIde',
+          actions: assign(({ event }) => (event as Extract<WizardEvent, { type: 'NEXT' }>).data ?? {}),
+        },
+      },
+    },
+    selectIde: {
+      on: {
+        NEXT: {
           target: 'preview',
           actions: assign(({ event }) => (event as Extract<WizardEvent, { type: 'NEXT' }>).data ?? {}),
         },
@@ -75,7 +85,7 @@ export const wizardMachine = createMachine({
     preview: {
       on: {
         CONFIRM: { target: 'apply' },
-        BACK: { target: 'harnessConfig' },
+        BACK: { target: 'selectIde' },
       },
     },
     apply: {
@@ -132,6 +142,11 @@ export async function runWizard(): Promise<void> {
         }
         case 'harnessConfig': {
           const data = await stepHarnessConfig(ctx, budget)
+          actor.send({ type: 'NEXT', data })
+          break
+        }
+        case 'selectIde': {
+          const data = await stepSelectIde(ctx, budget)
           actor.send({ type: 'NEXT', data })
           break
         }

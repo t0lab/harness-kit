@@ -68,13 +68,14 @@ function DetectToolingScreen({ ctx, budget, onDone, onCancel }: Props) {
     { label: 'Tech stack', status: 'done', ...(techValue ? { value: techValue } : {}) },
     { label: 'Detect tooling', status: 'active' },
     { label: 'Harness config', status: 'pending' },
+    { label: 'Select IDE', status: 'pending' },
     { label: 'Preview', status: 'pending' },
   ]
 
   return (
     <WizardShell
-      stepCurrent={2}
-      stepTotal={5}
+      stepCurrent={3}
+      stepTotal={6}
       stepTitle="Detect tooling"
       summaryItems={summaryItems}
       budget={budget}

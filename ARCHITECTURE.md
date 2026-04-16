@@ -143,7 +143,7 @@ Chứa logic nghiệp vụ dùng chung giữa wizard và các command. Được 
 
 ### `src/wizard/`
 
-Tầng điều phối tương tác người dùng cho lệnh `init`. Quản lý luồng multi-step bằng XState machine (`wizardMachine`) với các trạng thái: `projectInfo → techStackSelect → detectTooling → harnessConfig → preview → apply → done`. Hàm `runWizard()` là điểm vào chính: khởi động actor và truyền kết quả cho `engine/`. Wizard sử dụng các component từ `src/components/steps/`. Các logic helper như `detector.ts` và `layout.ts` hiện đã được chuyển sang `src/lib/`.
+Tầng điều phối tương tác người dùng cho lệnh `init`. Quản lý luồng multi-step bằng XState machine (`wizardMachine`) với các trạng thái: `projectInfo → techStackSelect → detectTooling → harnessConfig → selectIde → preview → apply → done`. Hàm `runWizard()` là điểm vào chính: khởi động actor và truyền kết quả cho `engine/`. Wizard sử dụng các component từ `src/components/steps/`. Các logic helper như `detector.ts` và `layout.ts` hiện đã được chuyển sang `src/lib/`.
 
 ### `src/commands/`
 

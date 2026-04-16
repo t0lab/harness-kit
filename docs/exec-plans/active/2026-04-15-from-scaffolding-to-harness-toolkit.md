@@ -7,6 +7,13 @@
 
 > Không estimate thời gian. Block A là gate bắt buộc xong trước B/C/D. Block nào không kịp roll sang plan kế tiếp.
 
+## 0. Cập nhật luồng wizard (2026-04-16)
+
+- [x] Thêm step `selectIde` vào luồng `init`: `projectInfo → techStackSelect → detectTooling → harnessConfig → selectIde → preview → apply → done`.
+- [x] Persist danh sách IDE/agent đã chọn vào `harness.json` field `ide`.
+- [x] `add` tái sử dụng `harness.json.ide` để truyền `--agent ...` cho `npx skills`.
+- [x] Cập nhật docs kiến trúc/TUI để phản ánh step mới và contract `executeAdd` mở rộng.
+
 ---
 
 ## 1. Nguyên tắc giữ nguyên (không được phá)

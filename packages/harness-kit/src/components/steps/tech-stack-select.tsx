@@ -58,13 +58,14 @@ function TechStackScreen({ options, budget, onDone, onCancel }: Props) {
     { label: 'Tech stack', status: 'active', value: `${selected.size} selected` },
     { label: 'Detect tooling', status: 'pending' },
     { label: 'Harness config', status: 'pending' },
+    { label: 'Select IDE', status: 'pending' },
     { label: 'Preview', status: 'pending' },
   ]
 
   return (
     <WizardShell
       stepCurrent={2}
-      stepTotal={5}
+      stepTotal={6}
       stepTitle="Tech stack"
       summaryItems={summaryItems}
       budget={budget}

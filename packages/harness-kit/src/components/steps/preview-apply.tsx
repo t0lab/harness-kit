@@ -85,7 +85,7 @@ export async function installAllSelectedBundles(
     } catch {
       continue;
     }
-    await executeAdd(cwd, name, { yes: true, silent: true });
+    await executeAdd(cwd, name, { yes: true, silent: true, agents: ctx.ide });
   }
 }
 
@@ -296,6 +296,7 @@ function PreviewScreen({ preview, budget, onDone, onCancel }: PreviewProps) {
     { label: "Tech stack", status: "done" },
     { label: "Detect tooling", status: "done" },
     { label: "Harness config", status: "done" },
+    { label: "Select IDE", status: "done" },
     { label: "Preview", status: "active" },
   ];
 
@@ -313,8 +314,8 @@ function PreviewScreen({ preview, budget, onDone, onCancel }: PreviewProps) {
     };
     return (
       <WizardShell
-        stepCurrent={5}
-        stepTotal={5}
+        stepCurrent={6}
+        stepTotal={6}
         stepTitle="Resolve conflict"
         summaryItems={summaryItems}
         budget={budget}
@@ -357,8 +358,8 @@ function PreviewScreen({ preview, budget, onDone, onCancel }: PreviewProps) {
 
   return (
     <WizardShell
-      stepCurrent={5}
-      stepTotal={5}
+      stepCurrent={6}
+      stepTotal={6}
       stepTitle="Preview"
       summaryItems={summaryItems}
       budget={budget}
@@ -543,7 +544,11 @@ export async function stepPreviewApply(
                 } catch {
                   return;
                 }
-                await executeAdd(cwd, name, { yes: true, silent: true });
+                await executeAdd(cwd, name, {
+                  yes: true,
+                  silent: true,
+                  agents: ctx.ide,
+                });
               },
             })),
             { concurrent: false },

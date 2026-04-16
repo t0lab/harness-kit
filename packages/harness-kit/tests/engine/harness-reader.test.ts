@@ -24,6 +24,7 @@ const BASE_CONFIG = {
   registry: 'bundled',
   techStack: [],
   bundles: [],
+  ide: ['claude-code'],
 }
 
 describe('harnessExists', () => {
@@ -46,10 +47,11 @@ describe('readHarnessConfig', () => {
   })
 
   it('normalizes missing bundles field to []', async () => {
-    const legacy = { ...BASE_CONFIG, bundles: undefined }
+    const legacy = { ...BASE_CONFIG, bundles: undefined, ide: undefined }
     await writeFile(join(dir, 'harness.json'), JSON.stringify(legacy))
     const config = await readHarnessConfig(dir)
     expect(config.bundles).toEqual([])
+    expect(config.ide).toEqual([])
   })
 
   it('throws when harness.json is missing', async () => {

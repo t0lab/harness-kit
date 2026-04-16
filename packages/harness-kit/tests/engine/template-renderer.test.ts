@@ -6,6 +6,7 @@ const ctx = {
   projectPurpose: 'An e-commerce platform',
   projectUsers: 'Brand owners and shoppers',
   projectConstraints: 'Mobile-first. PCI-DSS.',
+  ide: ['claude-code', 'cursor'],
   selectedTech: ['nextjs', 'postgresql'],
   gitWorkflow: ['conventional-commits'],
   memory: 'file-based',
@@ -27,6 +28,7 @@ describe('renderTemplate', () => {
     const parsed = JSON.parse(out)
     expect(parsed.version).toBe('1.0.0')
     expect(parsed.techStack).toContain('nextjs')
+    expect(parsed.ide).toEqual(['claude-code', 'cursor'])
   })
 
   it('throws for unknown template', async () => {

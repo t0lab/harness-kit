@@ -1,4 +1,4 @@
-import { access, readFile, writeFile } from 'node:fs/promises'
+import { access, readFile, rename, unlink, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { z } from 'zod'
 import type { HarnessConfig } from '@harness-kit/core'
@@ -8,6 +8,7 @@ const HarnessConfigSchema = z.object({
   registry: z.string(),
   techStack: z.array(z.string()),
   bundles: z.array(z.string()).default([]),
+  ide: z.array(z.string()).default([]),
   contextWindow: z.number().positive().optional(),
 })
 
@@ -33,5 +34,14 @@ export async function readHarnessConfig(cwd: string): Promise<HarnessConfig> {
 }
 
 export async function writeHarnessConfig(cwd: string, config: HarnessConfig): Promise<void> {
-  await writeFile(join(cwd, 'harness.json'), JSON.stringify(config, null, 2), 'utf-8')
+  const targetPath = join(cwd, 'harness.json')
+  const tempPath = join(cwd, `harness.json.tmp.${process.pid}.${Date.now()}`)
+  const payload = JSON.stringify(config, null, 2)
+  await writeFile(tempPath, payload, 'utf-8')
+  try {
+    await rename(tempPath, targetPath)
+  } catch (error) {
+    await unlink(tempPath).catch(() => undefined)
+    throw error
+  }
 }
