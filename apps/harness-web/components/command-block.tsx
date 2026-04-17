@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, type MouseEvent } from "react";
-import { CheckCheck, ChevronDown, CopyIcon, TerminalIcon } from "lucide-react";
+import { CheckCheck, CopyIcon, TerminalIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,7 +26,6 @@ type CommandBlockProps = {
 
 export function CommandBlock({ command, variants, label = "Command", className }: CommandBlockProps) {
   const [copied, setCopied] = useState(false);
-  const [copiedLabel, setCopiedLabel] = useState<string | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const activeCommand = variants ? (variants[activeIndex]?.command ?? "") : (command ?? "");
@@ -35,13 +34,9 @@ export function CommandBlock({ command, variants, label = "Command", className }
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
-      setTimeout(() => {
-        setCopied(false);
-        setCopiedLabel(null);
-      }, 1200);
+      setTimeout(() => setCopied(false), 1200);
     } catch {
       setCopied(false);
-      setCopiedLabel(null);
     }
   }
 
@@ -52,11 +47,21 @@ export function CommandBlock({ command, variants, label = "Command", className }
   }
 
   function handleVariantCopy(index: number) {
-    const variant = variants![index];
     setActiveIndex(index);
-    setCopiedLabel(variant.label);
-    void copyText(variant.command);
+    void copyText(variants![index].command);
   }
+
+  const copyButtonContent = copied ? (
+    <>
+      <CheckCheck className="size-3" />
+      Copied
+    </>
+  ) : (
+    <>
+      <CopyIcon className="size-3" />
+      Copy
+    </>
+  );
 
   return (
     <div
@@ -74,37 +79,17 @@ export function CommandBlock({ command, variants, label = "Command", className }
           <DropdownMenu>
             <DropdownMenuTrigger
               className={cn(
-                "inline-flex h-6 cursor-pointer items-center gap-1 rounded-md border px-2 text-[11px] font-medium transition-colors outline-none",
-                copied
-                  ? "border-transparent bg-secondary text-secondary-foreground"
-                  : "border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground"
+                buttonVariants({ variant: copied ? "secondary" : "outline", size: "xs" }),
+                "cursor-pointer text-[11px]"
               )}
               aria-label="Copy command"
             >
-              {copied ? (
-                <>
-                  <CheckCheck className="size-3" />
-                  Copied{copiedLabel ? ` ${copiedLabel}` : ""}
-                </>
-              ) : (
-                <>
-                  <CopyIcon className="size-3" />
-                  Copy
-                  <ChevronDown className="size-3 opacity-60" />
-                </>
-              )}
+              {copyButtonContent}
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-auto min-w-50">
+            <DropdownMenuContent align="end" className="w-auto min-w-28">
               {variants.map((variant, i) => (
-                <DropdownMenuItem
-                  key={variant.label}
-                  onClick={() => handleVariantCopy(i)}
-                  className="flex flex-col items-start gap-0.5 py-1.5"
-                >
+                <DropdownMenuItem key={variant.label} onClick={() => handleVariantCopy(i)}>
                   <span className="text-xs font-medium">{variant.label}</span>
-                  <span className="max-w-55 truncate font-mono text-[10px] text-muted-foreground">
-                    {variant.command}
-                  </span>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -118,17 +103,7 @@ export function CommandBlock({ command, variants, label = "Command", className }
             className="h-6 cursor-pointer px-2 text-[11px]"
             aria-label={`Copy command ${activeCommand}`}
           >
-            {copied ? (
-              <>
-                <CheckCheck className="size-3" />
-                Copied
-              </>
-            ) : (
-              <>
-                <CopyIcon className="size-3" />
-                Copy
-              </>
-            )}
+            {copyButtonContent}
           </Button>
         )}
       </div>

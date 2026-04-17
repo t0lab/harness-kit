@@ -4,7 +4,7 @@ import { BookText, Rocket } from "lucide-react";
 import { CommandBlock } from "@/components/command-block";
 import { GithubIcon } from "@/components/icons/github-icon";
 import { Logo } from "@/components/logo";
-import { bundleInstallCommand, CLI_INIT_COMMAND } from "@/lib/commands";
+import { bundleInstallVariants, cliCommandVariants } from "@/lib/commands";
 import { CategoryBadge } from "@/components/category-badge";
 import { readBundleIndex } from "@/lib/bundles";
 
@@ -63,7 +63,7 @@ export default function Home() {
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
             Start immediately with the latest CLI and run project initialization in one command.
           </p>
-          <CommandBlock command={CLI_INIT_COMMAND} label="Bootstrap command" className="mt-4 w-full" />
+          <CommandBlock variants={cliCommandVariants("init")} label="Bootstrap command" className="mt-4 w-full" />
         </article>
       </section>
       <section className="mt-4 grid gap-4 md:grid-cols-3">
@@ -94,7 +94,7 @@ export default function Home() {
             Initialize once, add one bundle, and verify with status checks. The command shape stays consistent across
             bundles so onboarding is predictable for new contributors.
           </p>
-          <CommandBlock command={bundleInstallCommand("tdd")} label="Install" className="mt-4 w-full" />
+          <CommandBlock variants={bundleInstallVariants("tdd")} label="Install" className="mt-4 w-full" />
           <p className="mt-3 text-xs text-muted-foreground">
             Replace <code>tdd</code> with any bundle slug such as <code>nextjs</code>, <code>security-review</code>
             , or <code>langgraph</code>.
@@ -125,7 +125,7 @@ export default function Home() {
                 <CategoryBadge category={bundle.category} />
               </div>
               <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">{bundle.description}</p>
-              <CommandBlock command={bundleInstallCommand(bundle.slug)} label="Install" className="mt-3 w-full" />
+              <CommandBlock variants={bundleInstallVariants(bundle.slug)} label="Install" className="mt-3 w-full" />
               <Link
                 href={`/docs/bundles/${bundle.category}/${bundle.slug}`}
                 className="mt-3 inline-flex text-sm font-medium text-primary hover:underline"

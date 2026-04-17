@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { CommandBlock } from "@/components/command-block";
-import { CLI_INIT_COMMAND, cliCommand } from "@/lib/commands";
+import { cliCommandVariants } from "@/lib/commands";
 
 export const metadata: Metadata = {
   title: "Introduction",
@@ -65,9 +65,9 @@ export default function IntroductionPage() {
           <strong>Step 3:</strong> Add one bundle, verify with <code>status</code>, then commit.
         </li>
       </ul>
-      <CommandBlock command={CLI_INIT_COMMAND} label="Initialize with npx" />
-      <CommandBlock command={cliCommand("status")} label="Validate generated harness state" className="mt-3" />
-      <CommandBlock command={cliCommand("add tdd")} label="Add one workflow bundle" className="mt-3" />
+      <CommandBlock variants={cliCommandVariants("init")} label="Initialize" />
+      <CommandBlock variants={cliCommandVariants("status")} label="Validate generated harness state" className="mt-3" />
+      <CommandBlock variants={cliCommandVariants("add tdd")} label="Add one workflow bundle" className="mt-3" />
       <h2>Success criteria</h2>
       <ul>
         <li>Your repo contains expected harness files and no unknown setup drift.</li>

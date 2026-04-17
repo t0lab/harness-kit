@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { CommandBlock } from "@/components/command-block";
-import { CLI_INIT_COMMAND, CLI_PACKAGE, CLI_VERSION_TAG, cliCommand } from "@/lib/commands";
+import { CLI_PACKAGE, CLI_VERSION_TAG, cliCommandVariants } from "@/lib/commands";
 
 export const metadata: Metadata = {
   title: "Installation",
@@ -36,7 +36,7 @@ export default function InstallationPage() {
         Recommended for repeated daily usage across multiple repositories.
       </p>
       <h2>Option 2: Run without global install</h2>
-      <CommandBlock command={CLI_INIT_COMMAND} label="Run init immediately with npx" />
+      <CommandBlock variants={cliCommandVariants("init")} label="Run init" />
       <p className="mt-2 text-sm text-muted-foreground">
         Useful for one-off setups or when you want the newest CLI without managing global upgrades.
       </p>
@@ -44,13 +44,7 @@ export default function InstallationPage() {
       <p>
         After the wizard completes, verify that harness files were generated and no baseline drift is detected.
       </p>
-      <CommandBlock
-        label="Check harness status"
-        variants={[
-          { label: "npx",    command: cliCommand("status") },
-          { label: "global", command: "harness-kit status" },
-        ]}
-      />
+      <CommandBlock variants={cliCommandVariants("status")} label="Check harness status" />
       <h2>Expected artifacts after init</h2>
       <ul>
         <li>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { CommandBlock } from "@/components/command-block";
-import { CLI_INIT_COMMAND, cliCommand } from "@/lib/commands";
+import { cliCommandVariants } from "@/lib/commands";
 
 export const metadata: Metadata = {
   title: "Quickstart",
@@ -22,25 +22,25 @@ export default function QuickstartPage() {
       </ul>
 
       <h2>Step 1: Initialize baseline</h2>
-      <CommandBlock command={CLI_INIT_COMMAND} label="Initialize harness" />
+      <CommandBlock variants={cliCommandVariants("init")} label="Initialize harness" />
       <p className="text-sm text-muted-foreground">
         Expected outcome: <code>harness.json</code>, <code>CLAUDE.md</code>, and <code>AGENTS.md</code> are generated.
       </p>
 
       <h2>Step 2: Add one bundle</h2>
-      <CommandBlock command={cliCommand("add tdd")} label="Add first bundle" />
+      <CommandBlock variants={cliCommandVariants("add tdd")} label="Add first bundle" />
       <p className="text-sm text-muted-foreground">
         Start with one high-value bundle to keep the first diff small and easy to audit.
       </p>
 
       <h2>Step 3: Verify harness health</h2>
-      <CommandBlock command={cliCommand("status")} label="Run health check" />
+      <CommandBlock variants={cliCommandVariants("status")} label="Run health check" />
       <p className="text-sm text-muted-foreground">
         Expected outcome: no critical drift; installed bundle appears in harness state.
       </p>
 
       <h2>Step 4: Confirm installed bundles</h2>
-      <CommandBlock command={cliCommand("list --installed")} label="List installed bundles" />
+      <CommandBlock variants={cliCommandVariants("list --installed")} label="List installed bundles" />
 
       <h2>Step 5: Commit baseline</h2>
       <ol>
