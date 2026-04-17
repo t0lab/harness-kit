@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { CommandBlock } from "@/components/command-block";
-import { CLI_INIT_COMMAND, cliCommand } from "@/lib/commands";
+import { CLI_INIT_COMMAND, CLI_PACKAGE, CLI_VERSION_TAG, cliCommand } from "@/lib/commands";
 
 export const metadata: Metadata = {
   title: "Installation",
@@ -13,33 +13,44 @@ export default function InstallationPage() {
     <article className="bundle-content">
       <h1>Installation</h1>
       <p>
-        Most teams should start with <code>npx</code> for zero-maintenance upgrades. Global install is useful when you
-        run commands frequently across many repositories.
+        Global install is recommended for teams that run commands frequently across multiple repositories. Use{" "}
+        <code>npx</code> if you prefer zero-maintenance upgrades or are doing a one-off setup.
       </p>
       <h2>Prerequisites</h2>
       <ul>
         <li>Node.js 18+ installed.</li>
         <li>Git repository initialized in your project.</li>
         <li>Network access for package fetch on first run.</li>
-        <li>Optional: <code>pnpm</code> if you prefer global install with pnpm.</li>
       </ul>
-      <h2>Option 1: Run without global install</h2>
-      <CommandBlock command={CLI_INIT_COMMAND} label="Run init immediately" />
-      <p className="mt-2 text-sm text-muted-foreground">
-        Recommended for first-time setup and teams that want the newest CLI without managing global updates.
-      </p>
-      <h2>Option 2: Install globally</h2>
-      <CommandBlock command="pnpm add -g @harness-kit/cli" label="Install CLI globally" />
+      <h2>Option 1: Install globally</h2>
+      <CommandBlock
+        label="Install CLI globally"
+        variants={[
+          { label: "pnpm", command: `pnpm add -g ${CLI_PACKAGE}@${CLI_VERSION_TAG}` },
+          { label: "npm",  command: `npm install -g ${CLI_PACKAGE}@${CLI_VERSION_TAG}` },
+          { label: "yarn", command: `yarn global add ${CLI_PACKAGE}@${CLI_VERSION_TAG}` },
+        ]}
+      />
       <CommandBlock command="harness-kit init" label="Initialize after global install" className="mt-3" />
       <p className="mt-2 text-sm text-muted-foreground">
-        Better for repeated daily usage across multiple repositories.
+        Recommended for repeated daily usage across multiple repositories.
+      </p>
+      <h2>Option 2: Run without global install</h2>
+      <CommandBlock command={CLI_INIT_COMMAND} label="Run init immediately with npx" />
+      <p className="mt-2 text-sm text-muted-foreground">
+        Useful for one-off setups or when you want the newest CLI without managing global upgrades.
       </p>
       <h2>Verify setup</h2>
       <p>
         After the wizard completes, verify that harness files were generated and no baseline drift is detected.
       </p>
-      <CommandBlock command={cliCommand("status")} label="Check harness status without global install" />
-      <CommandBlock command="harness-kit status" label="Check harness status after global install" className="mt-3" />
+      <CommandBlock
+        label="Check harness status"
+        variants={[
+          { label: "npx",    command: cliCommand("status") },
+          { label: "global", command: "harness-kit status" },
+        ]}
+      />
       <h2>Expected artifacts after init</h2>
       <ul>
         <li>

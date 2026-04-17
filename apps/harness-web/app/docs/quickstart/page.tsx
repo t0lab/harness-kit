@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { CommandBlock } from "@/components/command-block";
-import { CLI_INIT_COMMAND } from "@/lib/commands";
+import { CLI_INIT_COMMAND, cliCommand } from "@/lib/commands";
 
 export const metadata: Metadata = {
   title: "Quickstart",
@@ -28,19 +28,19 @@ export default function QuickstartPage() {
       </p>
 
       <h2>Step 2: Add one bundle</h2>
-      <CommandBlock command="harness-kit add tdd" label="Add first bundle" />
+      <CommandBlock command={cliCommand("add tdd")} label="Add first bundle" />
       <p className="text-sm text-muted-foreground">
         Start with one high-value bundle to keep the first diff small and easy to audit.
       </p>
 
       <h2>Step 3: Verify harness health</h2>
-      <CommandBlock command="harness-kit status" label="Run health check" />
+      <CommandBlock command={cliCommand("status")} label="Run health check" />
       <p className="text-sm text-muted-foreground">
         Expected outcome: no critical drift; installed bundle appears in harness state.
       </p>
 
       <h2>Step 4: Confirm installed bundles</h2>
-      <CommandBlock command="harness-kit list --installed" label="List installed bundles" />
+      <CommandBlock command={cliCommand("list --installed")} label="List installed bundles" />
 
       <h2>Step 5: Commit baseline</h2>
       <ol>
